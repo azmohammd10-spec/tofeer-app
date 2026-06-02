@@ -1,36 +1,106 @@
-/* تنسيق عام للصفحة */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    color: #333;
+body{
+background:#f5f7fb;
+font-family:system-ui,sans-serif;
 }
 
-/* حاوية المحتوى */
-.main-container {
-    text-align: center;
-    padding: 30px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+.header{
+height:65px;
+background:#fff;
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:0 18px;
+border-bottom:1px solid #ececec;
 }
 
-/* زر "ابدأ الدردشة" */
-.btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 15px;
+.profile-area{
+display:flex;
+align-items:center;
+gap:10px;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.profile-avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+background:#dcdcdc;
+}
+
+.app-name{
+font-size:18px;
+font-weight:700;
+color:#111827;
+}
+
+.chat-list{
+padding:8px 0;
+padding-bottom:90px;
+}
+
+.chat-item{
+display:flex;
+align-items:center;
+gap:12px;
+padding:14px 16px;
+background:#fff;
+border-bottom:1px solid #f3f3f3;
+}
+
+.avatar{
+width:52px;
+height:52px;
+border-radius:50%;
+background:#e5e7eb;
+}
+
+.chat-content{
+flex:1;
+}
+
+.chat-top{
+display:flex;
+justify-content:space-between;
+margin-bottom:4px;
+}
+
+.chat-name{
+font-weight:600;
+font-size:15px;
+}
+
+.chat-time{
+font-size:12px;
+color:#888;
+}
+
+.chat-message{
+font-size:13px;
+color:#666;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:65px;
+background:#fff;
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid #ececec;
+}
+
+.nav-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+gap:4px;
+color:#666;
+}
+
+.nav-item.active{
+color:#111827;
+font-weight:600;
 }
