@@ -28,3 +28,25 @@
     
     <div id="recaptcha-container"></div>
 </div>
+<script type="module">
+    import { sendVerificationCode, verifyCode } from "./جافا سكريب/auth.js"; // تأكد من مسار الملف
+    import { getAuth, RecaptchaVerifier } from "firebase/auth";
+
+    const auth = getAuth();
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { 'size': 'invisible' });
+
+    let confirmationResult;
+
+    document.getElementById('sendBtn').onclick = async () => {
+        const phone = document.getElementById('phoneNumber').value;
+        confirmationResult = await sendVerificationCode(phone, window.recaptchaVerifier);
+        document.getElementById('verification-section').style.display = 'block';
+        alert("تم إرسال الكود!");
+    };
+
+    document.getElementById('verifyBtn').onclick = async () => {
+        const code = document.getElementById('verificationCode').value;
+        const user = await verifyCode(confirmationResult, code);
+        alert("تم تسجيل الدخول بنجاح!");
+    };
+</script>
