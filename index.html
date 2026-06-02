@@ -17,3 +17,14 @@
     <script src="js/script.js"></script>
 </body>
 </html>
+<div id="auth-container">
+    <input type="tel" id="phoneNumber" placeholder="أدخل رقم الهاتف (مثال: +967...)">
+    <button id="sendBtn">إرسال كود التحقق</button>
+
+    <div id="verification-section" style="display:none;">
+        <input type="text" id="verificationCode" placeholder="أدخل كود التحقق">
+        <button id="verifyBtn">تأكيد الدخول</button>
+    </div>
+    
+    <div id="recaptcha-container"></div>
+</div>
