@@ -56,33 +56,53 @@
 <head>
 
 <style>
-.bottom-nav{
-height:60px;
-background:#ffffff;
-border-top:1px solid #ececec;
-position:fixed;
-bottom:0;
-left:0;
-right:0;
+<div class="app">
 
-display:flex;
-justify-content:space-around;
-align-items:center;
-}
+    <div class="header">
+        توفير
+    </div>
 
-.nav-item{
-display:flex;
-flex-direction:column;
-align-items:center;
-font-size:12px;
-color:#777;
-gap:3px;
-}
+    <div class="content">
 
-.nav-item.active{
-color:#111827;
-font-weight:600;
-}
+        <div class="chat-item">
+            <div class="avatar"></div>
+            <div class="chat-info">
+                <div class="chat-top">
+                    <span class="name">أحمد</span>
+                    <span class="time">10:25</span>
+                </div>
+                <div class="msg">مرحبا بك 👋</div>
+            </div>
+        </div>
+
+        <div class="chat-item">
+            <div class="avatar"></div>
+            <div class="chat-info">
+                <div class="chat-top">
+                    <span class="name">خالد</span>
+                    <span class="time">أمس</span>
+                </div>
+                <div class="msg">شكراً لك</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="bottom-nav">
+
+        <div class="nav-item active">
+            💬
+            <span>الدردشات</span>
+        </div>
+
+        <div class="nav-item">
+            📸
+            <span>القصص</span>
+        </div>
+
+    </div>
+
+</div>
 </style>
 
 </head>
