@@ -212,6 +212,14 @@ const code = document.getElementById("code").value;
 
 await window.confirmationResult.confirm(code);
 
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+};
+
+const code = document.getElementById("code").value;
+
+await window.confirmationResult.confirm(code);
+
 alert("تم تسجيل الدخول");
 
 /* UI SWITCH */
