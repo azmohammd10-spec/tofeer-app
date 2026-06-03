@@ -216,11 +216,23 @@ await window.confirmationResult.confirm(code);
   document.getElementById("app").style.display = "block";
 };
 
-const code = document.getElementById("code").value;
+window.verifyCode = async function () {
+  try {
+    const code = document.getElementById("code").value;
 
-await window.confirmationResult.confirm(code);
+    await window.confirmationResult.confirm(code);
 
-alert("تم تسجيل الدخول");
+    alert("تم تسجيل الدخول");
+
+    document.getElementById("login-screen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+
+    loadMessages();
+
+  } catch (e) {
+    alert(e.message);
+  }
+};
 
 /* UI SWITCH */
 document.getElementById("login-screen").style.display = "none";
