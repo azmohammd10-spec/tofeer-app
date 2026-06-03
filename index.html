@@ -101,7 +101,7 @@ border-radius:10px;
 
 <input id="code" placeholder="كود التحقق">
 
-<button onclick="verifyCode()">تأكيد</button>
+<button id="loginBtn">تأكيد</button>
 
 <div id="recaptcha"></div>
 
@@ -253,7 +253,12 @@ box.innerHTML += `<div class="msg">${m.text}</div>`;
 });
 
 }
+document.getElementById("loginBtn").addEventListener("click", function () {
+  alert("تم الدخول");
 
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("app").style.display = "block";
+});
 </script>
 
 </body>
