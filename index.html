@@ -20,12 +20,17 @@ padding:0 15px;font-weight:700;
 border-bottom:1px solid #eee;
 }
 
-.content{padding:10px;height:calc(100vh - 120px);overflow-y:auto;}
+.content{
+padding:10px;
+height:calc(100vh - 120px);
+overflow-y:auto;
+}
 
 .chat-item{
 display:flex;gap:10px;
 background:#fff;margin-bottom:10px;
 padding:12px;border-radius:12px;
+cursor:pointer;
 }
 
 .avatar{width:45px;height:45px;border-radius:50%;background:#ddd;}
@@ -40,6 +45,7 @@ align-items:center;border-top:1px solid #eee;
 .nav-item{font-size:12px;color:#777;display:flex;flex-direction:column;align-items:center;}
 .nav-item.active{color:#111;font-weight:600;}
 
+/* CHAT SCREEN */
 #chat-screen{
 display:none;
 position:fixed;
@@ -54,7 +60,29 @@ justify-content:space-between;
 padding:0 15px;border-bottom:1px solid #eee;
 }
 
-.back-btn{cursor:pointer;color:#007bff;}
+#chat-box{
+padding:10px;
+height:calc(100vh - 120px);
+overflow-y:auto;
+}
+
+.msg-input{
+display:flex;
+gap:5px;
+padding:10px;
+background:#fff;
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+}
+
+.msg-input input{
+flex:1;
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+}
 </style>
 
 </head>
@@ -67,15 +95,6 @@ padding:0 15px;border-bottom:1px solid #eee;
 <div class="header">توفير</div>
 
 <div class="content">
-<div class="content" id="chat-box">
-
-</div>
-
-<div style="display:flex;gap:5px;padding:10px;background:#fff;position:fixed;bottom:60px;left:0;right:0;">
-    <input id="msg" placeholder="اكتب رسالة..." style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;">
-    <button onclick="sendMsg()" style="padding:10px 15px;">إرسال</button>
-</div>
-</div>
 
 <div class="chat-item" onclick="openChat('خالد')">
 <div class="avatar"></div>
@@ -99,15 +118,15 @@ padding:0 15px;border-bottom:1px solid #eee;
 <span class="back-btn" onclick="closeChat()">رجوع</span>
 </div>
 
-<div class="content">
-<p style="text-align:center;color:#777;margin-top:20px;">
-ابدأ المحادثة الآن 💬
-</p>
+<div id="chat-box"></div>
+
+<div class="msg-input">
+<input id="msg" placeholder="اكتب رسالة...">
+<button onclick="sendMsg()">إرسال</button>
 </div>
 
 </div>
 
-<script>
 <script>
 
 function openChat(name){
@@ -136,7 +155,6 @@ ${msg}
 document.getElementById("msg").value="";
 }
 
-</script>
 </script>
 
 </body>
