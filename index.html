@@ -103,38 +103,55 @@ width:80px;
 margin-left:5px;
 }
 </style>
-</head>
+<div class="app">
 
-<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="profile"></div>
+    <h2>توفير</h2>
+  </div>
 
-<!-- LOGIN -->
-<div id="login">
-<div class="card">
-<h3>تسجيل الدخول</h3>
-<input id="name" placeholder="اسمك">
-<button onclick="login()">دخول</button>
-</div>
-</div>
+  <!-- Search -->
+  <div class="search-box">
+    <input type="text" placeholder="بحث">
+  </div>
 
-<!-- APP -->
-<div id="app">
+  <!-- Chats -->
+  <div class="chat-list">
 
-<div class="header">توفير 💬</div>
+    <div class="chat-item">
+      <div class="avatar"></div>
 
-<div class="user" onclick="openChat('ahmed')">أحمد</div>
-<div class="user" onclick="openChat('khaled')">خالد</div>
+      <div class="chat-info">
+        <h4>أحمد</h4>
+        <p>آخر رسالة...</p>
+      </div>
 
-<!-- CHAT -->
-<div id="chatBox">
+      <span>10:30</span>
+    </div>
 
-<div class="messages" id="messages"></div>
+    <div class="chat-item">
+      <div class="avatar"></div>
 
-<div class="input">
-<input id="msg" placeholder="اكتب رسالة">
-<button onclick="sendMsg()">إرسال</button>
-</div>
+      <div class="chat-info">
+        <h4>خالد</h4>
+        <p>مرحباً</p>
+      </div>
 
-</div>
+      <span>أمس</span>
+    </div>
+
+  </div>
+
+  <!-- Floating Button -->
+  <button class="new-chat">+</button>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <div>💬</div>
+    <div>📞</div>
+    <div>👤</div>
+  </div>
 
 </div>
 
