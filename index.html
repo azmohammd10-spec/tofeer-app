@@ -67,10 +67,14 @@ padding:0 15px;border-bottom:1px solid #eee;
 <div class="header">توفير</div>
 
 <div class="content">
+<div class="content" id="chat-box">
 
-<div class="chat-item" onclick="openChat('أحمد')">
-<div class="avatar"></div>
-<div>أحمد - مرحبا 👋</div>
+</div>
+
+<div style="display:flex;gap:5px;padding:10px;background:#fff;position:fixed;bottom:60px;left:0;right:0;">
+    <input id="msg" placeholder="اكتب رسالة..." style="flex:1;padding:10px;border:1px solid #ddd;border-radius:8px;">
+    <button onclick="sendMsg()" style="padding:10px 15px;">إرسال</button>
+</div>
 </div>
 
 <div class="chat-item" onclick="openChat('خالد')">
