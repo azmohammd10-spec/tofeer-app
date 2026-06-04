@@ -242,6 +242,31 @@ document.querySelectorAll('.page').forEach(p=>p.style.display='none');
 document.getElementById(pageId).style.display='block';
 }
 </script>
+<script>
 
+function openChat(name){
+
+  showPage('chatPage');
+
+  document.getElementById("messagesBox").innerHTML = "";
+
+  let msg = document.createElement("div");
+  msg.innerHTML = "أنت الآن داخل محادثة: " + name;
+  msg.style.padding = "10px";
+  msg.style.background = "#fff";
+  msg.style.borderRadius = "10px";
+
+  document.getElementById("messagesBox").appendChild(msg);
+}
+
+function showPage(pageId){
+  document.querySelectorAll('.page').forEach(p=>{
+    p.style.display = "none";
+  });
+
+  document.getElementById(pageId).style.display = "block";
+}
+
+</script>
 </body>
 </html>
