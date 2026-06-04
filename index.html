@@ -196,7 +196,7 @@ transition:0.3s;
 <!-- CHATS PAGE --> 
 <div id="chatsPage" class="page">
 
-<div class="header">الدردشات</div>
+<div class="header"></div>
 
 <div class="stories">
 <div class="story"><div class="story-avatar"></div><div>أنت</div></div>
@@ -249,11 +249,6 @@ transition:0.3s;
 
 <button class="fab" onclick="toggleTools()">＋</button>
 
-<div id="toolsMenu" class="tools-menu">
-  <button onclick="openCamera()">📷</button>
-  <button onclick="openGallery()">🖼️</button>
-  <button onclick="applyBeauty()">💄</button>
-</div>
 
 <input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
 <input type="file" id="galleryInput" accept="image/*" hidden>
@@ -286,7 +281,6 @@ openChat(name){
   msg.style.background = "#fff";
   msg.style.borderRadius = "10px";
 
-  
 }
 
 function showPage(pageId){
