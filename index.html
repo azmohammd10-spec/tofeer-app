@@ -216,9 +216,18 @@ transition:0.3s;
 💬<span>الدردشات</span>
 </div>
 
-<button class="camera-btn">
-<div class="camera-inner">+</div>
-</button>
+<button class="fab" onclick="toggleTools()">＋</button>
+
+<div id="toolsMenu" class="tools-menu">
+  <button onclick="openCamera()">📷</button>
+  <button onclick="openGallery()">🖼️</button>
+  <button onclick="applyBeauty()">💄</button>
+</div>
+
+<input type="file" id="cameraInput" accept="image/*" capture="environment" hidden>
+<input type="file" id="galleryInput" accept="image/*" hidden>
+
+<img id="preview">
 
 <div class="nav-item" onclick="showPage('updatesPage')">
 👁<span>التحديثات</span>
