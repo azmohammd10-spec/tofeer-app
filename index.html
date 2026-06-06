@@ -7,6 +7,7 @@
 
 <style>
 
+/* RESET */
 *{
 margin:0;
 padding:0;
@@ -20,7 +21,6 @@ padding-bottom:90px;
 }
 
 /* HEADER */
-
 .header{
 height:65px;
 background:#fff;
@@ -36,7 +36,6 @@ z-index:100;
 }
 
 /* CHAT LIST */
-
 .list{
 padding:12px;
 }
@@ -80,25 +79,6 @@ color:#999;
 }
 
 /* BOTTOM NAV */
-<!-- BOTTOM NAV -->
-
-<div class="nav">
-
-  <div class="nav-item">
-    💬
-    <span>الدردشات</span>
-  </div>
-
-  <button class="camera-tab">
-    <div class="camera-inner">+</div>
-  </button>
-
-  <div class="nav-item">
-    👁
-    <span>التحديثات</span>
-  </div>
-
-</div>
 .nav{
 position:fixed;
 bottom:0;
@@ -126,53 +106,32 @@ font-size:11px;
 color:#666;
 }
 
-/* TIKTOK STYLE BUTTON */
-
+/* CAMERA BUTTON */
 .camera-tab{
-position:absolute;
-left:50%;
-transform:translateX(-50%);
-width:78px;
-height:44px;
+position:relative;
+width:70px;
+height:70px;
 border:none;
 background:transparent;
-cursor:pointer;
-}
-
-.camera-tab::before{
-content:"";
-position:absolute;
-left:-6px;
-top:0;
-width:78px;
-height:44px;
-background:#8ee7ff;
-border-radius:12px;
-}
-
-.camera-tab::after{
-content:"";
-position:absolute;
-right:-6px;
-top:0;
-width:78px;
-height:44px;
-background:#8dffb8;
-border-radius:12px;
-}
-
-position:absolute;
-inset:0;
-background:#fff;
-border-radius:12px;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
+margin-top:-25px;
+cursor:pointer;
+}
+
+.camera-inner{
+width:55px;
+height:55px;
+background:#fff;
+border-radius:16px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
 font-weight:700;
-color:#111;
-z-index:2;
-box-shadow:0 4px 12px rgba(0,0,0,.12);
+box-shadow:0 6px 16px rgba(0,0,0,.15);
+}
 
 </style>
 </head>
@@ -184,44 +143,37 @@ box-shadow:0 4px 12px rgba(0,0,0,.12);
 </div>
 
 <div class="list">
+
 <div class="chat">
 <div class="avatar"></div>
-
 <div class="info">
 <div class="name">أحمد</div>
 <div class="last-msg">آخر رسالة هنا...</div>
 </div>
-
 <div class="time">10:30</div>
 </div>
 
 <div class="chat">
 <div class="avatar"></div>
-
 <div class="info">
 <div class="name">خالد</div>
 <div class="last-msg">مرحباً 👋</div>
 </div>
-
 <div class="time">أمس</div>
 </div>
 
 <div class="chat">
 <div class="avatar"></div>
-
 <div class="info">
 <div class="name">محمد</div>
 <div class="last-msg">كيف حالك؟</div>
 </div>
-
 <div class="time">12:15</div>
 </div>
 
 </div>
 
 <!-- BOTTOM NAV -->
-
-
 <div class="nav">
 
 <div class="nav-item">
