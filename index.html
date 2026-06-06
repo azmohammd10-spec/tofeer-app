@@ -35,6 +35,58 @@ top:0;
 z-index:100;
 }
 
+/* TOP TABS */
+.top-tabs{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:12px 18px;
+background:#fff;
+border-bottom:1px solid #eee;
+position:sticky;
+top:65px;
+z-index:99;
+}
+
+/* TAB */
+.tab{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:18px;
+color:#777;
+gap:3px;
+}
+
+.tab span{
+font-size:11px;
+}
+
+.tab.active{
+color:#111;
+font-weight:700;
+}
+
+/* CAMERA BUTTON */
+.camera-btn{
+width:52px;
+height:52px;
+border-radius:50%;
+border:none;
+background:linear-gradient(135deg,#ff4ecd,#7c5cff,#00e5ff);
+color:#fff;
+font-size:26px;
+display:flex;
+align-items:center;
+justify-content:center;
+box-shadow:0 8px 20px rgba(0,0,0,.2);
+cursor:pointer;
+}
+
+.camera-btn:active{
+transform:scale(0.92);
+}
+
 /* SEARCH */
 .search-box{
 padding:12px;
@@ -48,30 +100,6 @@ border-radius:16px;
 background:#fff;
 box-shadow:0 2px 10px rgba(0,0,0,.05);
 font-size:14px;
-}
-
-/* STORIES BAR */
-.stories-bar{
-display:flex;
-gap:12px;
-padding:12px;
-overflow-x:auto;
-background:#fff;
-border-bottom:1px solid #eee;
-}
-
-.story{
-text-align:center;
-font-size:11px;
-color:#555;
-}
-
-.story-avatar{
-width:58px;
-height:58px;
-border-radius:50%;
-background:linear-gradient(135deg,#8ee7ff,#8dffb8);
-margin-bottom:5px;
 }
 
 /* CHAT LIST */
@@ -117,36 +145,6 @@ font-size:12px;
 color:#999;
 }
 
-/* CAMERA BUTTON (MODERN) */
-.camera-btn{
-position:fixed;
-left:50%;
-transform:translateX(-50%);
-bottom:18px;
-width:60px;
-height:60px;
-border-radius:50%;
-border:none;
-background:linear-gradient(135deg,#ff4ecd,#7c5cff,#00e5ff);
-color:#fff;
-font-size:30px;
-font-weight:700;
-display:flex;
-align-items:center;
-justify-content:center;
-box-shadow:0 10px 25px rgba(0,0,0,.25);
-cursor:pointer;
-}
-
-.camera-btn:active{
-transform:translateX(-50%) scale(0.92);
-}
-
-/* NAV SAFE SPACE */
-.nav-space{
-height:72px;
-}
-
 </style>
 </head>
 
@@ -154,31 +152,26 @@ height:72px;
 
 <div class="header">توفير</div>
 
+<div class="top-tabs">
+
+  <div class="tab active">
+    💬
+    <span>دردشه</span>
+  </div>
+
+  <button class="camera-btn">＋</button>
+
+  <div class="tab">
+    👁
+    <span>تحديثات</span>
+  </div>
+
+</div>
+
 <div class="search-box">
 <input type="text" placeholder="🔍 بحث عن محادثة">
 </div>
 
-<!-- STORIES -->
-<div class="stories-bar">
-
-  <div class="story">
-    <div class="story-avatar"></div>
-    <small>أنت</small>
-  </div>
-
-  <div class="story">
-    <div class="story-avatar"></div>
-    <small>أحمد</small>
-  </div>
-
-  <div class="story">
-    <div class="story-avatar"></div>
-    <small>خالد</small>
-  </div>
-
-</div>
-
-<!-- CHATS -->
 <div class="list">
 
 <div class="chat">
@@ -200,11 +193,6 @@ height:72px;
 </div>
 
 </div>
-
-<!-- CAMERA BUTTON -->
-<button class="camera-btn">＋</button>
-
-<div class="nav-space"></div>
 
 </body>
 </html>
