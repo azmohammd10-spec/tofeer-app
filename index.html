@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -50,33 +50,35 @@ box-shadow:0 2px 10px rgba(0,0,0,.05);
 font-size:14px;
 }
 
-/* STORIES */
-.stories{
+/* STORIES BAR */
+.stories-bar{
 display:flex;
-gap:10px;
+gap:12px;
 padding:12px;
 overflow-x:auto;
+background:#fff;
+border-bottom:1px solid #eee;
 }
 
 .story{
-width:60px;
 text-align:center;
-color:#fff;
+font-size:11px;
+color:#555;
 }
 
-.story-circle{
-width:55px;
-height:55px;
+.story-avatar{
+width:58px;
+height:58px;
 border-radius:50%;
 background:linear-gradient(135deg,#8ee7ff,#8dffb8);
+margin-bottom:5px;
 }
 
-/* LIST */
+/* CHAT LIST */
 .list{
 padding:12px;
 }
 
-/* CHAT */
 .chat{
 background:#fff;
 border-radius:18px;
@@ -115,56 +117,34 @@ font-size:12px;
 color:#999;
 }
 
-/* BOTTOM NAV */
-.nav{
+/* CAMERA BUTTON (MODERN) */
+.camera-btn{
 position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:72px;
-background:#fff;
-display:flex;
-justify-content:space-around;
-align-items:center;
-border-top:1px solid #eef2f7;
-z-index:999;
-}
-
-.nav-item{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:3px;
-font-size:20px;
-}
-
-.nav-item span{
-font-size:11px;
-color:#666;
-}
-
-/* CAMERA BUTTON */
-sition:absolute;
 left:50%;
 transform:translateX(-50%);
-width:78px;
-height:44px;
+bottom:18px;
+width:60px;
+height:60px;
+border-radius:50%;
 border:none;
-background:transparent;
-cursor:pointer;
-}
-
-.camera-inner{
-position:absolute;
-inset:0;
-background:#fff;
-border-radius:12px;
+background:linear-gradient(135deg,#ff4ecd,#7c5cff,#00e5ff);
+color:#fff;
+font-size:30px;
+font-weight:700;
 display:flex;
 align-items:center;
 justify-content:center;
-font-size:24px;
-font-weight:700;
-box-shadow:0 4px 12px rgba(0,0,0,.12);
+box-shadow:0 10px 25px rgba(0,0,0,.25);
+cursor:pointer;
+}
+
+.camera-btn:active{
+transform:translateX(-50%) scale(0.92);
+}
+
+/* NAV SAFE SPACE */
+.nav-space{
+height:72px;
 }
 
 </style>
@@ -172,32 +152,33 @@ box-shadow:0 4px 12px rgba(0,0,0,.12);
 
 <body>
 
-<!-- HEADER -->
 <div class="header">توفير</div>
 
+<div class="search-box">
 <input type="text" placeholder="🔍 بحث عن محادثة">
 </div>
 
+<!-- STORIES -->
+<div class="stories-bar">
+
+  <div class="story">
+    <div class="story-avatar"></div>
+    <small>أنت</small>
+  </div>
+
+  <div class="story">
+    <div class="story-avatar"></div>
+    <small>أحمد</small>
+  </div>
+
+  <div class="story">
     <div class="story-avatar"></div>
     <small>خالد</small>
   </div>
 
 </div>
-    <small>أحمد</small>
-  </div>
 
-  <div class="story">
-    <div class="story-circle"></div>
-    <small>خالد</small>
-  </div>
-
-  <div class="story">
-    <div class="story-circle"></div>
-    <small>محمد</small>
-  </div>
-</div>
-
-<!-- CHAT LIST -->
+<!-- CHATS -->
 <div class="list">
 
 <div class="chat">
@@ -220,22 +201,10 @@ box-shadow:0 4px 12px rgba(0,0,0,.12);
 
 </div>
 
-<!-- BOTTOM NAV -->
-<div class="nav">
-
-<div class="nav-item">
-💬
-<span>الدردشات</span>
-</div>
-
+<!-- CAMERA BUTTON -->
 <button class="camera-btn">＋</button>
 
-<div class="nav-item">
-👁
-<span>التحديثات</span>
-</div>
-
-</div>
+<div class="nav-space"></div>
 
 </body>
 </html>
