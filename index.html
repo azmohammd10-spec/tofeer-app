@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,52 +7,18 @@
 
 <style>
 
+body{
 margin:0;
 font-family:system-ui;
 background:#f5f6fa;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
 }
 
-.tiktok-plus{
-width:52px;
-height:52px;
-border-radius:50%;
-background:#000;
-display:flex;
-align-items:center;
-justify-content:center;
-color:#fff;
-font-size:30px;
-font-weight:bold;
-cursor:pointer;
-
-box-shadow:
-0 0 6px #25f4ee,
-0 0 10px #fe2c55;
-
-border:2px solid rgba(255,255,255,0.9);
-transition:0.2s;
-}
-
-.tiktok-plus:active{
-transform:scale(0.92)
-
-<body>
-
-<div class="tiktok-plus">+</div>
-
-</body>
-</html>
-/* PAGES */
+/* ===== PAGES ===== */
 .page{
 display:none;
 height:100vh;
 }
 
-/* ACTIVE PAGE */
 .active{
 display:block;
 }
@@ -87,13 +52,13 @@ color:#777;
 
 /* ===== CHAT DETAIL ===== */
 #chatDetail{
+display:none;
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
 background:#fff;
-display:none;
 flex-direction:column;
 z-index:1000;
 }
@@ -137,8 +102,8 @@ max-width:70%;
 display:flex;
 gap:10px;
 padding:10px;
-border-top:1px solid #ddd;
 background:#f9f9f9;
+border-top:1px solid #ddd;
 }
 
 .input-box input{
@@ -153,17 +118,20 @@ padding:10px 15px;
 border:none;
 border-radius:20px;
 background:#8dffb8;
+cursor:pointer;
 }
 
 /* ===== STORIES ===== */
 #stories{
+display:none;
+height:100vh;
 background:#000;
 color:#fff;
 text-align:center;
 padding-top:60%;
 }
 
-/* ===== BOTTOM NAV ===== */
+/* ===== NAV ===== */
 .nav{
 position:fixed;
 bottom:0;
@@ -177,29 +145,40 @@ align-items:center;
 border-top:1px solid #ddd;
 }
 
+/* ===== BIG + BUTTON (TikTok style) ===== */
+.tiktok-plus{
+width:60px;
+height:60px;
+border-radius:50%;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:32px;
+font-weight:bold;
+cursor:pointer;
+position:relative;
+top:-20px;
+
+border:3px solid #fff;
+
+box-shadow:
+0 0 10px #25f4ee,
+0 0 18px #fe2c55;
+
+transition:0.2s;
+}
+
+.tiktok-plus:active{
+transform:scale(0.9);
+}
+
 .nav div{
 cursor:pointer;
 font-size:18px;
 }
 
-/* BIG + BUTTON */
-.plus-btn{
-width:65px;
-height:65px;
-border-radius:50%;
-background:linear-gradient(135deg,#25f4ee,#fe2c55);
-display:flex;
-align-items:center;
-justify-content:center;
-color:#fff;
-font-size:34px;
-font-weight:bold;
-border:4px solid #fff;
-box-shadow:0 8px 20px rgba(0,0,0,0.2);
-position:relative;
-top:-20px;
-cursor:pointer;
-}
 </style>
 </head>
 
@@ -228,6 +207,7 @@ cursor:pointer;
 
 <!-- CHAT DETAIL -->
 <div id="chatDetail">
+
 <div class="header">
 <button onclick="closeChat()">⬅️</button>
 <div id="chatName">محادثة</div>
@@ -242,10 +222,11 @@ cursor:pointer;
 <input id="msgInput" placeholder="اكتب رسالة...">
 <button onclick="sendMessage()">إرسال</button>
 </div>
+
 </div>
 
 <!-- STORIES -->
-<div id="stories" class="page">
+<div id="stories">
 <h2>👁 القصص</h2>
 <p>هنا ستظهر قصص المستخدمين</p>
 </div>
@@ -254,7 +235,7 @@ cursor:pointer;
 <div class="nav">
 <div onclick="showChats()">💬</div>
 
-<div class="tiktok-plus" onclick="alert('فتح')">+</div>
+<div class="tiktok-plus" onclick="alert('فتح الكاميرا / نشر')">+</div>
 
 <div onclick="showStories()">👁</div>
 </div>
@@ -262,8 +243,8 @@ cursor:pointer;
 <script>
 
 function openChat(name){
-document.getElementById("chatDetail").style.display="flex";
 document.getElementById("chatPage").classList.remove("active");
+document.getElementById("chatDetail").style.display="flex";
 document.getElementById("chatName").innerText=name;
 }
 
@@ -273,13 +254,14 @@ document.getElementById("chatPage").classList.add("active");
 }
 
 function showChats(){
+document.getElementById("stories").style.display="none";
+document.getElementById("chatDetail").style.display="none";
 document.getElementById("chatPage").classList.add("active");
-document.getElementById("stories").classList.remove("active");
 }
 
 function showStories(){
-document.getElementById("stories").classList.add("active");
 document.getElementById("chatPage").classList.remove("active");
+document.getElementById("stories").style.display="block";
 document.getElementById("chatDetail").style.display="none";
 }
 
