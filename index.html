@@ -1,59 +1,261 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توفير</title>
-    <style>
-        * { margin:0; padding:0; box-sizing:border-box; font-family:system-ui; }
-        body { background:#f7fbff; padding-bottom:90px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>توفير</title>
 
-        /* التصميمات كما هي... */
-        .header { height:65px; background:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; border-bottom:1px solid #eef2f7; position:sticky; top:0; z-index:100; }
-        .list { padding:12px; }
-        .chat { background:#fff; border-radius:18px; padding:14px; margin-bottom:12px; display:flex; align-items:center; gap:12px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
-        .avatar { width:55px; height:55px; border-radius:50%; background:linear-gradient(135deg,#dff4ff,#e8fff1); }
-        .nav { position:fixed; bottom:0; left:0; right:0; height:72px; background:#fff; display:flex; justify-content:space-around; align-items:center; border-top:1px solid #eef2f7; z-index:999; }
-        .camera-tab { position:absolute; left:50%; transform:translateX(-50%); width:78px; height:44px; border:none; background:transparent; cursor:pointer; }
-        
-        /* القسم الخاص بالقصص */
-        .stories-page { display:none; height:100vh; background:#000; position:fixed; top:0; left:0; width:100%; z-index:1000; }
-        .story-video { height:100vh; position:relative; background:linear-gradient(180deg,#222,#000); }
-    </style>
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:system-ui;
+}
+
+body{
+background:linear-gradient(180deg,#eefaff,#f8fffc);
+padding-bottom:90px;
+}
+
+/* HEADER */
+
+.header{
+padding:15px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+backdrop-filter:blur(10px);
+background:rgba(255,255,255,.7);
+position:sticky;
+top:0;
+z-index:100;
+}
+
+.profile{
+width:45px;
+height:45px;
+border-radius:50%;
+background:linear-gradient(135deg,#8ee7ff,#8dffb8);
+}
+
+.logo{
+font-size:24px;
+font-weight:800;
+}
+
+/* SEARCH */
+
+.search-box{
+padding:12px;
+}
+
+.search-box input{
+width:100%;
+padding:14px;
+border:none;
+border-radius:18px;
+background:#fff;
+box-shadow:0 4px 15px rgba(0,0,0,.05);
+outline:none;
+}
+
+/* CHATS */
+
+.chat-list{
+padding:12px;
+}
+
+.chat{
+background:rgba(255,255,255,.75);
+backdrop-filter:blur(12px);
+padding:14px;
+border-radius:22px;
+margin-bottom:12px;
+display:flex;
+align-items:center;
+gap:12px;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.avatar{
+width:58px;
+height:58px;
+border-radius:50%;
+background:linear-gradient(135deg,#dff4ff,#e8fff1);
+}
+
+.info{
+flex:1;
+}
+
+.name{
+font-weight:700;
+font-size:15px;
+}
+
+.msg{
+font-size:13px;
+color:#777;
+margin-top:4px;
+}
+
+.call-btn{
+width:42px;
+height:42px;
+border-radius:50%;
+background:#8dffb8;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
+}
+
+/* NAVIGATION */
+
+.nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:74px;
+background:rgba(255,255,255,.85);
+backdrop-filter:blur(15px);
+display:flex;
+justify-content:space-around;
+align-items:center;
+border-top:1px solid rgba(255,255,255,.4);
+}
+
+.nav-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:20px;
+gap:3px;
+}
+
+.nav-item span{
+font-size:11px;
+color:#666;
+}
+
+/* CAMERA BUTTON */
+
+.camera-tab{
+position:absolute;
+left:50%;
+transform:translateX(-50%);
+width:78px;
+height:46px;
+border:none;
+background:transparent;
+cursor:pointer;
+}
+
+.camera-tab::before{
+content:"";
+position:absolute;
+left:-5px;
+width:78px;
+height:46px;
+background:#8ee7ff;
+border-radius:14px;
+}
+
+.camera-tab::after{
+content:"";
+position:absolute;
+right:-5px;
+width:78px;
+height:46px;
+background:#8dffb8;
+border-radius:14px;
+}
+
+.camera-inner{
+position:absolute;
+inset:0;
+background:#fff;
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+font-weight:700;
+color:#111;
+z-index:2;
+}
+
+</style>
 </head>
+
 <body>
 
-    <div id="chatPage">
-        <div class="header">توفير</div>
-        <div class="list">
-            <div class="chat"><div class="avatar"></div><div class="info"><div class="name">أحمد</div></div></div>
-            </div>
-    </div>
+<div class="header">
+<div class="profile"></div>
+<div class="logo">توفير</div>
+</div>
 
-    <div id="storiesPage" class="stories-page">
-        <div class="story-video">
-            <h1 style="color:white; text-align:center; padding-top:50%;">واجهة القصص</h1>
-            <button onclick="showChats()" style="padding:10px; margin:20px;">العودة للدردشات</button>
-        </div>
-    </div>
+<div class="search-box">
+<input type="text" placeholder="🔍 بحث عن محادثة">
+</div>
 
-    <div class="nav">
-        <div class="nav-item">💬 <span>الدردشات</span></div>
-        <button class="camera-tab" onclick="showStories()">
-            <div class="camera-inner">+</div>
-        </button>
-        <div class="nav-item">👁 <span>التحديثات</span></div>
-    </div>
+<div class="chat-list">
 
-    <script>
-        function showStories() {
-            document.getElementById('chatPage').style.display = 'none';
-            document.getElementById('storiesPage').style.display = 'block';
-        }
-        function showChats() {
-            document.getElementById('chatPage').style.display = 'block';
-            document.getElementById('storiesPage').style.display = 'none';
-        }
-    </script>
+<div class="chat">
+<div class="avatar"></div>
+
+<div class="info">
+<div class="name">أحمد</div>
+<div class="msg">آخر رسالة هنا...</div>
+</div>
+
+<div class="call-btn">📞</div>
+</div>
+
+<div class="chat">
+<div class="avatar"></div>
+
+<div class="info">
+<div class="name">خالد</div>
+<div class="msg">مرحباً 👋</div>
+</div>
+
+<div class="call-btn">📞</div>
+</div>
+
+<div class="chat">
+<div class="avatar"></div>
+
+<div class="info">
+<div class="name">محمد</div>
+<div class="msg">كيف حالك؟</div>
+</div>
+
+<div class="call-btn">📞</div>
+</div>
+
+</div>
+
+<div class="nav">
+
+<div class="nav-item">
+💬
+<span>الدردشات</span>
+</div>
+
+<button class="camera-tab">
+<div class="camera-inner">+</div>
+</button>
+
+<div class="nav-item">
+👁
+<span>التحديثات</span>
+</div>
+
+</div>
+
 </body>
 </html>
