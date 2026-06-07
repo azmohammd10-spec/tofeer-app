@@ -6,41 +6,57 @@
 <title>توفير</title>
 
 <style>
-.tiktok-square{
-width:48px !important;
-height:48px !important;
-
-display:flex !important;
-align-items:center !important;
-justify-content:center !important;
-
-background:#000 !important;
-
-color:#fff !important;
-font-size:26px !important;
-font-weight:700 !important;
-
-/* 🔴 هذا هو المهم: يمنع الدائرة نهائيًا */
-border-radius:10px !important;
-
-border:2px solid #fff !important;
-
+.tiktok-btn{
 position:relative;
-top:-16px;
+top:-18px;
+
+width:52px;
+height:38px;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+background:#fff;
+border-radius:12px;
+
+font-size:28px;
+font-weight:bold;
+color:#000;
 
 cursor:pointer;
-
-/* جانبي TikTok effect */
-box-shadow:
--3px 0 0 #25f4ee,
-3px 0 0 #fe2c55,
-0 6px 12px rgba(0,0,0,0.25);
-
-transition:0.15s ease;
 }
 
-.tiktok-square:active{
-transform:scale(0.92);
+.tiktok-btn::before{
+content:"";
+position:absolute;
+left:-4px;
+top:0;
+
+width:52px;
+height:38px;
+
+background:#25F4EE;
+border-radius:12px;
+z-index:-1;
+}
+
+.tiktok-btn::after{
+content:"";
+position:absolute;
+right:-4px;
+top:0;
+
+width:52px;
+height:38px;
+
+background:#FE2C55;
+border-radius:12px;
+z-index:-2;
+}
+
+.tiktok-btn:active{
+transform:scale(.95);
 }
 /* ===== BASE ===== */
 body{
@@ -258,7 +274,7 @@ font-size:18px;
 <div class="nav">
 <div onclick="showChats()">💬</div>
 
-<div class="tiktok-square">📷</div>
+<div class="tiktok-square">+</div>
 
 <div onclick="showStories()">👁</div>
 </div>
