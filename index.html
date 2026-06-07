@@ -359,13 +359,15 @@ z-index:2;
 <div class="nav">
 
 <div class="nav-item">
+  
 💬
 <span>الدردشات</span>
 </div>
 
-<button class="camera-tab">
-<div class="camera-inner">+</div>
+<button class="camera-tab" onclick="showStories()">
+    <div class="camera-inner">+</div>
 </button>
+
 
 <div class="nav-item">
 👁
@@ -381,11 +383,7 @@ z-index:2;
     function showChats() {
         document.getElementById('chatPage').style.display = 'block';
         document.getElementById('storiesPage').style.display = 'none';
-  
   }
-  <button class="camera-tab" onclick="showStories()">
-    <div class="camera-inner">+</div>
-</button>
 
 </script>
 
