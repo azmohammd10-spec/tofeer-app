@@ -6,31 +6,6 @@
 <title>توفير - دردشة</title>
 
 <style>
-  .camera-btn{
-width:65px;
-height:65px;
-border-radius:50%;
-background:#000; /* أسود مثل تيك توك */
-display:flex;
-align-items:center;
-justify-content:center;
-border:3px solid #fff;
-position:relative;
-top:-20px;
-cursor:pointer;
-
-/* glow effect */
-box-shadow:
-0 0 10px #25f4ee,
-0 0 20px #fe2c55;
-}
-
-.plus{
-font-size:34px;
-color:#fff;
-font-weight:bold;
-line-height:1;
-}
 body{
 margin:0;
 font-family:system-ui;
@@ -244,9 +219,7 @@ cursor:pointer;
 <div class="nav">
 <div onclick="showChats()">💬</div>
 
-<div class="camera-btn" onclick="alert('فتح الكاميرا')">
-  <div class="plus">+</div>
-</div>
+<div class="plus-btn" onclick="alert('كاميرا / رفع فيديو')">+</div>
 
 <div onclick="showStories()">👁</div>
 </div>
