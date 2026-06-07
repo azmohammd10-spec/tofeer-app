@@ -317,6 +317,18 @@ z-index:2;
         <div class="other-message">أهلاً! كيف حالك؟</div>
         <div class="my-message">أنا بخير، شكراً لك!</div>
     </div>
+
+    <div style="position:absolute; bottom:0; left:0; width:100%; padding:15px; background:#f9f9f9; display:flex; gap:10px; border-top:1px solid #ddd;">
+        <input type="text" id="msgInput" placeholder="اكتب رسالة..." style="flex:1; padding:10px; border-radius:20px; border:1px solid #ccc; outline:none;">
+        <button onclick="sendMessage()" style="padding:10px 20px; border-radius:20px; border:none; background:#8dffb8; cursor:pointer;">إرسال</button>
+    </div>
+</div>
+
+
+    <div id="messagesContainer" style="display:flex; flex-direction:column; padding:20px; overflow-y:auto; height: calc(100% - 140px);">
+        <div class="other-message">أهلاً! كيف حالك؟</div>
+        <div class="my-message">أنا بخير، شكراً لك!</div>
+    </div>
 </div>
 
             <div class="chat" onclick="openChat('أحمد')" style="cursor:pointer;">
