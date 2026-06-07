@@ -349,56 +349,66 @@ z-index:2;
             <button onclick="showChats()" style="position:absolute; top:20px; right:20px; color:white; background:none; border:none; font-size:30px; cursor:pointer; z-index:9999;">✕</button>
             <div class="story-overlay">
                 <div class="story-user">
-                    <div class="story-avatar"></div>
-                    <div><div class="story-name">أحمد</div><div class="story-time">منذ 5 دقائق</div></div>
-        
+ <div id="chatPage">
+        <div class="header">
+            <div class="logo">توفير</div>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="🔍 بحث عن محادثة">
+        </div>
+        <div class="chat-list">
+            <div class="chat" onclick="openChat('أحمد')">
+                <div class="avatar"></div>
+                <div style="flex:1;"><div style="font-weight:700;">أحمد</div><div style="color:#777; font-size:13px;">مرحباً!</div></div>
             </div>
+            <div class="chat" onclick="openChat('خالد')">
+                <div class="avatar"></div>
+                <div style="flex:1;"><div style="font-weight:700;">خالد</div><div style="color:#777; font-size:13px;">كيف حالك؟</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="chatDetail" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:white; z-index:1000;">
+        <div class="header" style="border-bottom:1px solid #eee;">
+            <button onclick="closeChat()" style="border:none; background:none;">⬅️ رجوع</button>
+            <span id="chatUserName" style="font-weight:bold;">اسم المستخدم</span>
+        </div>
+        <div id="messagesContainer" style="display:flex; flex-direction:column; padding:20px; overflow-y:auto; height:75vh;">
+            <div class="other-message">أهلاً! كيف حالك؟</div>
+            <div class="my-message">أنا بخير، شكراً لك!</div>
+        </div>
+        <div style="position:fixed; bottom:0; width:100%; padding:15px; background:#f9f9f9; display:flex; gap:10px;">
+            <input type="text" id="msgInput" placeholder="اكتب..." style="flex:1; padding:10px; border-radius:20px;">
+            <button onclick="sendMessage()">إرسال</button>
+        </div>
+    </div>
+
+    <div id="storiesPage" class="stories-page">
+        <button onclick="showChats()" style="position:absolute; top:20px; right:20px; color:white; background:none; border:none; font-size:30px;">✕</button>
+        <div style="color:white; text-align:center; margin-top:50%;">قصص المستخدمين ستظهر هنا</div>
+    </div>
 
     <div class="nav">
-        <div class="nav-item">💬 <span>الدردشات</span></div>
-        <button class="camera-tab" onclick="showCamera()">
-            <div class="camera-inner">+</div>
-        </button>
-        <div class="nav-item" onclick="showStories()" style="cursor:pointer;">👁 <span>التحديثات</span></div>
+        <div onclick="showChats()">💬 الدردشات</div>
+        <button class="camera-tab" onclick="alert('الكاميرا')"><div class="camera-inner">+</div></button>
+        <div onclick="showStories()">👁 التحديثات</div>
     </div>
 
     <script>
-        // دوال التنقل بين الصفحات
-        function showStories() {
-            document.getElementById('chatPage').style.display = 'none';
-            document.getElementById('storiesPage').style.display = 'block';
+        function openChat(name) { document.getElementById('chatPage').style.display='none'; document.getElementById('chatDetail').style.display='block'; document.getElementById('chatUserName').innerText=name; }
+        function closeChat() { document.getElementById('chatDetail').style.display='none'; document.getElementById('chatPage').style.display='block'; }
+        function showStories() { document.getElementById('chatPage').style.display='none'; document.getElementById('storiesPage').style.display='block'; }
+        function showChats() { document.getElementById('chatPage').style.display='block'; document.getElementById('storiesPage').style.display='none'; document.getElementById('chatDetail').style.display='none'; }
+        function sendMessage() {
+            var input = document.getElementById('msgInput');
+            if (input.value.trim() !== "") {
+                var msg = document.createElement('div');
+                msg.className = "my-message";
+                msg.innerText = input.value;
+                document.getElementById('messagesContainer').appendChild(msg);
+                input.value = "";
+            }
         }
-        function showChats() {
-            document.getElementById('chatPage').style.display = 'block';
-            document.getElementById('storiesPage').style.display = 'none';
-            document.getElementById('chatDetail').style.display = 'none';
-        }
-        // دوال الدردشة الخاصة
-        function openChat(name) {
-            document.getElementById('chatPage').style.display = 'none';
-            document.getElementById('chatDetail').style.display = 'block';
-            document.getElementById('chatUserName').innerText = name;
-        }
-        function closeChat() {
-            document.getElementById('chatDetail').style.display = 'none';
-            document.getElementById('chatPage').style.display = 'block';
-        }
-      function sendMessage() {
-    var input = document.getElementById('msgInput');
-    if (input.value.trim() !== "") {
-        alert("تم إرسال: " + input.value);
-        input.value = ""; // مسح مربع النص بعد الإرسال
-    }
-}
-
-      function showCamera() { alert("تفعيل الكاميرا قريباً!"); }
-      function sendMessage() {
-    var input = document.getElementById('msgInput');
-    if (input.value.trim() !== "") {
-        alert("تم إرسال: " + input.value);
-        input.value = ""; // مسح مربع النص بعد الإرسال
-    }
-}
-
     </script>
 </body>
+  
