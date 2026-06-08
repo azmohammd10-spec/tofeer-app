@@ -122,11 +122,87 @@ max-width:75%;
 
 /* ===== STORIES (BLACK LIKE TIKTOK) ===== */
 #stories{
-display:none;
 position:fixed;
 inset:0;
 background:#000;
-z-index:2000;
+overflow:hidden;
+}
+
+/* منتصف الشاشة */
+.story-center{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+color:#555;
+font-size:22px;
+opacity:0.6;
+}
+
+/* الأزرار يمين */
+.story-actions{
+position:absolute;
+right:15px;
+top:50%;
+transform:translateY(-50%);
+display:flex;
+flex-direction:column;
+gap:20px;
+}
+
+.story-actions div{
+width:54px;
+height:54px;
+background:rgba(255,255,255,0.08);
+border:1px solid rgba(255,255,255,0.15);
+border-radius:14px;
+display:flex;
+align-items:center;
+justify-content:center;
+color:#fff;
+font-size:22px;
+}
+
+/* الحساب أسفل */
+.story-user{
+position:absolute;
+right:15px;
+bottom:80px;
+display:flex;
+align-items:center;
+gap:10px;
+color:#fff;
+}
+
+.story-avatar{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#222;
+border:2px solid #333;
+}
+
+.story-name{
+font-weight:700;
+}
+
+/* شريط التقدم */
+.progress{
+position:absolute;
+top:10px;
+left:10px;
+right:10px;
+display:flex;
+gap:5px;
+}
+
+.progress div{
+flex:1;
+height:3px;
+background:#333;
+border-radius:10px;
 }
 
 /* ===== PLUS BUTTON (TIKTOK STYLE) ===== */
@@ -222,15 +298,36 @@ cursor:pointer;
 </div>
 
 <!-- STORIES -->
-<div id="stories"></div>
+<div id="stories">
 
-<!-- PLUS BUTTON (TIKTOK STYLE MAIN FOCUS) -->
-<div class="nav">
-<div onclick="showChats()">💬</div>
-  
-  <div class="plus-btn">+</div>
+<!-- شريط التقدم -->
+<div class="progress">
+<div></div>
+<div></div>
+<div></div>
+</div>
 
-<div onclick="showStories()">👁</div>
+<!-- منتصف الشاشة -->
+<div class="story-center">
+.
+<br>.
+<br>.
+<br>.
+<br>.
+</div>
+
+<!-- أزرار يمين -->
+<div class="story-actions">
+<div>❤️</div>
+<div>👁</div>
+</div>
+
+<!-- الحساب أسفل -->
+<div class="story-user">
+<div class="story-avatar"></div>
+<div class="story-name">الحساب</div>
+</div>
+
 </div>
 
 <script>
