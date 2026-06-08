@@ -14,7 +14,7 @@ font-family:system-ui;
 }
 
 body{
-background:#ffffff;
+background:#fff;
 color:#111;
 }
 
@@ -120,15 +120,56 @@ border:1px solid #e6f3ff;
 max-width:75%;
 }
 
-/* ===== STORIES (BLACK LIKE TIKTOK) ===== */
+/* ===== INPUT ===== */
+.input-box{
+display:flex;
+gap:8px;
+padding:10px;
+border-top:1px solid #e6f3ff;
+background:#fff;
+}
+
+.input-box input{
+flex:1;
+padding:10px;
+border:none;
+outline:none;
+background:#f2f9ff;
+border-radius:10px;
+}
+
+.input-box button{
+padding:10px 14px;
+border:none;
+background:#d9efff;
+border-radius:10px;
+}
+
+/* ===== STORIES ===== */
 #stories{
+display:none;
 position:fixed;
 inset:0;
 background:#000;
-overflow:hidden;
+z-index:2000;
 }
 
-/* منتصف الشاشة */
+/* CLOSE BUTTON */
+.close-btn{
+position:absolute;
+top:15px;
+left:15px;
+width:40px;
+height:40px;
+border:none;
+border-radius:10px;
+background:rgba(255,255,255,0.15);
+color:#fff;
+font-size:20px;
+cursor:pointer;
+}
+
+/* CENTER */
 .story-center{
 position:absolute;
 inset:0;
@@ -136,12 +177,11 @@ display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-color:#555;
-font-size:22px;
+color:#666;
 opacity:0.6;
 }
 
-/* الأزرار يمين */
+/* RIGHT ACTIONS */
 .story-actions{
 position:absolute;
 right:15px;
@@ -156,24 +196,22 @@ gap:20px;
 width:54px;
 height:54px;
 background:rgba(255,255,255,0.08);
-border:1px solid rgba(255,255,255,0.15);
 border-radius:14px;
 display:flex;
 align-items:center;
 justify-content:center;
 color:#fff;
-font-size:22px;
 }
 
-/* الحساب أسفل */
+/* USER */
 .story-user{
 position:absolute;
 right:15px;
 bottom:80px;
+color:#fff;
 display:flex;
 align-items:center;
 gap:10px;
-color:#fff;
 }
 
 .story-avatar{
@@ -181,31 +219,9 @@ width:45px;
 height:45px;
 border-radius:50%;
 background:#222;
-border:2px solid #333;
 }
 
-.story-name{
-font-weight:700;
-}
-
-/* شريط التقدم */
-.progress{
-position:absolute;
-top:10px;
-left:10px;
-right:10px;
-display:flex;
-gap:5px;
-}
-
-.progress div{
-flex:1;
-height:3px;
-background:#333;
-border-radius:10px;
-}
-
-/* ===== PLUS BUTTON (TIKTOK STYLE) ===== */
+/* ===== PLUS BUTTON ===== */
 .plus-btn{
 position:fixed;
 bottom:18px;
@@ -223,14 +239,8 @@ font-size:32px;
 font-weight:900;
 box-shadow:0 12px 25px rgba(0,0,0,.18);
 cursor:pointer;
-transition:.2s;
 }
 
-.plus-btn:active{
-transform:translateX(-50%) scale(0.92);
-}
-
-/* ===== NAV ===== */
 .nav{
 position:fixed;
 bottom:0;
@@ -290,9 +300,9 @@ cursor:pointer;
 
 <div id="messages"></div>
 
-<div class="input-box" style="display:flex;gap:8px;padding:10px;border-top:1px solid #e6f3ff;">
-<input id="msgInput" style="flex:1;padding:10px;border:none;outline:none;background:#f2f9ff;border-radius:10px;" placeholder="اكتب رسالة...">
-<button onclick="send()" style="padding:10px 14px;border:none;background:#d9efff;border-radius:10px;">إرسال</button>
+<div class="input-box">
+<input id="msgInput" placeholder="اكتب رسالة...">
+<button onclick="send()">إرسال</button>
 </div>
 
 </div>
@@ -300,14 +310,8 @@ cursor:pointer;
 <!-- STORIES -->
 <div id="stories">
 
-<!-- شريط التقدم -->
-<div class="progress">
-<div></div>
-<div></div>
-<div></div>
-</div>
+<button class="close-btn" onclick="closeStories()">✕</button>
 
-<!-- منتصف الشاشة -->
 <div class="story-center">
 .
 <br>.
@@ -316,18 +320,25 @@ cursor:pointer;
 <br>.
 </div>
 
-<!-- أزرار يمين -->
 <div class="story-actions">
 <div>❤️</div>
 <div>👁</div>
 </div>
 
-<!-- الحساب أسفل -->
 <div class="story-user">
 <div class="story-avatar"></div>
-<div class="story-name">الحساب</div>
+<div>الحساب</div>
 </div>
 
+</div>
+
+<!-- PLUS -->
+<div class="plus-btn">+</div>
+
+<!-- NAV -->
+<div class="nav">
+<div onclick="showChats()">💬</div>
+<div onclick="showStories()">👁</div>
 </div>
 
 <script>
@@ -344,15 +355,20 @@ document.getElementById("chatPage").style.display="block";
 }
 
 function showChats(){
-document.getElementById("chatPage").style.display="block";
-document.getElementById("chatDetail").style.display="none";
 document.getElementById("stories").style.display="none";
+document.getElementById("chatDetail").style.display="none";
+document.getElementById("chatPage").style.display="block";
 }
 
 function showStories(){
 document.getElementById("chatPage").style.display="none";
 document.getElementById("chatDetail").style.display="none";
 document.getElementById("stories").style.display="block";
+}
+
+function closeStories(){
+document.getElementById("stories").style.display="none";
+document.getElementById("chatPage").style.display="block";
 }
 
 function send(){
