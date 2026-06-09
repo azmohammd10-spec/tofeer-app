@@ -6,28 +6,23 @@
 <title>تطبيق دردشة</title>
 
 <style>
-
-  /* زر الإضافة بستايل تيك توك */
-.plus-btn {
+.plus-menu {
     position: fixed;
-    bottom: 20px;
+    bottom: 90px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
-    height: 40px;
-    background: #ffffff; /* الخلفية البيضاء */
-    color: #111;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    font-weight: bold;
-    border-radius: 10px; /* حواف دائرية */
-    cursor: pointer;
-    /* تأثير اللون السماوي والوردي في الجوانب */
-    box-shadow: 4px 0px 0px #00BFFF, -4px 0px 0px #FF6B81; 
-    transition: transform 0.2s;
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none; /* مخفية في البداية */
+    flex-direction: column;
+    gap: 10px;
+    z-index: 3000;
+    width: 160px;
+    text-align: center;
 }
+.plus-menu div { cursor: pointer; padding: 5px; }
 
 /* تأثير عند الضغط */
 .plus-btn:active {
