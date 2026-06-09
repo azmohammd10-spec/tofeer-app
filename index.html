@@ -6,6 +6,23 @@
 <title>تطبيق دردشة</title>
 
 <style>
+  /* تنسيق زر الميكروفون/الإرسال */
+#sendBtn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%; /* دائري تماماً */
+    border: none;
+    background-color: #25d366; /* لون أخضر واتساب */
+    color: #000;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
   .emoji-box span{
 cursor:pointer;
 padding:4px;
@@ -404,6 +421,24 @@ e.target.parentElement.id==="emojiBox"){
 document.getElementById("msgInput").value += e.target.innerText;
 }
 });
+  function toggleButton() {
+    var input = document.getElementById('msgInput');
+    var btn = document.getElementById('sendBtn');
+    
+    // إذا كان هناك نص، اجعله سهم إرسال أزرق
+    if (input.value.trim().length > 0) {
+        btn.innerHTML = "➤"; 
+        btn.style.backgroundColor = "#0084ff"; 
+        btn.style.color = "white";
+    } 
+    // إذا كان فارغاً، أعده ميكروفون أخضر
+    else {
+        btn.innerHTML = "🎙️"; 
+        btn.style.backgroundColor = "#25d366"; 
+        btn.style.color = "#000";
+    }
+}
+
 </script>
 
 </body>
