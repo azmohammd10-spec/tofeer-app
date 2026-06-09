@@ -487,6 +487,34 @@ cursor:pointer;
         }
     }
 </script>
+<div id="plusMenu" class="plus-menu" style="display:none;">
+    <div onclick="openCameraApp()">📸 كاميرا (تجميل)</div>
+    <div onclick="document.getElementById('fileInput').click()">🖼️ استوديو</div>
+</div>
+
+<div class="plus-btn" onclick="togglePlusMenu()">+</div>
+
+<div class="nav">
+    <div onclick="showChats()">💬</div>
+    <div onclick="showStories()">👁</div>
+</div>
+
+<input type="file" id="fileInput" style="display:none" accept="image/*,video/*" onchange="handleFile(event)">
+
+<script>
+    // الدوال البرمجية الخاصة بك
+    // ...
+    function handleFile(event) {
+        let file = event.target.files[0];
+        if (file) {
+            alert("تم اختيار الملف: " + file.name);
+            togglePlusMenu();
+        }
+    }
+</script>
+</body>
+</html>
+    
 </body>
 </html>
 
