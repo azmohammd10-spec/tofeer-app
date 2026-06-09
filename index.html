@@ -486,6 +486,7 @@ cursor:pointer;
             togglePlusMenu();
         }
     }
+</script>
 
 <div class="plus-btn" onclick="togglePlusMenu()">+</div>
 
@@ -496,19 +497,7 @@ cursor:pointer;
 
 <input type="file" id="fileInput" style="display:none" accept="image/*,video/*" onchange="handleFile(event)">
 
-<script>
-    // الدوال البرمجية الخاصة بك
-    // ...
-    function handleFile(event) {
-        let file = event.target.files[0];
-        if (file) {
-            alert("تم اختيار الملف: " + file.name);
-            togglePlusMenu();
-        }
-    }
-</script>
 </body>
 </html>
-    
 
 
