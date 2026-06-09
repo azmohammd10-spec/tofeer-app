@@ -6,6 +6,21 @@
 <title>تطبيق دردشة</title>
 
 <style>
+.plus-menu {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 3000;
+}
+  
   <div id="plusMenu" class="plus-menu" style="display:none;">
     <div onclick="openCameraApp()">📸 كاميرا (تجميل)</div>
     <div onclick="document.getElementById('fileInput').click()">🖼️ استوديو</div>
