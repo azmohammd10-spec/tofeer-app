@@ -529,7 +529,7 @@ function handleFile(event) {
         document.getElementById("chatPage").style.display="block";
     }
 
-    // 2. التحكم في الزر الذكي (الميكروفون/الإرسال)
+    // 2. التحكم في الزر الذكي
     function toggleButton() {
         var input = document.getElementById('msgInput');
         var btn = document.getElementById('sendBtn');
@@ -564,29 +564,28 @@ function handleFile(event) {
         box.style.display = (box.style.display === "block") ? "none" : "block";
     }
 
-    // فتح وإغلاق القائمة
+    // 5. التحكم في القائمة والكاميرا
     function togglePlusMenu() {
         let menu = document.getElementById("plusMenu");
         menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
     }
 
-    // تشغيل الكاميرا
     function openCameraApp() {
         let camInput = document.createElement('input');
         camInput.type = 'file';
         camInput.accept = 'image/*';
-        camInput.capture = 'user'; 
+        camInput.capture = 'user';
         camInput.click();
-        togglePlusMenu(); 
+        togglePlusMenu();
     }
 
-    // معالجة الملفات
     function handleFile(event) {
         let file = event.target.files[0];
         if (file) {
-            alert("تم اختيار الملف: " + file.name);
+            alert("تم اختيار: " + file.name);
             togglePlusMenu();
         }
     }
+
 </script>
 
