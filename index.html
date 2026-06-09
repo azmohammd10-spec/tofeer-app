@@ -394,17 +394,7 @@ function closeStories(){
 document.getElementById("stories").style.display="none";
 document.getElementById("chatPage").style.display="block";
 }
-
-function send(){
-let input=document.getElementById("msgInput");
-if(input.value.trim()!==""){
-let msg=document.createElement("div");
-msg.className="my-msg";
-msg.innerText=input.value;
-document.getElementById("messages").appendChild(msg);
-input.value="";
-}
-}
+  
 // 1. الدالة المسؤولة عن تبديل شكل الزر
 function toggleButton() {
     var input = document.getElementById('msgInput');
