@@ -386,111 +386,6 @@ cursor:pointer;
 
 </div>
 
-<!-- NAV -->
-<div class="nav">
-<div onclick="showChats()">💬</div>
-<div onclick="showStories()">👁</div>
-</div>
-
-<!-- PLUS -->
-<div class="plus-btn">+</div>
-
-<script>
-
-    // 1. التنقل بين الصفحات
-    function openChat(name){
-        document.getElementById("chatPage").style.display="none";
-        document.getElementById("chatDetail").style.display="flex";
-        document.getElementById("chatName").innerText=name;
-        document.getElementById("msgInput").focus(); // إضافة ميزة UX
-    }
-
-    function closeChat(){
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    function showChats(){
-        document.getElementById("stories").style.display="none";
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    function showStories(){
-        document.getElementById("chatPage").style.display="none";
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("stories").style.display="block";
-    }
-
-    function closeStories(){
-        document.getElementById("stories").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    // 2. التحكم في الزر الذكي (الميكروفون/الإرسال)
-    function toggleButton() {
-    var input = document.getElementById('msgInput');
-    var btn = document.getElementById('sendBtn');
-    
-    if (input.value.trim().length > 0) {
-        btn.innerHTML = "➤"; 
-        // اللون السماوي الخفيف
-        btn.style.backgroundColor = "#00BFFF"; 
-        btn.style.color = "white";
-    } else {
-        btn.innerHTML = "🎙️"; 
-        btn.style.backgroundColor = "#25d366"; // أخضر الواتساب كما طلبت
-        btn.style.color = "#000";
-    }
-}
-
-
-    // 3. الإرسال
-    function send(){
-        let input = document.getElementById("msgInput");
-        if(input.value.trim() !== ""){
-            let msg = document.createElement("div");
-            msg.className = "my-msg";
-            msg.innerText = input.value;
-            document.getElementById("messages").appendChild(msg);
-            input.value = "";
-            toggleButton(); // إعادة الزر للميكروفون
-            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
-        }
-    }
-
-    // 4. الإيموجي
-    function toggleEmoji(){
-        let box = document.getElementById("emojiBox");
-        box.style.display = (box.style.display === "block") ? "none" : "block";
-    }
-  // فتح وإغلاق القائمة
-function togglePlusMenu() {
-    let menu = document.getElementById("plusMenu");
-    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-}
-
-// تشغيل الكاميرا مع ميزة "التجميل" (عبر خصائص المتصفح)
-function openCameraApp() {
-    // فتح الكاميرا بوضع الفيديو/الصورة مع ميزة التجميل (عبر المتصفح)
-    // capture="user" تفتح الكاميرا الأمامية
-    let camInput = document.createElement('input');
-    camInput.type = 'file';
-    camInput.accept = 'image/*';
-    camInput.capture = 'user'; // هذا يطلب الكاميرا الأمامية
-    camInput.click();
-    togglePlusMenu(); // إغلاق القائمة بعد الاختيار
-}
-
-// معالجة الملفات (صور أو فيديو)
-function handleFile(event) {
-    let file = event.target.files[0];
-    if (file) {
-        // هنا يمكنك إضافة منطق عرض الصورة أو الفيديو في الدردشة
-        alert("تم اختيار: " + file.name);
-        togglePlusMenu();
-    }
-}
 <div id="plusMenu" class="plus-menu" style="display:none;">
     <div onclick="openCameraApp()">📸 كاميرا (تجميل)</div>
     <div onclick="document.getElementById('fileInput').click()">🖼️ استوديو</div>
@@ -498,7 +393,7 @@ function handleFile(event) {
 
 <input type="file" id="fileInput" style="display:none" accept="image/*,video/*" onchange="handleFile(event)">
 
-
+<script>
     // 1. التنقل بين الصفحات
     function openChat(name){
         document.getElementById("chatPage").style.display="none";
@@ -529,7 +424,7 @@ function handleFile(event) {
         document.getElementById("chatPage").style.display="block";
     }
 
-    // 2. التحكم في الزر الذكي
+    // 2. التحكم في الزر الذكي (الميكروفون/الإرسال)
     function toggleButton() {
         var input = document.getElementById('msgInput');
         var btn = document.getElementById('sendBtn');
@@ -564,28 +459,31 @@ function handleFile(event) {
         box.style.display = (box.style.display === "block") ? "none" : "block";
     }
 
-    // 5. التحكم في القائمة والكاميرا
+    // 5. فتح وإغلاق القائمة
     function togglePlusMenu() {
         let menu = document.getElementById("plusMenu");
         menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
     }
 
+    // تشغيل الكاميرا
     function openCameraApp() {
         let camInput = document.createElement('input');
         camInput.type = 'file';
         camInput.accept = 'image/*';
-        camInput.capture = 'user';
+        camInput.capture = 'user'; 
         camInput.click();
-        togglePlusMenu();
+        togglePlusMenu(); 
     }
 
+    // معالجة الملفات
     function handleFile(event) {
         let file = event.target.files[0];
         if (file) {
-            alert("تم اختيار: " + file.name);
+            alert("تم اختيار الملف: " + file.name);
             togglePlusMenu();
         }
     }
+</script>
 
 </script>
 
