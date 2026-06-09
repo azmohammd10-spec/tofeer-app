@@ -493,4 +493,32 @@ cursor:pointer;
         let box = document.getElementById("emojiBox");
         box.style.display = (box.style.display === "block") ? "none" : "block";
     }
+  // فتح وإغلاق القائمة
+function togglePlusMenu() {
+    let menu = document.getElementById("plusMenu");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+
+// تشغيل الكاميرا مع ميزة "التجميل" (عبر خصائص المتصفح)
+function openCameraApp() {
+    // فتح الكاميرا بوضع الفيديو/الصورة مع ميزة التجميل (عبر المتصفح)
+    // capture="user" تفتح الكاميرا الأمامية
+    let camInput = document.createElement('input');
+    camInput.type = 'file';
+    camInput.accept = 'image/*';
+    camInput.capture = 'user'; // هذا يطلب الكاميرا الأمامية
+    camInput.click();
+    togglePlusMenu(); // إغلاق القائمة بعد الاختيار
+}
+
+// معالجة الملفات (صور أو فيديو)
+function handleFile(event) {
+    let file = event.target.files[0];
+    if (file) {
+        // هنا يمكنك إضافة منطق عرض الصورة أو الفيديو في الدردشة
+        alert("تم اختيار: " + file.name);
+        togglePlusMenu();
+    }
+}
+  
 </script>
