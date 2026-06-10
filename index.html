@@ -6,54 +6,51 @@
 <title>تطبيق دردشة</title>
 
 <style>
-    /* ===== زر + الرئيسي ===== */
+    /* ===== زر + ===== */
 .plus-btn{
     position:fixed;
-    bottom:18px;
+    bottom:10px;
     left:50%;
     transform:translateX(-50%);
-    width:62px;
-    height:62px;
-    border-radius:20px;
+    width:60px;
+    height:60px;
+    border-radius:18px;
     background:linear-gradient(135deg,#00BFFF,#00E5FF);
     color:#fff;
-    font-size:32px;
+    font-size:34px;
     font-weight:bold;
     display:flex;
     align-items:center;
     justify-content:center;
     cursor:pointer;
-    box-shadow:0 10px 25px rgba(0,191,255,.35);
+    box-shadow:0 8px 25px rgba(0,191,255,.35);
     z-index:2001;
-    transition:0.2s ease;
-    user-select:none;
+    transition:0.25s ease;
 }
 
 .plus-btn:active{
-    transform:translateX(-50%) scale(0.9);
-    box-shadow:0 5px 15px rgba(0,191,255,.25);
+    transform:translateX(-50%) scale(0.92);
 }
 
 /* ===== قائمة + ===== */
 .plus-menu{
     position:fixed;
-    bottom:95px;
+    bottom:90px;
     left:50%;
     transform:translateX(-50%);
-    width:200px;
     background:#ffffff;
-    border-radius:16px;
     border:1px solid #eee;
+    border-radius:14px;
+    width:190px;
     display:none;
     flex-direction:column;
     overflow:hidden;
     z-index:3000;
-    box-shadow:0 15px 35px rgba(0,0,0,0.12);
-    backdrop-filter: blur(6px);
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 .plus-menu div{
-    padding:14px;
+    padding:12px;
     cursor:pointer;
     font-size:14px;
     transition:0.2s;
@@ -61,37 +58,35 @@
 }
 
 .plus-menu div:hover{
-    background:#f5f5f5;
+    background:#f2f2f2;
 }
 
 /* ===== الرسائل ===== */
 .my-msg{
     align-self:flex-end;
-    background:linear-gradient(135deg,#00BFFF,#0099FF);
+    background:#00BFFF !important;
     color:#fff;
     padding:10px 14px;
-    border-radius:18px 18px 4px 18px;
+    border-radius:18px 18px 0 18px;
     max-width:75%;
-    word-break:break-word;
+    word-wrap:break-word;
 }
 
 .other-msg{
     align-self:flex-start;
-    background:#fff;
-    border:1px solid #E6E6E6;
+    background:#fff !important;
+    border:1px solid #E0E0E0;
     padding:10px 14px;
-    border-radius:18px 18px 18px 4px;
+    border-radius:18px 18px 18px 0;
     max-width:75%;
-    word-break:break-word;
-}
+    word-wrap:break-word;
 
-/* ===== خلفية عامة ===== */
+/* ===== الخلفية ===== */
 body{
-    background:#F6F7F9;
+    background-color:#F9F9F9;
     color:#2D3436;
-    font-family:system-ui, 'Segoe UI', Tahoma;
+    font-family:'Segoe UI', Tahoma, sans-serif;
 }
-
     #sendBtn:active {
     transform: scale(0.9); /* الزر يصغر قليلاً عند الضغط عليه */
 }
