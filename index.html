@@ -425,18 +425,19 @@ cursor:pointer;
 
     // 2. التحكم في الزر الذكي (الميكروفون/الإرسال)
     function toggleButton() {
-        var input = document.getElementById('msgInput');
-        var btn = document.getElementById('sendBtn');
-        if (input.value.trim().length > 0) {
-            btn.innerHTML = "➤"; 
-            btn.style.backgroundColor = "#00BFFF"; 
-            btn.style.color = "white";
-        } else {
-            btn.innerHTML = "🎙️"; 
-            btn.style.backgroundColor = "#25d366"; 
-            btn.style.color = "#000";
-        }
+    const input = document.getElementById("msgInput");
+    const btn = document.getElementById("sendBtn");
+
+    if(input.value.trim() !== ""){
+        btn.innerHTML = "➤";
+        btn.style.background = "#00BFFF";
+        btn.style.color = "#fff";
+    }else{
+        btn.innerHTML = "🎙️";
+        btn.style.background = "#25d366";
+        btn.style.color = "#fff";
     }
+}
 
     // 3. الإرسال
     function send(){
