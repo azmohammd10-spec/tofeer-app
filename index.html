@@ -7,6 +7,31 @@
 
 <style>
 .plus-btn{
+    position:fixed;
+    bottom:10px;
+    left:50%;
+    transform:translateX(-50%);
+    width:60px;
+    height:60px;
+    border-radius:18px;
+    background:linear-gradient(135deg,#00BFFF,#00E5FF);
+    color:#fff;
+    font-size:34px;
+    font-weight:bold;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    box-shadow:0 8px 25px rgba(0,191,255,.35);
+    z-index:2001;
+    transition:.25s;
+}
+
+.plus-btn:active{
+    transform:translateX(-50%) scale(.92);
+}
+
+/* قائمة الزر + */
 .plus-menu{
     position:fixed;
     bottom:90px;
@@ -31,6 +56,8 @@
 .plus-menu div:hover{
     background:#f2f2f2;
 }
+
+/* الرسائل */
 .my-msg{
     align-self:flex-end;
     background-color:#00BFFF !important;
@@ -48,7 +75,6 @@
     border-radius:18px 18px 18px 0;
     max-width:75%;
 }
-
     body {
     background-color: #F9F9F9; /* خلفية ناعمة جداً */
     color: #2D3436;           /* نص مريح للعين */
