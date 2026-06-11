@@ -90,52 +90,58 @@ body { background-color: #FFFFFF !important; color: #000000; }
     border-radius: 18px 18px 18px 0;
 }
 
-/* صندوق الإدخال */
 .input-box {
-    display: flex; gap: 10px; padding: 15px; border-top: 1px solid #F0F0F0;
-    background: #FFFFFF; align-items: center;
+    display: flex;
+    gap: 10px;
+    padding: 15px;
+    border-top: 1px solid #F0F0F0;
+    background: #FFFFFF;
+    align-items: center;
 }
-.input-box input{
-flex:1;
-padding:10px;
-border:none;
-outline:none;
-background:#f7f7f7;
-border-radius:10px;
+
+.input-box input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    background: #f7f7f7;
+    border-radius: 10px;
 }
+
 /* ===== قائمة + ===== */
-.plus-menu{
-    position:fixed;
-    bottom:90px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#ffffff;
-    border:1px solid #eee;
-    border-radius:14px;
-    width:190px;
-    display:none;
-    flex-direction:column;
-    overflow:hidden;
-    z-index:3000;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+.plus-menu {
+    position: fixed;
+    bottom: 90px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 14px;
+    width: 190px;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 3000;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-  /* تأثير خفيف عند تمرير الفأرة (Hover) على المحادثة */
+/* تأثير خفيف عند تمرير الفأرة على المحادثة */
 .chat:hover {
-    border-right: 4px solid #00BFFF; /* خط سماوي خفيف يظهر بجانب المحادثة */
+    border-right: 4px solid #00BFFF;
 }
 
+/* تأثير عند المرور على عناصر شريط التنقل */
 .nav div:hover {
-    color: #00BFFF; /* الأيقونة تصبح سماوية عند الضغط عليها */
+    color: #00BFFF;
 }
 
-  /* تنسيق زر الميكروفون/الإرسال */
+/* زر الإرسال / الميكروفون */
 #sendBtn {
     width: 50px;
     height: 50px;
-    border-radius: 50%; /* دائري تماماً */
+    border-radius: 50%;
     border: none;
-    background-color: #25d366; /* لون أخضر واتساب */
+    background-color: #25d366;
     color: #000;
     font-size: 24px;
     display: flex;
