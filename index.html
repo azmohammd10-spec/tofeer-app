@@ -73,7 +73,14 @@ body { background-color: #FFFFFF !important; color: #000000; }
     display: flex; gap: 10px; padding: 15px; border-top: 1px solid #F0F0F0;
     background: #FFFFFF; align-items: center;
 }
-
+.input-box input{
+flex:1;
+padding:10px;
+border:none;
+outline:none;
+background:#f7f7f7;
+border-radius:10px;
+}
 /* ===== قائمة + ===== */
 .plus-menu{
     position:fixed;
@@ -146,10 +153,14 @@ align-items:center;
 justify-content:center;
 }
 *{
-
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:system-ui;
+}
 body{
 
-/* ===== CHAT LIST ===== */
 #chatPage{
 padding:70px 12px 90px;
 }
