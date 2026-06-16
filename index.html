@@ -359,102 +359,24 @@ cursor:pointer;
     </div>
 </div>
 
-
 <div id="plusMenu" class="plus-menu" style="display:none;">
     <div onclick="document.getElementById('fileInput').click()">🖼️ استوديو</div>
 </div>
-
-<script>
-    // 1. التنقل بين الصفحات
-    function openChat(name){
-        document.getElementById("chatPage").style.display="none";
-        document.getElementById("chatDetail").style.display="flex";
-        document.getElementById("chatName").innerText=name;
-        document.getElementById("msgInput").focus();
-    }
-
-    function closeChat(){
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    function showChats(){
-        document.getElementById("stories").style.display="none";
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    function showStories(){
-        document.getElementById("chatPage").style.display="none";
-        document.getElementById("chatDetail").style.display="none";
-        document.getElementById("stories").style.display="block";
-    }
-
-    function closeStories(){
-        document.getElementById("stories").style.display="none";
-        document.getElementById("chatPage").style.display="block";
-    }
-
-    // 2. التحكم في الزر الذكي (الميكروفون/الإرسال)
-    function toggleButton() {
-    const input = document.getElementById("msgInput");
-    const btn = document.getElementById("sendBtn");
-
-    if(input.value.trim() !== ""){
-        btn.innerHTML = "➤";
-        btn.style.background = "#00BFFF";
-        btn.style.color = "#fff";
-    }else{
-        btn.innerHTML = "🎙️";
-        btn.style.background = "#25d366";
-        btn.style.color = "#fff";
-    }
-}
-
-    // 3. الإرسال
-    function send(){
-        let input = document.getElementById("msgInput");
-        if(input.value.trim() !== ""){
-            let msg = document.createElement("div");
-            msg.className = "my-msg";
-            msg.innerText = input.value;
-            document.getElementById("messages").appendChild(msg);
-            input.value = "";
-            toggleButton();
-            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
-        }
-    }
-
-    // 4. الإيموجي
-    function toggleEmoji(){
-        let box = document.getElementById("emojiBox");
-        box.style.display = (box.style.display === "block") ? "none" : "block";
-    }
-
-document.getElementById("msgInput").addEventListener("keypress", function(e){
-    if(e.key === "Enter"){
-        send();
-    }
-});   
-   function openProfile(){
+<script>    
+    
+function openProfile(){
     alert("الملف الشخصي");
 }
- function addFriend(){
+
+function addFriend(){
     let name = prompt("أدخل اسم الصديق");
     
     if(name && name.trim() !== ""){
         alert("تم إرسال طلب صداقة إلى: " + name);
     }
-}  
-   <div class="nav">
-    <div onclick="showChats()">💬<br>دردشة</div>
-    <div onclick="showStories()">👁<br>قصص</div>
-    <div onclick="openProfile()">👤<br>حسابي</div>
-</div>
+}
 
-<input type="file" id="fileInput" style="display:none" accept="image/*,video/*" onchange="handleFile(event)">
-
-<script>
+// الصفحات
 let current = 0;
 const pages = ["chatPage", "stories", "profilePage"];
 
@@ -465,7 +387,7 @@ function showPage(index){
     current = index;
 }
 
-// أزرار الضغط
+// أزرار التنقل
 function showChats(){ showPage(0); }
 function showStories(){ showPage(1); }
 function showProfile(){ showPage(2); }
@@ -490,6 +412,16 @@ document.addEventListener("touchend", e=>{
         showPage(current);
     }
 });
-</script>
+
+function closeStories(){
+    document.getElementById("stories").style.display = "none";
+}
+
+</script> 
+ <input type="file" id="fileInput"
+style="display:none"
+accept="image/*,video/*"
+onchange="handleFile(event)">
+        
 </body>
 </html>
