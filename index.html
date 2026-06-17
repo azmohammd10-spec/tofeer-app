@@ -146,42 +146,51 @@ padding:15px;border-bottom:1px solid #eee;cursor:pointer
 .msg{font-size:12px;color:#777}
 
 /* chat detail */
-<!-- CHAT DETAIL -->
-<div id="chatDetail" style="display:none;position:fixed;inset:0;background:#fff;flex-direction:column;z-index:99999">
+#chatDetail{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#fff;
+    flex-direction:column;
+    z-index:99999;
+}
 
-    <div class="header">
-        <button onclick="closeChat()">←</button>
-        <div id="chatName">محادثة</div>
-    </div>
-
-    <div id="messages" style="flex:1;overflow:auto;padding:10px"></div>
-
-    <div class="input-box" style="display:flex;gap:5px;padding:10px;border-top:1px solid #eee">
-
-        <input id="msgInput" placeholder="اكتب رسالة..." style="flex:1;border:none;background:#f5f5f5;border-radius:20px;padding:10px">
-
-        <button id="sendBtn" onclick="handleSend()">🎤</button>
-
-    </div>
-
-</div>
 .header{
-display:flex;gap:10px;align-items:center;
-padding:10px;border-bottom:1px solid #eee
+    display:flex;
+    gap:10px;
+    align-items:center;
+    padding:10px;
+    border-bottom:1px solid #eee;
 }
 
 #messages{
-flex:1;overflow:auto;padding:10px
+    flex:1;
+    overflow:auto;
+    padding:10px;
 }
 
 .msg{
-margin:8px 0;padding:10px;border-radius:10px;
-max-width:70%;background:#dcf8c6;margin-left:auto
+    margin:8px 0;
+    padding:10px;
+    border-radius:10px;
+    max-width:70%;
+    background:#dcf8c6;
+    margin-left:auto;
 }
 
 .input-box{
-display:flex;gap:5px;padding:10px;
-border-top:1px solid #eee
+    display:flex;
+    gap:5px;
+    padding:10px;
+    border-top:1px solid #eee;
+}
+
+.input-box input{
+    flex:1;
+    border:none;
+    background:#f5f5f5;
+    border-radius:20px;
+    padding:10px;
 }
 
 .input-box input{
