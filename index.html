@@ -198,101 +198,121 @@ padding:10px
 
 <script>
 
-let active=null;
-let chats=JSON.parse(localStorage.getItem("chats"))||{};
+let active = null;
+let chats = JSON.parse(localStorage.getItem("chats")) || {};
+
+/* ================= CHAT SYSTEM ================= */
 
 function openChat(name){
-active=name;
-document.getElementById("chatDetail").style.display="flex";
-document.getElementById("chatName").innerText=name;
-if(!chats[name]) chats[name]=[];
-render();
+    active = name;
+    document.getElementById("chatDetail").style.display = "flex";
+    document.getElementById("chatName").innerText = name;
+
+    if(!chats[name]) chats[name] = [];
+    render();
 }
 
 function closeChat(){
-document.getElementById("chatDetail").style.display="none";
-active=null;
+    document.getElementById("chatDetail").style.display = "none";
+    active = null;
 }
 
 function sendMsg(){
-let input=document.getElementById("msgInput");
-let text=input.value.trim();
-if(!text||!active) return;
+    let input = document.getElementById("msgInput");
+    let text = input.value.trim();
 
-chats[active].push({text,time:new Date().toLocaleTimeString()});
-input.value="";
-save();
-render();
+    if(!text || !active) return;
+
+    chats[active].push({
+        text,
+        time: new Date().toLocaleTimeString()
+    });
+
+    input.value = "";
+    save();
+    render();
 }
 
 function render(){
-let box=document.getElementById("messages");
-box.innerHTML="";
+    let box = document.getElementById("messages");
+    box.innerHTML = "";
 
-chats[active].forEach(m=>{
-let d=document.createElement("div");
-d.className="msg";
-d.innerHTML=m.text+"<br><small>"+m.time+"</small>";
-box.appendChild(d);
-});
+    chats[active].forEach(m=>{
+        let d = document.createElement("div");
+        d.className = "msg";
+        d.innerHTML = m.text + "<br><small>" + m.time + "</small>";
+        box.appendChild(d);
+    });
 
-box.scrollTop=box.scrollHeight;
+    box.scrollTop = box.scrollHeight;
 }
 
 function save(){
-localStorage.setItem("chats",JSON.stringify(chats));
+    localStorage.setItem("chats", JSON.stringify(chats));
 }
 
+/* ================= EMOJI ================= */
+
 function toggleEmoji(){
-document.getElementById("emojiBox").classList.toggle("hidden");
+    document.getElementById("emojiBox").classList.toggle("hidden");
 }
 
 function addEmoji(e){
-document.getElementById("msgInput").value+=e;
+    document.getElementById("msgInput").value += e;
 }
 
-/* NAV (الأزرار تعمل الآن) */
-function showChats(){
-document.getElementById("chatPage").style.display="block";
-document.getElementById("chatDetail").style.display="none";
-}
+/* ================= STORIES (FIXED) ================= */
 
 function showStories(){
-alert("قسم القصص");
+    showPage(1);
+}
+
+function closeStories(){
+    showPage(0);
+}
+
+/* ================= NAV SYSTEM (IMPORTANT FIX) ================= */
+
+const pages = ["chatPage","stories","profilePage"];
+let current = 0;
+
+function showPage(i){
+    if(i < 0) i = 0;
+    if(i >= pages.length) i = pages.length - 1;
+
+    pages.forEach((id, index)=>{
+        document.getElementById(id).style.display =
+        (index === i) ? "block" : "none";
+    });
+
+    current = i;
+}
+
+function showChats(){
+    showPage(0);
 }
 
 function showProfile(){
-alert("الحساب");
-}
-function showStories(){
-    document.getElementById("stories").style.display = "block";
+    alert("الحساب");
 }
 
-function closeStories(){
-    document.getElementById("stories").style.display = "none";
-}
- function showStories(){
-    document.getElementById("stories").style.display = "block";
-}
+/* ================= SWIPE ================= */
 
-function closeStories(){
-    document.getElementById("stories").style.display = "none";
-} 
-  let startX = 0;
+let startX = 0;
 let isSwiping = false;
 
-document.addEventListener("touchstart", e => {
+document.addEventListener("touchstart", e=>{
     startX = e.touches[0].clientX;
     isSwiping = true;
 });
 
-document.addEventListener("touchend", e => {
-    if (!isSwiping) return;
+document.addEventListener("touchend", e=>{
+    if(!isSwiping) return;
 
     let diff = startX - e.changedTouches[0].clientX;
 
-    if (Math.abs(diff) > 50) {
-        if (diff > 0) showPage(current + 1);
+    if(Math.abs(diff) > 50){
+        if(diff > 0) showPage(current + 1);
         else showPage(current - 1);
     }
 
