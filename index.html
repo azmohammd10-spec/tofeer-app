@@ -6,6 +6,35 @@
 <title>تطبيق دردشة</title>
 
 <style>
+  #sendBtn {
+    background: var(--main-color);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+#sendBtn:hover {
+    transform: scale(1.05);
+}
+
+#sendBtn:active {
+    transform: scale(0.95);
+}
+  :root {
+    /* اللون الرئيسي للتطبيق */
+    --main-color: #00bfff;
+
+    /* لون النص الأساسي */
+    --text-color: #333;
+
+    /* إضافات احترافية مفيدة */
+    --bg-color: #ffffff;
+    --border-color: #eee;
+}
   #stories {
     display: none;
     position: fixed;
