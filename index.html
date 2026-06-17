@@ -272,14 +272,16 @@ z-index:99999;
 let active = null;
 let chats = JSON.parse(localStorage.getItem("chats")) || {};
 
-/* ================= CHAT SYSTEM ================= */
+/* ================= CHAT ================= */
 
 function openChat(name){
     active = name;
+
     document.getElementById("chatDetail").style.display = "flex";
     document.getElementById("chatName").innerText = name;
 
     if(!chats[name]) chats[name] = [];
+
     render();
 }
 
@@ -288,6 +290,7 @@ function closeChat(){
     active = null;
 }
 
+/* إرسال رسالة */
 function sendMsg(){
     let input = document.getElementById("msgInput");
     let text = input.value.trim();
@@ -304,9 +307,12 @@ function sendMsg(){
     render();
 }
 
+/* عرض الرسائل */
 function render(){
     let box = document.getElementById("messages");
     box.innerHTML = "";
+
+    if(!active) return;
 
     chats[active].forEach(m=>{
         let d = document.createElement("div");
@@ -318,134 +324,34 @@ function render(){
     box.scrollTop = box.scrollHeight;
 }
 
+/* حفظ */
 function save(){
     localStorage.setItem("chats", JSON.stringify(chats));
 }
 
-/* ================= EMOJI ================= */
+/* ================= زر ذكي ================= */
 
-function toggleEmoji(){
-    document.getElementById("emojiBox").classList.toggle("hidden");
-}
-
-function addEmoji(e){
-document.getElementById("msgInput").value += e;
-}
-
-/* ================= STORIES ================= */
-
-function showStories(){
-showPage(1);
-}
-
-function closeStories(){
-showPage(0);
-}
-
-/* ================= NAV SYSTEM ================= */
-
-const pages = ["chatPage","stories","profilePage"];
-let current = 0;
-
-function showPage(i){
-
-if(i < 0) i = 0;
-if(i >= pages.length) i = pages.length - 1;
-
-pages.forEach((id,index)=>{
-    const page = document.getElementById(id);
-
-    if(page){
-        page.style.display =
-        (index === i) ? "block" : "none";
-    }
-});
-
-current = i;
-
-updateDots(i);
-
-}
-
-function updateDots(i){
-document.querySelectorAll(".dot").forEach((dot,index)=>{
-dot.classList.toggle("active", index === i);
-});
-}
-
-function showChats(){
-showPage(0);
-}
-
-function showProfile(){
-showPage(2);
-}
-
-/* ================= SWIPE ================= */
-
-let startX = 0;
-let isSwiping = false;
-
-document.addEventListener("touchstart", e=>{
-startX = e.touches[0].clientX;
-isSwiping = true;
-});
-
-document.addEventListener("touchend", e=>{
-
-if(!isSwiping) return;
-
-let diff = startX - e.changedTouches[0].clientX;
-
-if(Math.abs(diff) > 50){
-
-    if(diff > 0){
-        showPage(current + 1);
-    }else{
-        showPage(current - 1);
-    }
-}
-
-isSwiping = false;
-
-});
-
-showPage(0);
-const input = document.getElementById("msgInput");
-const sendBtn = document.getElementById("sendBtn");
-
-/* تحديث شكل الزر */
-input.addEventListener("input", () => {
-    let text = input.value.trim();
-
-    if(text.length > 0){
-        sendBtn.innerText = "➤";
-        sendBtn.classList.add("active");
-        sendBtn.classList.remove("record");
-    }else{
-        sendBtn.innerText = "🎤";
-        sendBtn.classList.remove("active");
-        sendBtn.classList.add("record");
-    }
-});
-
-/* عند الضغط */
 function handleSend(){
-
-    let text = input.value.trim();
-
-    if(text.length > 0){
-        sendMsg();
-        input.value = "";
-
-        sendBtn.innerText = "🎤";
-        sendBtn.classList.remove("active");
-        sendBtn.classList.add("record");
-
-    } else {
-        alert("🎤 تسجيل صوت (سيتم تطويره لاحقاً)");
-    }
+    sendMsg();
 }
+
+/* تغيير الزر */
+document.addEventListener("input", function(e){
+    if(e.target && e.target.id === "msgInput"){
+        let btn = document.getElementById("sendBtn");
+        let text = e.target.value.trim();
+
+        if(text.length > 0){
+            btn.innerText = "➤";
+            btn.classList.add("active");
+            btn.classList.remove("record");
+        }else{
+            btn.innerText = "🎤";
+            btn.classList.remove("active");
+            btn.classList.add("record");
+        }
+    }
+});
 </script>
 
 </body>
