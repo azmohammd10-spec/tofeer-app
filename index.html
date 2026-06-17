@@ -7,24 +7,50 @@
 
 <style>
 #sendBtn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: none;
     background: var(--main-color);
     color: #fff;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
+    font-size: 20px;
     cursor: pointer;
-    transition: 0.2s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
-#sendBtn:hover {
-    transform: scale(1.05);
+/* عند وجود رسالة */
+#sendBtn.active {
+    background: #25d366;
+    transform: scale(1.08);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
 }
 
-#sendBtn:active {
-    transform: scale(0.95);
+/* نبض عند وضع التسجيل */
+#sendBtn.record {
+    animation: pulse 1.2s infinite;
 }
 
+/* أنيميشن نبض */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0,188,255,0.6);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 12px rgba(0,188,255,0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0,188,255,0);
+    }
+}
 /* ================= ROOT VARIABLES ================= */
 :root {
     --main-color: #00bfff;
@@ -371,7 +397,41 @@ isSwiping = false;
 });
 
 showPage(0);
+const input = document.getElementById("msgInput");
+const sendBtn = document.getElementById("sendBtn");
 
+/* تحديث شكل الزر */
+input.addEventListener("input", () => {
+    let text = input.value.trim();
+
+    if(text.length > 0){
+        sendBtn.innerText = "➤";
+        sendBtn.classList.add("active");
+        sendBtn.classList.remove("record");
+    }else{
+        sendBtn.innerText = "🎤";
+        sendBtn.classList.remove("active");
+        sendBtn.classList.add("record");
+    }
+});
+
+/* عند الضغط */
+function handleSend(){
+
+    let text = input.value.trim();
+
+    if(text.length > 0){
+        sendMsg();
+        input.value = "";
+
+        sendBtn.innerText = "🎤";
+        sendBtn.classList.remove("active");
+        sendBtn.classList.add("record");
+
+    } else {
+        alert("🎤 تسجيل صوت (سيتم تطويره لاحقاً)");
+    }
+}
 </script>
 
 </body>
