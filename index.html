@@ -419,23 +419,7 @@ document.addEventListener("touchstart", e=>{
     isSwiping = true;
 });
 
-document.addEventListener("touchend", e=>{
-    if(!isSwiping) return;
 
-    if(document.getElementById("chatDetail").style.display === "flex") return;
-
-    let diff = startX - e.changedTouches[0].clientX;
-
-    if(Math.abs(diff) > 50){
-        if(diff > 0){
-            showPage(current + 1);
-        }else{
-            showPage(current - 1);
-        }
-    }
-
-    isSwiping = false;
-});    
 </script>
 
 </body>
