@@ -359,15 +359,16 @@ cursor:pointer;
 <div id="plusMenu" class="plus-menu" style="display:none;">
     <div onclick="document.getElementById('fileInput').click()">🖼️ استوديو</div>
 </div>
-<script>    
-    
+
+<script>
+
 function openProfile(){
     alert("الملف الشخصي");
 }
 
 function addFriend(){
     let name = prompt("أدخل اسم الصديق");
-    
+
     if(name && name.trim() !== ""){
         alert("تم إرسال طلب صداقة إلى: " + name);
     }
@@ -379,7 +380,8 @@ const pages = ["chatPage", "stories", "profilePage"];
 
 function showPage(index){
     pages.forEach((id, i)=>{
-        document.getElementById(id).style.display = (i === index) ? "block" : "none";
+        document.getElementById(id).style.display =
+        (i === index) ? "block" : "none";
     });
     current = index;
 }
@@ -414,7 +416,12 @@ function closeStories(){
     document.getElementById("stories").style.display = "none";
 }
 
-</script> 
+</script>
+ <div class="nav">
+    <div onclick="showChats()">💬<br>دردشة</div>
+    <div onclick="showStories()">👁<br>قصص</div>
+    <div onclick="openProfile()">👤<br>حسابي</div>
+</div>   
  <input type="file" id="fileInput"
 style="display:none"
 accept="image/*,video/*"
