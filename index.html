@@ -308,42 +308,39 @@ cursor:pointer;
 
 </div>
 
-<!-- CHAT DETAIL -->
 <div id="chatDetail">
+
     <div class="header">
         <button class="back-btn" onclick="closeChat()">←</button>
         <div id="chatName">محادثة</div>
     </div>
-</div>
 
-<div id="messages"></div>
+    <div id="messages"></div>
 
-<div class="input-box">
-    <button class="attach-btn">🖼️</button>
+    <div class="input-box">
+        <button class="attach-btn">🖼️</button>
+        <button class="attach-btn" onclick="toggleEmoji()">😀</button>
 
-    <button class="attach-btn" onclick="toggleEmoji()">😀</button>
+        <input
+            id="msgInput"
+            type="text"
+            placeholder="اكتب رسالة..."
+            oninput="toggleButton()">
 
-    <input
-        id="msgInput"
-        type="text"
-        placeholder="اكتب رسالة..."
-        oninput="toggleButton()"
-    >
+        <button id="sendBtn" onclick="send()">🎙️</button>
+    </div>
 
-    <button id="sendBtn" onclick="send()">🎙️</button>
-</div>
-
-<div id="emojiBox" class="emoji-box">
-    <span>😀</span>
-    <span>😂</span>
-    <span>😍</span>
-    <span>😎</span>
-    <span>😢</span>
-    <span>😡</span>
-    <span>👍</span>
-    <span>❤️</span>
-    <span>🔥</span>
-</div>
+    <div id="emojiBox" class="emoji-box">
+        <span>😀</span>
+        <span>😂</span>
+        <span>😍</span>
+        <span>😎</span>
+        <span>😢</span>
+        <span>😡</span>
+        <span>👍</span>
+        <span>❤️</span>
+        <span>🔥</span>
+    </div>
 
 </div>
 <!-- STORIES -->
