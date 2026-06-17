@@ -236,24 +236,7 @@ z-index:99999;
 <h3>الدردشات</h3>
 <button onclick="alert('إضافة صديق')" style="padding:8px 12px;border:none;background:#0084ff;color:#fff;border-radius:10px">➕</button>
 </div>
-<!-- CHAT DETAIL -->
-<div id="chatDetail">
-
-    <div class="header">
-        <button onclick="closeChat()">←</button>
-        <div id="chatName">محادثة</div>
-    </div>
-
-    <div id="messages"></div>
-
-    <div class="input-box">
-        <input id="msgInput" placeholder="اكتب رسالة...">
-        <button id="sendBtn" onclick="sendMsg()">🎤</button>
-    </div>
-
-</div>
-
-  
+    
 <div class="chat" onclick="openChat('أحمد')">
 <div class="left">
 <div class="avatar"></div>
@@ -270,6 +253,21 @@ z-index:99999;
 
 </div>
 
+<div id="chatDetail">
+
+    <div class="header">
+        <button onclick="closeChat()">←</button>
+        <div id="chatName">محادثة</div>
+    </div>
+
+    <div id="messages"></div>
+
+    <div class="input-box">
+        <input id="msgInput" placeholder="اكتب رسالة...">
+        <button id="sendBtn" onclick="sendMsg()">🎤</button>
+    </div>
+
+</div>
 <div id="stories" class="page">
     <button class="story-back" onclick="closeStories()">←</button>
 
