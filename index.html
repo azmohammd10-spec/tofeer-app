@@ -6,7 +6,7 @@
 <title>تطبيق دردشة</title>
 
 <style>
-  #sendBtn {
+#sendBtn {
     background: var(--main-color);
     color: #fff;
     border: none;
@@ -24,20 +24,27 @@
 #sendBtn:active {
     transform: scale(0.95);
 }
-  :root {
-    /* اللون الرئيسي للتطبيق */
+
+/* ================= ROOT VARIABLES ================= */
+:root {
     --main-color: #00bfff;
+    --text-color: #333;
+    --bg-color: #ffffff;
+    --border-color: #eee;
+}
+
+/* ================= DOTS ================= */
 .dot{
-width:8px;
-height:8px;
-border-radius:50%;
-background:#ccc;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#ccc;
 }
 
 .dot.active{
-background:var(--main-color);
-}
-    /* لون النص الأساسي */
+    background:var(--main-color);
+}  
+  /* لون النص الأساسي */
     --text-color: #333;
 
     /* إضافات احترافية مفيدة */
