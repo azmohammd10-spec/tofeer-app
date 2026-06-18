@@ -465,21 +465,23 @@ document.addEventListener("touchend", e => {
 
     isSwiping = false;
 });
-function updateNav(){
 
-    document.querySelectorAll(".nav-btn")
-    .forEach(btn=>btn.classList.remove("active-nav"));
+function showPage(i){
 
-    if(current === 0)
-      updateNav();  
-        document.getElementById("navChat").classList.add("active-nav");
+    if(i < 0) i = 0;
+    if(i >= pages.length) i = pages.length - 1;
 
-    if(current === 1)
-        document.getElementById("navStories").classList.add("active-nav");
+    pages.forEach((id, index)=>{
+        const el = document.getElementById(id);
+        if(el){
+            el.style.display = (index === i) ? "block" : "none";
+        }
+    });
 
-    if(current === 2)
-        document.getElementById("navProfile").classList.add("active-nav");
-}    
+    current = i;
+    updateNav();
+}
+   showPage(0);     
 </script>
 
 </body>
