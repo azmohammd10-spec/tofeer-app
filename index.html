@@ -7,29 +7,29 @@
 
 <style>
 #sendBtn{
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    border:none;
+    cursor:pointer;
 
     display:flex;
     align-items:center;
     justify-content:center;
 
-    font-size:22px;
-    color:white;
-
-    /* تدرج ChatGPT (سماوي + وردي) */
     background: linear-gradient(135deg, #00c6ff, #ff4ecd);
-
     box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-    transition: 0.25s ease;
+    transition:0.3s;
 }
+
 #sendBtn.active{
-    background: linear-gradient(135deg, #00ffcc, #007bff);
-    transform: scale(1.08);
-}    
+    background: linear-gradient(135deg, #00ff9d, #00c6ff);
+    transform: scale(1.1);
+}
+
+#sendBtn svg{
+    transition:0.3s;
+}
 
 /* أنيميشن نبض */
 @keyframes pulse {
@@ -252,12 +252,18 @@ padding:10px
         <div id="messages"></div>
 
         <div class="input-box">
-            <input id="msgInput" placeholder="اكتب رسالة...">
-            <button id="sendBtn" onclick="handleSend()">🎤</button>
-        </div>
+    <input id="msgInput" placeholder="اكتب رسالة...">
 
-    </div>
-
+    <button id="sendBtn" onclick="handleSend()">
+        <svg id="micIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
+            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"
+                  stroke="white" stroke-width="2"/>
+            <path d="M19 11a7 7 0 0 1-14 0"
+                  stroke="white" stroke-width="2"/>
+            <path d="M12 18v3"
+                  stroke="white" stroke-width="2"/>
+        </svg>
+    </button>
 </div>
 <div id="stories" class="page">
     <button class="story-back" onclick="closeStories()">←</button>
