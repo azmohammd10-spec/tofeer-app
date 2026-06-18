@@ -417,6 +417,24 @@ function showPage(i){
     });
 
     current = i;
+    function updateNav(){
+
+    document.querySelectorAll(".nav-btn").forEach(btn=>{
+        btn.classList.remove("active-nav");
+    });
+
+    if(current === 0){
+        document.getElementById("navChat").classList.add("active-nav");
+    }
+
+    if(current === 1){
+        document.getElementById("navStories").classList.add("active-nav");
+    }
+
+    if(current === 2){
+        document.getElementById("navProfile").classList.add("active-nav");
+    }
+}
 document.querySelectorAll(".nav-btn").forEach(btn=>{
     btn.classList.remove("active-nav");
 });
