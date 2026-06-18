@@ -282,11 +282,20 @@ z-index:99999;
 </div>
 <!-- NAV -->
 <div class="nav">
-<div onclick="showChats()">💬<br>دردشة</div>
-<div onclick="showStories()">👁<br>قصص</div>
-<div onclick="showProfile()">👤<br>حسابي</div>
+
+<div id="navChat" class="nav-btn active-nav" onclick="showChats()">
+💬<br>دردشة
 </div>
 
+<div id="navStories" class="nav-btn" onclick="showStories()">
+👁<br>قصص
+</div>
+
+<div id="navProfile" class="nav-btn" onclick="showProfile()">
+👤<br>حسابي
+</div>
+
+</div>
 <script>
 
 let active = null;
@@ -430,7 +439,21 @@ document.addEventListener("touchend", e => {
 
     isSwiping = false;
 });
-    
+function updateNav(){
+
+    document.querySelectorAll(".nav-btn")
+    .forEach(btn=>btn.classList.remove("active-nav"));
+
+    if(current === 0)
+      updateNav();  
+        document.getElementById("navChat").classList.add("active-nav");
+
+    if(current === 1)
+        document.getElementById("navStories").classList.add("active-nav");
+
+    if(current === 2)
+        document.getElementById("navProfile").classList.add("active-nav");
+}    
 </script>
 
 </body>
