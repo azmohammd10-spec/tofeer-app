@@ -457,15 +457,7 @@ function showPage(i){
     updateDots(i);
 }
 
-function updateDots(i){
-    document.querySelectorAll(".dot").forEach((d, index)=>{
-        d.classList.toggle("active", index === i);
-    });
-}
 
-function showChats(){ showPage(0); }
-function showStories(){ showPage(1); }
-function showProfile(){ showPage(2); }
 </script>
 
 </body>
