@@ -123,7 +123,24 @@ background:#fff;border-top:1px solid #eee;
 display:flex;justify-content:space-around;align-items:center;
 z-index:9999
 }
+.nav-btn{
+    flex:1;
+    text-align:center;
+    position:relative;
+    padding-top:8px;
+}
 
+.active-nav::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:30px;
+    height:4px;
+    border-radius:10px;
+    background:#00bfff;
+}
 /* chat page */
 #chatPage{padding:70px 12px 90px}
 .chat{
