@@ -244,27 +244,31 @@ padding:10px
     <!-- ✅ مهم: داخل chatPage -->
     <div id="chatDetail">
 
-        <div class="header">
-            <button onclick="closeChat()">←</button>
-            <div id="chatName">محادثة</div>
-        </div>
+    <div class="header">
+        <button onclick="closeChat()">←</button>
+        <div id="chatName">محادثة</div>
+    </div>
 
-        <div id="messages"></div>
+    <div id="messages"></div>
 
-        <div class="input-box">
-    <input id="msgInput" placeholder="اكتب رسالة...">
+    <div class="input-box">
+        <input id="msgInput" placeholder="اكتب رسالة...">
 
-    <button id="sendBtn" onclick="handleSend()">
-        <svg id="micIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
-            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"
-                  stroke="white" stroke-width="2"/>
-            <path d="M19 11a7 7 0 0 1-14 0"
-                  stroke="white" stroke-width="2"/>
-            <path d="M12 18v3"
-                  stroke="white" stroke-width="2"/>
-        </svg>
-    </button>
-</div>
+        <button id="sendBtn" onclick="handleSend()">
+            <svg id="micIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
+                <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"
+                      stroke="white" stroke-width="2"/>
+                <path d="M19 11a7 7 0 0 1-14 0"
+                      stroke="white" stroke-width="2"/>
+                <path d="M12 18v3"
+                      stroke="white" stroke-width="2"/>
+            </svg>
+        </button>
+    </div>
+
+</div> 
+
+<!-- القصص -->
 <div id="stories" class="page">
     <button class="story-back" onclick="closeStories()">←</button>
 
@@ -278,6 +282,7 @@ padding:10px
     </div>
 </div>
 
+<!-- الحساب -->
 <div id="profilePage" class="page" style="display:none">
     <h2 style="padding:80px 20px">حسابي</h2>
 </div>
