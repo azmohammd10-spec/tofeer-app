@@ -373,17 +373,32 @@ function handleSend(){
 /* تغيير الزر */
 document.addEventListener("input", function(e){
     if(e.target && e.target.id === "msgInput"){
+
         let btn = document.getElementById("sendBtn");
         let text = e.target.value.trim();
 
         if(text.length > 0){
-            btn.innerText = "➤";
+
             btn.classList.add("active");
             btn.classList.remove("record");
-        }else{
-            btn.innerText = "🎤";
+
+            document.getElementById("micIcon").innerHTML = `
+                <path d="M3 12h18l-7-7v14z" fill="white"/>
+            `;
+
+        } else {
+
             btn.classList.remove("active");
             btn.classList.add("record");
+
+            document.getElementById("micIcon").innerHTML = `
+                <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z"
+                      stroke="white" stroke-width="2"/>
+                <path d="M19 11a7 7 0 0 1-14 0"
+                      stroke="white" stroke-width="2"/>
+                <path d="M12 18v3"
+                      stroke="white" stroke-width="2"/>
+            `;
         }
     }
 });
