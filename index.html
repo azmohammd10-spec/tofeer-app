@@ -404,13 +404,11 @@ function handleTouchEnd(e) {
     }
 
     if (diff > 0) {
-        // سحب لليسار → الصفحة التالية
-        if (current < pages.length - 1) showPage(current + 1);
-    } else {
-        // سحب لليمين → الصفحة السابقة
-        if (current > 0) showPage(current - 1);
-    }
-    isSwiping = false;
+    // سحب لليسار → الصفحة السابقة (معكوس)
+    if (current > 0) showPage(current - 1);
+} else {
+    // سحب لليمين → الصفحة التالية (معكوس)
+    if (current < pages.length - 1) showPage(current + 1);
 }
 
 // إضافة المستمعات مع منع التمرير الافتراضي
