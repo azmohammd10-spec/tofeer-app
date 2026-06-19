@@ -353,12 +353,17 @@ body{background:#fff}
 </div>
 
 <script>
-// ===== بيانات المحادثات =====
-let active = null;
+// ============================================
+//  1️⃣ تعريف المتغيرات أولاً
+// ============================================
+let active = null;  // ← أضف هذا السطر
 let chats = JSON.parse(localStorage.getItem("chats")) || {};
+let recognition = null;
+let isRecording = false;
 
-// ===== فتح / إغلاق المحادثة =====
-// ===== 1️⃣ تعريف الدالة أولاً =====
+// ============================================
+//  2️⃣ دوال تحديث رأس المحادثة
+// ============================================
 function updateChatHeader(name) {
     document.getElementById("chatName").innerText = name;
     let avatar = "👤";
@@ -370,28 +375,23 @@ function updateChatHeader(name) {
     document.getElementById("chatStatus").innerText = statuses[Math.floor(Math.random() * statuses.length)];
 }
 
-// ===== 2️⃣ ثم استدعها في الدوال الأخرى =====
+// ============================================
+//  3️⃣ دوال فتح وإغلاق المحادثة
+// ============================================
 function openChat(name) {
     active = name;
     document.getElementById("chatDetail").style.display = "flex";
-    updateChatHeader(name); // ✅ الآن الدالة معرفة
+    updateChatHeader(name);
     if (!chats[name]) chats[name] = [];
     render();
 }
-// ===== 1️⃣ تعريف المتغيرات أولاً =====
-let active = null;
-let chats = JSON.parse(localStorage.getItem("chats")) || {};
-let recognition = null;      // ← تعريف هنا
-let isRecording = false;     // ← تعريف هنا
 
-// ===== 2️⃣ ثم الدوال التي تستخدمها =====
 function closeChat() {
     document.getElementById("chatDetail").style.display = "none";
     active = null;
-    if (recognition && recognition.listening) recognition.stop(); // ✅ الآن يعمل
+    if (recognition && recognition.listening) recognition.stop();
     document.getElementById("sendBtn").classList.remove("recording");
 }
-
 // ===== 3️⃣ دوال التسجيل =====
 function startRecording() {
     // ... تستخدم recognition و isRecording
