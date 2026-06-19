@@ -350,7 +350,7 @@ let chats = JSON.parse(localStorage.getItem("chats")) || {};
 function openChat(name) {
     active = name;
     document.getElementById("chatDetail").style.display = "flex";
-    document.getElementById("chatName").innerText = name;
+    updateChatHeader(name); // استدعاء الدالة الجديدة
     if (!chats[name]) chats[name] = [];
     render();
 }
@@ -382,12 +382,52 @@ function render() {
     let box = document.getElementById("messages");
     box.innerHTML = "";
     if (!active || !chats[active]) return;
-    chats[active].forEach(m => {
-        let d = document.createElement("div");
-        d.className = "msg";
-        d.innerHTML = m.text + "<small>" + m.time + "</small>";
-        box.appendChild(d);
+
+    // تحديد صورة المستخدم الآخر
+    let otherAvatar = "👤";
+    if (active === "أحمد") otherAvatar = "😎";
+    else if (active === "خالد") otherAvatar = "🧑‍💻";
+    else otherAvatar = "👤";
+
+    chats[active].forEach((m, index) => {
+        let wrapper = document.createElement("div");
+        wrapper.className = "msg-wrapper";
+
+        // تحديد إذا كانت مرسلة (نحن) أم مستقبلة (الطرف الآخر)
+        // نفترض أن جميع الرسائل مرسلة منا، لكن يمكنك تحسين المنطق لاحقاً
+        // هنا سنعتبر أن الرسائل التي تأتي في وقت زوجي هي من الطرف الآخر (للتجربة)
+        let isSent = (index % 2 === 0); // لتوضيح الفرق، يمكن تغيير المنطق
+        // لكن الأفضل أن نستخدم خاصية من نوع sender في كائن الرسالة
+        // سنضيف خاصية sender اختيارياً
+        if (m.sender) {
+            isSent = (m.sender === "me");
+        } else {
+            // افتراضياً: أول رسالة من الطرف الآخر، ثم نتبادل
+            isSent = (index % 2 !== 0);
+        }
+
+        if (isSent) {
+            wrapper.classList.add("sent");
+        } else {
+            wrapper.classList.add("received");
+        }
+
+        // صورة المستخدم (للرسائل المستقبلة فقط)
+        let avatarDiv = document.createElement("div");
+        avatarDiv.className = "avatar-msg";
+        avatarDiv.innerHTML = otherAvatar;
+        if (isSent) avatarDiv.style.display = "none"; // إخفاء للرسائل المرسلة
+
+        // فقاعة الرسالة
+        let bubble = document.createElement("div");
+        bubble.className = "bubble";
+        bubble.innerHTML = m.text + `<span class="time">${m.time}</span>`;
+
+        wrapper.appendChild(avatarDiv);
+        wrapper.appendChild(bubble);
+        box.appendChild(wrapper);
     });
+
     box.scrollTop = box.scrollHeight;
 }
 
