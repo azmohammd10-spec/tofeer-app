@@ -362,20 +362,19 @@ function closeStories() { showPage(0); }
 
 // بدء التطبيق
 showPage(0);
-   // ===== السحب للتنقل بين الصفحات (إصدار مُحسَّن) =====
+   // ===== السحب للتنقل بين الصفحات (معكوس للـ RTL) =====
 let startX = 0;
 let startY = 0;
 let currentX = 0;
 let isSwiping = false;
 const SWIPE_THRESHOLD = 40;
 
-// منع التمرير العمودي أثناء السحب الأفقي
 function handleTouchStart(e) {
     const touch = e.touches[0];
     startX = touch.clientX;
     startY = touch.clientY;
     currentX = startX;
-    isSwiping = false; // نعيد تعيينه
+    isSwiping = false;
 }
 
 function handleTouchMove(e) {
@@ -384,7 +383,6 @@ function handleTouchMove(e) {
     const diffX = startX - touch.clientX;
     const diffY = startY - touch.clientY;
 
-    // إذا كان السحب أفقياً بشكل واضح، نمنع التمرير العمودي
     if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
         e.preventDefault();
         isSwiping = true;
@@ -403,18 +401,20 @@ function handleTouchEnd(e) {
         return;
     }
 
+    // معكوس للاتجاه بسبب RTL
     if (diff > 0) {
-    // سحب لليسار → الصفحة السابقة (معكوس)
-    if (current > 0) showPage(current - 1);
-} else {
-    // سحب لليمين → الصفحة التالية (معكوس)
-    if (current < pages.length - 1) showPage(current + 1);
+        // سحب لليسار → الصفحة السابقة
+        if (current > 0) showPage(current - 1);
+    } else {
+        // سحب لليمين → الصفحة التالية
+        if (current < pages.length - 1) showPage(current + 1);
+    }
+    isSwiping = false;
 }
 
-// إضافة المستمعات مع منع التمرير الافتراضي
 document.addEventListener('touchstart', handleTouchStart, { passive: true });
-document.addEventListener('touchmove', handleTouchMove, { passive: false }); // مهم: false لاستخدام preventDefault
-document.addEventListener('touchend', handleTouchEnd, { passive: true }); 
+document.addEventListener('touchmove', handleTouchMove, { passive: false });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
 </script>
 </body>
 </html>
