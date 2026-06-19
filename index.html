@@ -647,6 +647,12 @@ function render() {
         box.appendChild(wrapper);
     });
 
+    // ✅ تأخير صغير لضمان التمرير إلى الأسفل
+    setTimeout(() => {
+        box.scrollTop = box.scrollHeight;
+    }, 10);
+}
+
     box.scrollTop = box.scrollHeight;
 }
 
