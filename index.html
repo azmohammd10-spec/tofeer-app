@@ -6,6 +6,77 @@
 <title>تطبيق دردشة</title>
 
 <style> 
+/* ===== زر كتم الصوت على الفيديو ===== */
+.story-item .mute-btn {
+    position: absolute;
+    bottom: 120px;
+    right: 20px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .mute-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+/* ===== زر حذف القصة ===== */
+.story-item .delete-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,0,0,0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .delete-btn:hover {
+    background: #ff0000;
+    transform: scale(1.1);
+}
+
+/* ===== زر قص الفيديو ===== */
+.story-item .edit-btn {
+    position: absolute;
+    bottom: 120px;
+    left: 20px;
+    background: rgba(108,92,231,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .edit-btn:hover {
+    background: #6c5ce7;
+    transform: scale(1.1);
+} 
  /* ===== شريط الإدخال ===== */
 .input-box {
     flex-shrink: 0;
@@ -444,10 +515,8 @@ body {
 <div id="stories" class="page">
     <button class="story-back" onclick="closeStories()">←</button>
     
-    <!-- حاوية القصص (feed) -->
-    <div id="storyFeed" class="story-feed">
-        <!-- سيتم إضافة القصص هنا بواسطة JavaScript -->
-    </div>
+    <!-- حاوية القصص -->
+    <div id="storyFeed" class="story-feed"></div>
 
     <!-- أزرار التفاعل الجانبية -->
     <div class="story-actions">
@@ -457,13 +526,31 @@ body {
         <div onclick="downloadStory()">⬇️</div>
     </div>
 
-    <!-- زر إنشاء قصة (صغير وأنيق) -->
+    <!-- زر إنشاء قصة -->
     <div class="story-create-btn">
         <button onclick="createNewStory()">
             <span>+</span>
         </button>
     </div>
-</div>  
+
+    <!-- ===== نافذة التحرير (قص الفيديو) ===== -->
+    <div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+        <div style="background:#222; border-radius:20px; padding:20px; width:90%; max-width:500px; color:#fff;">
+            <h3 style="text-align:center; margin-bottom:15px;">✂️ قص الفيديو</h3>
+            <video id="editVideo" controls style="width:100%; border-radius:10px; max-height:300px;"></video>
+            <div style="margin:15px 0;">
+                <label>🟢 بداية: <span id="startLabel">0</span> ثانية</label>
+                <input type="range" id="startRange" min="0" max="100" value="0" style="width:100%;">
+                <label>🔴 نهاية: <span id="endLabel">100</span> ثانية</label>
+                <input type="range" id="endRange" min="0" max="100" value="100" style="width:100%;">
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button onclick="saveEditedStory()" style="padding:10px 30px; background:#6c5ce7; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">💾 حفظ</button>
+                <button onclick="closeEditModal()" style="padding:10px 30px; background:#ff4d4d; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">إلغاء</button>
+            </div>
+        </div>
+    </div>
+</div>
 </style>
 </head>
 <body>
@@ -945,12 +1032,12 @@ function logout() {
 // ============================================
 //  🔟 بدء التطبيق
 // ============================================
- // ============================================
-//  إدارة القصص (مثل تيك توك)
+// ============================================
+//  إدارة القصص (مع صوت، حذف، قص)
 // ============================================
 
-// تحميل القصص من localStorage أو مصفوفة افتراضية
 let stories = JSON.parse(localStorage.getItem("stories")) || [];
+let currentEditIndex = null; // مؤشر القصة التي يتم تحريرها
 
 // دالة عرض القصص
 function renderStories() {
@@ -973,13 +1060,21 @@ function renderStories() {
         
         let mediaHTML = "";
         if (story.type === "video") {
-            mediaHTML = `<video src="${story.url}" autoplay muted loop playsinline></video>`;
+            const start = story.startTime || 0;
+            const end = story.endTime || 0;
+            mediaHTML = `
+                <video id="video-${index}" src="${story.url}" autoplay muted loop playsinline 
+                       onloadedmetadata="setupVideo(${index}, ${start}, ${end})"></video>
+                <button class="mute-btn" onclick="toggleMute(${index})">🔇</button>
+                <button class="edit-btn" onclick="openEditModal(${index})">✂️</button>
+            `;
         } else {
             mediaHTML = `<img src="${story.url}" alt="قصة">`;
         }
         
         item.innerHTML = `
             ${mediaHTML}
+            <button class="delete-btn" onclick="deleteStory(${index})">✕</button>
             <div class="story-username">${story.username || "مستخدم"}</div>
             <div class="story-time">${story.time || "الآن"}</div>
         `;
@@ -988,7 +1083,91 @@ function renderStories() {
     });
 }
 
-// دالة إضافة قصة جديدة (تفتح مستعرض الملفات)
+// إعداد الفيديو (تطبيق القص)
+function setupVideo(index, start, end) {
+    const video = document.getElementById(`video-${index}`);
+    if (!video) return;
+    video.currentTime = start;
+    video.addEventListener('timeupdate', function() {
+        if (end > 0 && video.currentTime >= end) {
+            video.pause();
+            video.currentTime = start;
+            video.play();
+        }
+    });
+}
+
+// toggle mute
+function toggleMute(index) {
+    const video = document.getElementById(`video-${index}`);
+    if (!video) return;
+    video.muted = !video.muted;
+    const btn = video.parentElement.querySelector('.mute-btn');
+    btn.textContent = video.muted ? '🔇' : '🔊';
+}
+
+// حذف قصة
+function deleteStory(index) {
+    if (confirm('هل تريد حذف هذه القصة؟')) {
+        stories.splice(index, 1);
+        localStorage.setItem('stories', JSON.stringify(stories));
+        renderStories();
+    }
+}
+
+// فتح نافذة التحرير
+function openEditModal(index) {
+    const story = stories[index];
+    if (story.type !== 'video') return alert('يمكن قص الفيديوهات فقط.');
+    currentEditIndex = index;
+    const modal = document.getElementById('editModal');
+    modal.style.display = 'flex';
+    const video = document.getElementById('editVideo');
+    video.src = story.url;
+    video.load();
+    video.onloadedmetadata = function() {
+        const duration = video.duration;
+        document.getElementById('startRange').max = duration;
+        document.getElementById('endRange').max = duration;
+        document.getElementById('startRange').value = story.startTime || 0;
+        document.getElementById('endRange').value = story.endTime || duration;
+        document.getElementById('startLabel').textContent = story.startTime || 0;
+        document.getElementById('endLabel').textContent = story.endTime || duration;
+        // معاينة التغييرات
+        video.currentTime = story.startTime || 0;
+    };
+    // تحديث المعاينة عند تغيير الشرائح
+    document.getElementById('startRange').oninput = function() {
+        const val = parseFloat(this.value);
+        document.getElementById('startLabel').textContent = val;
+        video.currentTime = val;
+    };
+    document.getElementById('endRange').oninput = function() {
+        const val = parseFloat(this.value);
+        document.getElementById('endLabel').textContent = val;
+        video.currentTime = val;
+    };
+}
+
+// حفظ التعديلات
+function saveEditedStory() {
+    if (currentEditIndex === null) return;
+    const start = parseFloat(document.getElementById('startRange').value);
+    const end = parseFloat(document.getElementById('endRange').value);
+    if (start >= end) return alert('يجب أن تكون البداية قبل النهاية.');
+    stories[currentEditIndex].startTime = start;
+    stories[currentEditIndex].endTime = end;
+    localStorage.setItem('stories', JSON.stringify(stories));
+    closeEditModal();
+    renderStories();
+}
+
+function closeEditModal() {
+    document.getElementById('editModal').style.display = 'none';
+    currentEditIndex = null;
+}
+
+// دالة إضافة قصة جديدة (مع دعم الفيديو)
 function createNewStory() {
     const input = document.createElement("input");
     input.type = "file";
@@ -1003,34 +1182,31 @@ function createNewStory() {
                 url: e.target.result,
                 type: file.type.startsWith("video") ? "video" : "image",
                 username: profile.name || "مستخدم",
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+                startTime: 0,
+                endTime: 0 // سيتم تعيينه لاحقاً عند التحميل
             };
-            stories.unshift(newStory); // إضافة في البداية
+            stories.unshift(newStory);
             localStorage.setItem("stories", JSON.stringify(stories));
             renderStories();
-            // التمرير إلى أعلى لعرض القصة الجديدة
             document.getElementById("storyFeed").scrollTop = 0;
+            // إذا كان فيديو، افتح محرر القص تلقائياً
+            if (newStory.type === 'video') {
+                setTimeout(() => openEditModal(0), 500);
+            }
         };
         reader.readAsDataURL(file);
     };
     input.click();
 }
 
-// دوال التفاعل (للتوضيح)
-function likeStory() {
-    alert("❤️ تم الإعجاب بالقصة!");
-}
-function viewStory() {
-    alert("👁️ تم مشاهدة القصة!");
-}
-function shareStory() {
-    alert("♻️ تم مشاركة القصة!");
-}
-function downloadStory() {
-    alert("⬇️ يتم تحميل القصة...");
-}
+// دوال التفاعل
+function likeStory() { alert("❤️ تم الإعجاب بالقصة!"); }
+function viewStory() { alert("👁️ تم مشاهدة القصة!"); }
+function shareStory() { alert("♻️ تم مشاركة القصة!"); }
+function downloadStory() { alert("⬇️ يتم تحميل القصة..."); }
 
-// تحميل القصص عند فتح الصفحة
+// تحميل القصص
 renderStories();
 showPage(0);
 </script>
