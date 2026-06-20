@@ -955,11 +955,25 @@ function showPage(i) {
     });
 }
 
-function showChats() { showPage(0); }
-function showStories() { showPage(1); }
-function showProfile() { showPage(2); }
-function closeStories() { showPage(0); }
+function showChats() { 
+    storyMode = false; // السماح بالسحب
+    showPage(0); 
+}
 
+function showStories() { 
+    storyMode = true;  // منع السحب أثناء القصص
+    showPage(1); 
+}
+
+function showProfile() { 
+    storyMode = false; // السماح بالسحب
+    showPage(2); 
+}
+
+function closeStories() { 
+    storyMode = false; // السماح بالسحب بعد الإغلاق
+    showPage(0); 
+}
 // ============================================
 //  8️⃣ السحب للتنقل (Swipe)
 // ============================================
@@ -968,14 +982,23 @@ let startY = 0;
 let currentX = 0;
 let isSwiping = false;
 const SWIPE_THRESHOLD = 40;
+ let storyMode = false;
+function handleTouchMove(e) {
+    if (storyMode) return; // 🚫 يمنع السحب بين الصفحات أثناء القصص
 
-function handleTouchStart(e) {
+    if (e.touches.length !== 1) return;
+
     const touch = e.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-    currentX = startX;
-    isSwiping = false;
+    const diffX = startX - touch.clientX;
+    const diffY = startY - touch.clientY;
+
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 10) {
+        e.preventDefault();
+        isSwiping = true;
+        currentX = touch.clientX;
+    }
 }
+
 
 function handleTouchMove(e) {
     if (e.touches.length !== 1) return;
