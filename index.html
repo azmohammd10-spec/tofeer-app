@@ -348,7 +348,7 @@ body {
 }
 .story-actions {
     position: absolute;
-    left: 20px;           /* من اليمين إلى اليسار */
+    left: 20px;          /* من right إلى left */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
@@ -358,7 +358,47 @@ body {
     font-size: 28px;
     z-index: 10;
 }
+/* ===== زر إنشاء قصة ===== */
+.story-create-btn {
+    position: fixed;
+    bottom: 80px;          /* فوق شريط التنقل مباشرة */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    width: 90%;
+    max-width: 320px;
+}
 
+.story-create-btn button {
+    width: 100%;
+    padding: 14px 20px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+}
+
+.story-create-btn button:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 30px rgba(108, 92, 231, 0.6);
+}
+
+.story-create-btn button:active {
+    transform: scale(0.95);
+}
+
+.story-create-btn button span {
+    font-size: 24px;
+}
 </style>
 </head>
 <body>
@@ -432,6 +472,12 @@ body {
         <div>👁️</div>
         <div>♻️</div>
         <div>⬇️</div>
+     <!-- زر إنشاء قصة (ثابت في الأسفل) -->
+<div class="story-create-btn">
+    <button onclick="createStory()">
+        <span>📸</span> إنشاء قصة
+    </button>
+</div>
     </div>
 
     <!-- زر إنشاء قصة (في الأسفل) -->
