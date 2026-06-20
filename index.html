@@ -1061,10 +1061,11 @@ function renderStories() {
         if (story.type === "video") {
             const start = story.startTime || 0;
             const end = story.endTime || 0;
+            // ✅ إزالة 'muted' من الفيديو، وإضافة زر الصوت مع حالة أولية 'غير مكتوم'
             mediaHTML = `
-                <video id="video-${index}" src="${story.url}" autoplay muted loop playsinline 
+                <video id="video-${index}" src="${story.url}" autoplay loop playsinline 
                        onloadedmetadata="setupVideo(${index}, ${start}, ${end})"></video>
-                <button class="mute-btn" onclick="toggleMute(${index})">🔇</button>
+                <button class="mute-btn" onclick="toggleMute(${index})">🔊</button>
                 <button class="edit-btn" onclick="openEditModal(${index})">✂️</button>
             `;
         } else {
@@ -1104,7 +1105,6 @@ function toggleMute(index) {
     const btn = video.parentElement.querySelector('.mute-btn');
     btn.textContent = video.muted ? '🔇' : '🔊';
 }
-
 // حذف قصة
 function deleteStory(index) {
     if (confirm('هل تريد حذف هذه القصة؟')) {
@@ -1206,7 +1206,6 @@ function shareStory() { alert("♻️ تم مشاركة القصة!"); }
 function downloadStory() { alert("⬇️ يتم تحميل القصة..."); }
 
 // تحميل القصص
-renderStories();      
 renderStories();
 showPage(0);
 </script>
