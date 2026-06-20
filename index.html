@@ -520,7 +520,7 @@ body {
     z-index: 5;
 }
 
-/* أزرار التفاعل (على اليسار) */
+/* أزرار التفاعل (منتصف اليسار) */
 .story-actions {
     position: absolute;
     left: 20px;
@@ -542,37 +542,139 @@ body {
     transform: scale(1.2);
 }
 
-/* زر إنشاء قصة */
-.story-create-btn {
+/* زر إنشاء قصة (وسط الشاشة) */
+.story-create-center {
     position: fixed;
-    bottom: 85px;
-    right: 20px;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 100;
 }
 
-.story-create-btn button {
-    width: 60px;
-    height: 60px;
+.story-create-center button {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     border: none;
     background: linear-gradient(135deg, #6c5ce7, #a29bfe);
     color: #fff;
-    font-size: 36px;
+    font-size: 30px;
     font-weight: bold;
-    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4);
+    box-shadow: 0 4px 20px rgba(108, 92, 231, 0.5);
     cursor: pointer;
+    transition: 0.3s;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
 }
-.story-create-btn button:hover {
+
+.story-create-center button:hover {
     transform: scale(1.1);
-    box-shadow: 0 6px 30px rgba(108, 92, 231, 0.6);
 }
-.story-create-btn button:active {
-    transform: scale(0.9);
+
+/* حساب المستخدم (أسفل يمين) */
+.story-user-info {
+    position: fixed;
+    bottom: 85px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(0,0,0,0.6);
+    padding: 6px 15px 6px 8px;
+    border-radius: 30px;
+    z-index: 100;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.1);
 }
+
+.story-user-info .user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #00c6ff, #ff4ecd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+}
+
+.story-user-info .user-name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+/* أزرار إضافية (كتم، حذف، قص) */
+.story-item .mute-btn {
+    position: absolute;
+    bottom: 120px;
+    right: 20px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .mute-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.1);
+}
+
+.story-item .delete-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(255,0,0,0.7);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .delete-btn:hover {
+    background: #ff0000;
+    transform: scale(1.1);
+}
+
+.story-item .edit-btn {
+    position: absolute;
+    bottom: 120px;
+    left: 20px;
+    background: rgba(108,92,231,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+.story-item .edit-btn:hover {
+    background: #6c5ce7;
+    transform: scale(1.1);
+} 
 <!-- ===== صفحة القصص ===== -->
 <div id="stories" class="page">
     <button class="story-back" onclick="closeStories()">←</button>
@@ -1107,22 +1209,22 @@ function logout() {
 // ============================================
 //  🔟 بدء التطبيق
   // ============================================
-//  إدارة القصص (مع صوت، حذف، قص)
+      // ============================================
+//  إدارة القصص (إنشاء + عرض + حذف + قص)
 // ============================================
 
 let stories = JSON.parse(localStorage.getItem("stories")) || [];
-let currentEditIndex = null; // مؤشر القصة التي يتم تحريرها
+let currentEditIndex = null;
 
-// دالة عرض القصص
+// عرض القصص
 function renderStories() {
     const feed = document.getElementById("storyFeed");
     feed.innerHTML = "";
     
     if (stories.length === 0) {
         feed.innerHTML = `
-            <div style="color:#fff;text-align:center;margin-top:50%;font-size:20px">
-                📸 لا توجد قصص حالياً<br>
-                <span style="font-size:16px;color:#aaa;">اضغط + لإضافة قصة</span>
+            <div style="color:#fff;text-align:center;margin-top:40%;font-size:20px">
+                📸 لا توجد قصص حالياً
             </div>
         `;
         return;
@@ -1133,14 +1235,21 @@ function renderStories() {
         item.className = "story-item";
         
         let mediaHTML = "";
-        if (story.type === "video") {
+        if (story.type === "text") {
+            mediaHTML = `
+                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg, #2d3436, #636e72); padding:40px;">
+                    <div style="color:#fff; font-size:32px; text-align:center; font-weight:bold; text-shadow:0 4px 20px rgba(0,0,0,0.5);">
+                        ${story.text}
+                    </div>
+                </div>
+            `;
+        } else if (story.type === "video") {
             const start = story.startTime || 0;
             const end = story.endTime || 0;
-            // ✅ إزالة 'muted' من الفيديو، وإضافة زر الصوت مع حالة أولية 'غير مكتوم'
             mediaHTML = `
                 <video id="video-${index}" src="${story.url}" autoplay loop playsinline 
                        onloadedmetadata="setupVideo(${index}, ${start}, ${end})"></video>
-                <button class="mute-btn" onclick="toggleMute(${index})">🔊</button>
+                <button class="mute-btn" onclick="toggleMute(${index})">🔇</button>
                 <button class="edit-btn" onclick="openEditModal(${index})">✂️</button>
             `;
         } else {
@@ -1158,7 +1267,7 @@ function renderStories() {
     });
 }
 
-// إعداد الفيديو (تطبيق القص)
+// إعداد الفيديو (القص)
 function setupVideo(index, start, end) {
     const video = document.getElementById(`video-${index}`);
     if (!video) return;
@@ -1172,7 +1281,7 @@ function setupVideo(index, start, end) {
     });
 }
 
-// toggle mute
+// كتم/إلغاء كتم الصوت
 function toggleMute(index) {
     const video = document.getElementById(`video-${index}`);
     if (!video) return;
@@ -1180,6 +1289,7 @@ function toggleMute(index) {
     const btn = video.parentElement.querySelector('.mute-btn');
     btn.textContent = video.muted ? '🔇' : '🔊';
 }
+
 // حذف قصة
 function deleteStory(index) {
     if (confirm('هل تريد حذف هذه القصة؟')) {
@@ -1189,7 +1299,7 @@ function deleteStory(index) {
     }
 }
 
-// فتح نافذة التحرير
+// فتح نافذة التحرير (قص الفيديو)
 function openEditModal(index) {
     const story = stories[index];
     if (story.type !== 'video') return alert('يمكن قص الفيديوهات فقط.');
@@ -1207,10 +1317,8 @@ function openEditModal(index) {
         document.getElementById('endRange').value = story.endTime || duration;
         document.getElementById('startLabel').textContent = story.startTime || 0;
         document.getElementById('endLabel').textContent = story.endTime || duration;
-        // معاينة التغييرات
         video.currentTime = story.startTime || 0;
     };
-    // تحديث المعاينة عند تغيير الشرائح
     document.getElementById('startRange').oninput = function() {
         const val = parseFloat(this.value);
         document.getElementById('startLabel').textContent = val;
@@ -1241,7 +1349,6 @@ function closeEditModal() {
     currentEditIndex = null;
 }
 
-// دالة إضافة قصة جديدة (مع دعم الفيديو)
 // فتح وإغلاق نافذة الخيارات
 function openCreateOptions() {
     document.getElementById('createOptions').style.display = 'block';
@@ -1301,7 +1408,7 @@ function createMediaStory() {
     input.click();
 }
 
-// تحديث معلومات المستخدم في صفحة القصص
+// تحديث معلومات المستخدم
 function updateStoryUserInfo() {
     const avatar = document.getElementById('storyUserAvatar');
     const name = document.getElementById('storyUserName');
@@ -1309,8 +1416,15 @@ function updateStoryUserInfo() {
     if (name) name.textContent = profile.name || 'مستخدم';
 }
 
-// استدعاء تحديث المعلومات
-updateStoryUserInfo();
+// دوال التفاعل
+function likeStory() { alert("❤️ تم الإعجاب بالقصة!"); }
+function viewStory() { alert("👁️ تم مشاهدة القصة!"); }
+function shareStory() { alert("♻️ تم مشاركة القصة!"); }
+function downloadStory() { alert("⬇️ يتم تحميل القصة..."); }
+
+// تحميل القصص وتحديث معلومات المستخدم
+renderStories();
+updateStoryUserInfo();          
 showPage(0);
 </script>
 </body>
