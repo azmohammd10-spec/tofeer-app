@@ -1520,13 +1520,22 @@
         }
 
         _setupListeners() {
-          this.fileInput.addEventListener('change', (e) => this._handleFileUpload(e.target.files));
-          this.messageInput.addEventListener('input', () => this._updateSendIcon());
-          this.messageInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') this.handleSend();
-          });
-          this.sendButton.addEventListener('click', () => this.handleSend());
-        }
+  // استخدم removeEventListener إذا كنت تخشى من تكرار الإضافة
+  this.sendButton.removeEventListener('click', this.boundHandleSend);
+  this.boundHandleSend = this.handleSend.bind(this);
+  this.sendButton.addEventListener('click', this.boundHandleSend);
+  
+  // بالنسبة لزر الإدخال (Enter)
+  this.messageInput.removeEventListener('keypress', this.boundKeypress);
+  this.boundKeypress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // منع تكرار الحدث الافتراضي
+      this.handleSend();
+    }
+  };
+  this.messageInput.addEventListener('keypress', this.boundKeypress);
+}
+
 
         async renderChatList() {
           const container = this.chatListContainer;
@@ -1824,7 +1833,9 @@
         }
 
         handleSend() {
-  if (this.isSending) return;
+  // إذا كانت العملية جارية، توقف فوراً لمنع التكرار
+  if (this.isSending) return; 
+  
   const text = this.messageInput.value.trim();
   if (text) {
     this.sendMessage(text);
@@ -1834,6 +1845,7 @@
     this.startRecording();
   }
 }
+
 
         async addFriend() {
           const name = prompt('أدخل اسم الصديق:');
