@@ -1305,11 +1305,6 @@ function openGalleryWithOptions() {
     document.getElementById('galleryModal').style.display = 'flex';
 }
 
-// إغلاق نافذة المعرض
-function closeGalleryModal() {
-    document.getElementById('galleryModal').style.display = 'none';
-}
-
 // فتح الكاميرا
 function openCamera() {
     const input = document.createElement("input");
@@ -1318,7 +1313,10 @@ function openCamera() {
     input.capture = "environment";
     input.onchange = function(event) {
         const file = event.target.files[0];
-        if (!file) return;
+        if (!file) {
+            closeGalleryModal();
+            return;
+        }
         
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -1354,7 +1352,10 @@ function openGalleryPicker() {
     input.accept = "image/*,video/*";
     input.onchange = function(event) {
         const file = event.target.files[0];
-        if (!file) return;
+        if (!file) {
+            closeGalleryModal();
+            return;
+        }
         
         const reader = new FileReader();
         reader.onload = function(e) {
@@ -1382,7 +1383,6 @@ function openGalleryPicker() {
     };
     input.click();
 }
-
 // إنشاء قصة احتفال
 function createCelebrationStory() {
     closeGalleryModal();
