@@ -1008,9 +1008,16 @@ function showProfile() {
     showPage(2); 
 }
 
-function closeStories() { 
+function closeStories() {
+    // إيقاف جميع الفيديوهات عند الخروج
+    const videos = document.querySelectorAll('#storyFeed video');
+    videos.forEach(video => {
+        video.pause();
+        video.currentTime = 0;
+    });
+    
     storyMode = false;
-    showPage(0); 
+    showPage(0);
 }
 
 // ============================================
@@ -1305,16 +1312,17 @@ function closeGalleryModal() {
 
 // فتح الكاميرا
 function openCamera() {
+    // إغلاق نافذة المعرض أولاً
+    closeGalleryModal();
+    
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*,video/*";
     input.capture = "environment";
     input.onchange = function(event) {
         const file = event.target.files[0];
-        if (!file) {
-            closeGalleryModal();
-            return;
-        }
+        if (!file) return;
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             const newStory = {
@@ -1329,7 +1337,10 @@ function openCamera() {
             localStorage.setItem("stories", JSON.stringify(stories));
             renderStories();
             document.getElementById("storyFeed").scrollTop = 0;
-            closeGalleryModal();
+            
+            // إعادة تعيين input للسماح بتحميل مرة أخرى
+            input.value = '';
+            
             if (newStory.type === 'video') {
                 setTimeout(() => openEditModal(0), 500);
             }
@@ -1361,18 +1372,18 @@ function createCelebrationStory() {
     renderStories();
     document.getElementById("storyFeed").scrollTop = 0;
 }
-
 // فتح اختيار من المعرض
 function openGalleryPicker() {
+    // إغلاق نافذة المعرض أولاً
+    closeGalleryModal();
+    
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*,video/*";
     input.onchange = function(event) {
         const file = event.target.files[0];
-        if (!file) {
-            closeGalleryModal();
-            return;
-        }
+        if (!file) return;
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             const newStory = {
@@ -1387,7 +1398,10 @@ function openGalleryPicker() {
             localStorage.setItem("stories", JSON.stringify(stories));
             renderStories();
             document.getElementById("storyFeed").scrollTop = 0;
-            closeGalleryModal();
+            
+            // إعادة تعيين input للسماح بتحميل مرة أخرى
+            input.value = '';
+            
             if (newStory.type === 'video') {
                 setTimeout(() => openEditModal(0), 500);
             }
