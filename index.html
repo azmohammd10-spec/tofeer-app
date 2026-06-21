@@ -1304,7 +1304,13 @@ function openGalleryWithOptions() {
     closeMyStories();
     document.getElementById('galleryModal').style.display = 'flex';
 }
-
+// إغلاق نافذة المعرض
+function closeGalleryModal() {
+    var modal = document.getElementById('galleryModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+}
 // فتح الكاميرا
 function openCamera() {
     const input = document.createElement("input");
@@ -1350,9 +1356,16 @@ function openGalleryPicker() {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = "image/*,video/*";
+    
+    // منع تكرار التحميل بدون اختيار ملف جديد
+    input.onclick = function() {
+        this.value = null;
+    };
+    
     input.onchange = function(event) {
         const file = event.target.files[0];
         if (!file) {
+            // إذا لم يختار ملف، يغلق النافذة ويعود
             closeGalleryModal();
             return;
         }
@@ -1367,16 +1380,46 @@ function openGalleryPicker() {
                 startTime: 0,
                 endTime: 0
             };
+            
+            // إضافة القصة إلى الأعلى
             stories.unshift(newStory);
             localStorage.setItem("stories", JSON.stringify(stories));
+            
+            // تحديث العرض
             renderStories();
             document.getElementById("storyFeed").scrollTop = 0;
             
             // إغلاق نافذة المعرض بعد التحميل
             closeGalleryModal();
             
+            // إذا كان فيديو، افتح محرر القص
             if (newStory.type === 'video') {
-                setTimeout(() => openEditModal(0), 500);
+                setTimeout(function() {
+                    openEditModal(0);
+                }, 500);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+            
+            // إضافة القصة إلى الأعلى
+            stories.unshift(newStory);
+            localStorage.setItem("stories", JSON.stringify(stories));
+            
+            // تحديث العرض
+            renderStories();
+            document.getElementById("storyFeed").scrollTop = 0;
+            
+            // إغلاق نافذة المعرض بعد التحميل
+            closeGalleryModal();
+            
+            // إذا كان فيديو، افتح محرر القص
+            if (newStory.type === 'video') {
+                setTimeout(function() {
+                    openEditModal(0);
+                }, 500);
             }
         };
         reader.readAsDataURL(file);
