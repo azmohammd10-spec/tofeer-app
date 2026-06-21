@@ -662,7 +662,69 @@ body {
         <div class="user-avatar" id="storyUserAvatar">👤</div>
         <div class="user-name" id="storyUserName">مستخدم</div>
     </div>
+<!-- ===== نافذة قصتي ===== -->
+<div id="myStoriesModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+    
+    <!-- زر الرجوع -->
+    <button onclick="closeMyStories()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">←</button>
+    
+    <!-- العنوان -->
+    <div style="color:#fff; font-size:22px; font-weight:bold; margin-top:30px; text-align:center;">
+        قصة الكوكب
+    </div>
+    
+    <!-- الأيقونة -->
+    <div style="font-size:80px; margin:30px 0 20px 0;">📸</div>
+    
+    <!-- النص -->
+    <div style="color:#888; font-size:18px; text-align:center; margin-bottom:10px;">
+        لم تنشر أي شيء بعد.
+    </div>
+    <div style="color:#888; font-size:18px; text-align:center; margin-bottom:30px;">
+        انشر قصة الآن!
+    </div>
+    
+    <!-- زر إنشاء قصة (يفتح نافذة المعرض مع الشريط العلوي) -->
+    <button onclick="openGalleryWithOptions()" style="padding:12px 30px; background:linear-gradient(135deg, #6c5ce7, #a29bfe); border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer; display:flex; align-items:center; gap:8px;">
+        <span style="font-size:20px;">➕</span> مشروع
+    </button>
+</div>
+ <!-- ===== نافذة المعرض مع الشريط العلوي ===== -->
+<div id="galleryModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#000; z-index:9999; flex-direction:column; padding:20px;">
+    
+    <!-- شريط العلوي (كاميرا، نص، احتفل، موسيقى) -->
+    <div style="display:flex; justify-content:space-around; align-items:center; padding:15px 0; border-bottom:1px solid rgba(255,255,255,0.1); margin-top:30px;">
+        <div onclick="openCamera()" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color:#fff; transition:0.3s;">
+            <span style="font-size:28px;">📷</span>
+            <span style="font-size:12px; margin-top:4px;">كاميرا</span>
+        </div>
+        <div onclick="createTextStory()" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color:#fff; transition:0.3s;">
+            <span style="font-size:28px;">📝</span>
+            <span style="font-size:12px; margin-top:4px;">نص</span>
+        </div>
+        <div onclick="createCelebrationStory()" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color:#fff; transition:0.3s;">
+            <span style="font-size:28px;">🎉</span>
+            <span style="font-size:12px; margin-top:4px;">احتفل</span>
+        </div>
+        <div onclick="createMusicStory()" style="display:flex; flex-direction:column; align-items:center; cursor:pointer; color:#fff; transition:0.3s;">
+            <span style="font-size:28px;">🎵</span>
+            <span style="font-size:12px; margin-top:4px;">موسيقى</span>
+        </div>
+    </div>
 
+    <!-- زر الرجوع -->
+    <button onclick="closeGalleryModal()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#fff; font-size:24px; cursor:pointer;">←</button>
+    
+    <!-- محتوى المعرض -->
+    <div style="flex:1; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#888;">
+        <div style="font-size:60px; margin-bottom:20px;">🖼️</div>
+        <div style="font-size:18px;">اختر صورة أو فيديو من المعرض</div>
+        <button onclick="openGalleryPicker()" style="margin-top:20px; padding:12px 30px; background:linear-gradient(135deg, #6c5ce7, #a29bfe); border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">
+            📸 اختيار من المعرض
+        </button>
+    </div>
+</div>
+ 
     <div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
         <div style="background:#222; border-radius:20px; padding:20px; width:90%; max-width:500px; color:#fff;">
             <h3 style="text-align:center; margin-bottom:15px;">✂️ قص الفيديو</h3>
@@ -1215,6 +1277,109 @@ function downloadStory() { alert("⬇️ يتم تحميل القصة..."); }
 // ============================================
 //  1️⃣2️⃣ بدء التطبيق
 // ============================================
+// ============================================
+//  المعرض مع الشريط العلوي
+// ============================================
+
+// فتح نافذة المعرض مع الخيارات
+function openGalleryWithOptions() {
+    closeMyStories();
+    document.getElementById('galleryModal').style.display = 'flex';
+}
+
+// إغلاق نافذة المعرض
+function closeGalleryModal() {
+    document.getElementById('galleryModal').style.display = 'none';
+}
+
+// فتح الكاميرا
+function openCamera() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*,video/*";
+    input.capture = "environment";
+    input.onchange = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const newStory = {
+                url: e.target.result,
+                type: file.type.startsWith("video") ? "video" : "image",
+                username: profile.name || "مستخدم",
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+                startTime: 0,
+                endTime: 0
+            };
+            stories.unshift(newStory);
+            localStorage.setItem("stories", JSON.stringify(stories));
+            renderStories();
+            document.getElementById("storyFeed").scrollTop = 0;
+            closeGalleryModal();
+            if (newStory.type === 'video') {
+                setTimeout(() => openEditModal(0), 500);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+
+// إنشاء قصة احتفال
+function createCelebrationStory() {
+    closeGalleryModal();
+    const celebrations = [
+        "🎉 حفلة رائعة!",
+        "🎂 عيد ميلاد سعيد!",
+        "🥳 سنة جديدة سعيدة!",
+        "🎊 تهانينا!",
+        "💪 إنجاز جديد!"
+    ];
+    const randomText = celebrations[Math.floor(Math.random() * celebrations.length)];
+    
+    const newStory = {
+        type: "text",
+        text: randomText,
+        username: profile.name || "مستخدم",
+        time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})
+    };
+    stories.unshift(newStory);
+    localStorage.setItem("stories", JSON.stringify(stories));
+    renderStories();
+    document.getElementById("storyFeed").scrollTop = 0;
+}
+
+// فتح اختيار من المعرض
+function openGalleryPicker() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*,video/*";
+    input.onchange = function(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const newStory = {
+                url: e.target.result,
+                type: file.type.startsWith("video") ? "video" : "image",
+                username: profile.name || "مستخدم",
+                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
+                startTime: 0,
+                endTime: 0
+            };
+            stories.unshift(newStory);
+            localStorage.setItem("stories", JSON.stringify(stories));
+            renderStories();
+            document.getElementById("storyFeed").scrollTop = 0;
+            closeGalleryModal();
+            if (newStory.type === 'video') {
+                setTimeout(() => openEditModal(0), 500);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+} 
 renderStories();
 updateStoryUserInfo();
 showPage(0);
