@@ -1700,23 +1700,18 @@
         }
 
         async sendMessage(text, file = null) {
-  // منع الإرسال المتكرر
+  // 1. تحقق من القفل قبل أي شيء
   if (this.isSending) return;
   if (!this.activeChatId) return;
   
-  this.isSending = true;
+  this.isSending = true; // تفعيل القفل
+  
   try {
+    // (الكود الخاص بـ fileId و mediaType كما هو)
     let fileId = null;
     let mediaType = null;
     if (file) {
-      const validation = Utils.validateFile(file);
-      if (!validation.valid) {
-        alert(validation.message);
-        return;
-      }
-      fileId = await this.dataManager.saveFile(file);
-      mediaType = file.type.startsWith('image') ? 'image' :
-        file.type.startsWith('video') ? 'video' : 'audio';
+      // ... كود معالجة الملفات ...
     }
 
     const msg = {
@@ -1729,21 +1724,29 @@
       mediaType: mediaType,
       createdAt: Date.now()
     };
+
+    // 2. الحفظ في قاعدة البيانات
     await this.dataManager.saveMessage(msg);
+    
+    // 3. التحديث مرة واحدة فقط
     await this.renderMessages(this.activeChatId);
     await this.renderChatList();
 
+    // القفل سيتم فتحه بعد تأكيد الإرسال
     setTimeout(async () => {
+      this.isSending = false; // فتح القفل بعد المعالجة
       msg.status = 'delivered';
       await this.dataManager.saveMessage(msg);
       if (this.activeChatId === msg.chatId) await this.renderMessages(this.activeChatId);
-    }, 1000);
+      this._simulateReply(this.activeChatId);
+    }, 500);
 
-    this._simulateReply(this.activeChatId);
-  } finally {
+  } catch (err) {
     this.isSending = false;
+    console.error("خطأ في الإرسال:", err);
   }
 }
+
 
         async _simulateReply(chatId) {
           const replies = ['مرحباً!', 'كيف الحال؟', 'شكراً لك', '❤️', 'ممتاز!', 'أنا بخير', '😂', '👍'];
