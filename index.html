@@ -1406,44 +1406,7 @@ function createCelebrationStory() {
     renderStories();
     document.getElementById("storyFeed").scrollTop = 0;
 }
-// فتح اختيار من المعرض
-function openGalleryPicker() {
-    // إغلاق نافذة المعرض أولاً
-    closeGalleryModal();
-    
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*,video/*";
-    input.onchange = function(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const newStory = {
-                url: e.target.result,
-                type: file.type.startsWith("video") ? "video" : "image",
-                username: profile.name || "مستخدم",
-                time: new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}),
-                startTime: 0,
-                endTime: 0
-            };
-            stories.unshift(newStory);
-            localStorage.setItem("stories", JSON.stringify(stories));
-            renderStories();
-            document.getElementById("storyFeed").scrollTop = 0;
-            
-            // إعادة تعيين input للسماح بتحميل مرة أخرى
-            input.value = '';
-            
-            if (newStory.type === 'video') {
-                setTimeout(() => openEditModal(0), 500);
-            }
-        };
-        reader.readAsDataURL(file);
-    };
-    input.click();
-}
+ 
 renderStories();
 updateStoryUserInfo();
 showPage(0);
