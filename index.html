@@ -588,110 +588,99 @@ body {
 
 <div id="app">
 <!-- ===== صفحة الدردشات ===== -->
-<div id="chatPage" class="page">
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid #eee">
-        <h3>الدردشات</h3>
-        <button onclick="alert('إضافة صديق')" style="padding:8px 14px;border:none;background:#0084ff;color:#fff;border-radius:20px">➕</button>
-    </div>
-
-    <div class="chat" onclick="openChat('أحمد')">
-        <div class="left">
-            <div class="avatar"></div>
-            <div>
-                <div class="name">أحمد</div>
-                <div class="msg">مرحباً 👋</div>
-            </div>
+<div id="app">
+    <!-- ===== صفحة الدردشات ===== -->
+    <div id="chatPage" class="page">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:15px 20px;border-bottom:1px solid #eee">
+            <h3>الدردشات</h3>
+            <button onclick="alert('إضافة صديق')" style="padding:8px 14px;border:none;background:#0084ff;color:#fff;border-radius:20px">➕</button>
         </div>
-    </div>
 
-    <div class="chat" onclick="openChat('خالد')">
-        <div class="left">
-            <div class="avatar"></div>
-            <div>
-                <div class="name">خالد</div>
-                <div class="msg">كيف حالك؟</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ===== نافذة المحادثة ===== -->
-    <div id="chatDetail">
-        <div class="header">
-            <button onclick="closeChat()">←</button>
-            <div class="chat-user-info">
-                <div class="avatar-sm" id="chatAvatar">👤</div>
+        <div class="chat" onclick="openChat('أحمد')">
+            <div class="left">
+                <div class="avatar"></div>
                 <div>
-                    <div class="user-name" id="chatName">محادثة</div>
-                    <div class="user-status" id="chatStatus">متصل الآن</div>
+                    <div class="name">أحمد</div>
+                    <div class="msg">مرحباً 👋</div>
                 </div>
             </div>
         </div>
-        <div id="messages"></div>
-        <div class="input-box">
-            <input id="msgInput" placeholder="اكتب رسالة...">
-            <button id="sendBtn" onclick="handleButtonClick()">
-                <svg id="micIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
-                    <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" stroke="white" stroke-width="2"/>
-                    <path d="M19 11a7 7 0 0 1-14 0" stroke="white" stroke-width="2"/>
-                    <path d="M12 18v3" stroke="white" stroke-width="2"/>
-                </svg>
-            </button>
+
+        <div class="chat" onclick="openChat('خالد')">
+            <div class="left">
+                <div class="avatar"></div>
+                <div>
+                    <div class="name">خالد</div>
+                    <div class="msg">كيف حالك؟</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== نافذة المحادثة ===== -->
+        <div id="chatDetail">
+            <div class="header">
+                <button onclick="closeChat()">←</button>
+                <div class="chat-user-info">
+                    <div class="avatar-sm" id="chatAvatar">👤</div>
+                    <div>
+                        <div class="user-name" id="chatName">محادثة</div>
+                        <div class="user-status" id="chatStatus">متصل الآن</div>
+                    </div>
+                </div>
+            </div>
+            <div id="messages"></div>
+            <div class="input-box">
+                <input id="msgInput" placeholder="اكتب رسالة...">
+                <button id="sendBtn" onclick="handleButtonClick()">
+                    <svg id="micIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
+                        <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" stroke="white" stroke-width="2"/>
+                        <path d="M19 11a7 7 0 0 1-14 0" stroke="white" stroke-width="2"/>
+                        <path d="M12 18v3" stroke="white" stroke-width="2"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
-</div>
+
     <!-- ===== صفحة القصص ===== -->
-<div id="stories" class="page">
-    <button class="story-back" onclick="closeStories()">←</button>
-    <div id="storyFeed" class="story-feed"></div>
-    <div class="story-actions">
-        <div onclick="likeStory()">❤️</div>
-        <div onclick="viewStory()">👁️</div>
-        <div onclick="shareStory()">♻️</div>
-        <div onclick="downloadStory()">⬇️</div>
-    </div>
-    <div class="story-user-info">
-        <div class="user-avatar" id="storyUserAvatar">👤</div>
-        <div class="user-name" id="storyUserName">مستخدم</div>
-    </div>
-    <div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-        <div style="background:#222; border-radius:20px; padding:20px; width:90%; max-width:500px; color:#fff;">
-            <h3 style="text-align:center; margin-bottom:15px;">✂️ قص الفيديو</h3>
-            <video id="editVideo" controls style="width:100%; border-radius:10px; max-height:300px;"></video>
-            <div style="margin:15px 0;">
-                <label>🟢 بداية: <span id="startLabel">0</span> ثانية</label>
-                <input type="range" id="startRange" min="0" max="100" value="0" style="width:100%;">
-                <label>🔴 نهاية: <span id="endLabel">100</span> ثانية</label>
-                <input type="range" id="endRange" min="0" max="100" value="100" style="width:100%;">
-            </div>
-            <div style="display:flex; gap:10px; justify-content:center;">
-                <button onclick="saveEditedStory()" style="padding:10px 30px; background:#6c5ce7; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">💾 حفظ</button>
-                <button onclick="closeEditModal()" style="padding:10px 30px; background:#ff4d4d; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">إلغاء</button>
+    <div id="stories" class="page">
+        <button class="story-back" onclick="closeStories()">←</button>
+        <div id="storyFeed" class="story-feed"></div>
+        <div class="story-actions">
+            <div onclick="likeStory()">❤️</div>
+            <div onclick="viewStory()">👁️</div>
+            <div onclick="shareStory()">♻️</div>
+            <div onclick="downloadStory()">⬇️</div>
+        </div>
+        <div class="story-user-info">
+            <div class="user-avatar" id="storyUserAvatar">👤</div>
+            <div class="user-name" id="storyUserName">مستخدم</div>
+        </div>
+        <div id="editModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:9999; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
+            <div style="background:#222; border-radius:20px; padding:20px; width:90%; max-width:500px; color:#fff;">
+                <h3 style="text-align:center; margin-bottom:15px;">✂️ قص الفيديو</h3>
+                <video id="editVideo" controls style="width:100%; border-radius:10px; max-height:300px;"></video>
+                <div style="margin:15px 0;">
+                    <label>🟢 بداية: <span id="startLabel">0</span> ثانية</label>
+                    <input type="range" id="startRange" min="0" max="100" value="0" style="width:100%;">
+                    <label>🔴 نهاية: <span id="endLabel">100</span> ثانية</label>
+                    <input type="range" id="endRange" min="0" max="100" value="100" style="width:100%;">
+                </div>
+                <div style="display:flex; gap:10px; justify-content:center;">
+                    <button onclick="saveEditedStory()" style="padding:10px 30px; background:#6c5ce7; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">💾 حفظ</button>
+                    <button onclick="closeEditModal()" style="padding:10px 30px; background:#ff4d4d; border:none; border-radius:25px; color:#fff; font-size:16px; cursor:pointer;">إلغاء</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-    <div class="story-user-info">
-    
+
     <!-- ===== صفحة الحساب ===== -->
     <div id="profilePage" class="page">
         <div style="padding:30px 20px; text-align:center;">
-            <div id="avatarPreview" style="
-                width:100px; height:100px; border-radius:50%; 
-                background:linear-gradient(135deg,#00c6ff,#ff4ecd);
-                margin:0 auto 15px; display:flex; align-items:center; justify-content:center;
-                font-size:50px; color:#fff; box-shadow:0 4px 20px rgba(0,0,0,0.2);
-                cursor:pointer; transition:0.3s;
-            " onclick="changeAvatar()">👤</div>
-
+            <div id="avatarPreview" style="width:100px; height:100px; border-radius:50%; background:linear-gradient(135deg,#00c6ff,#ff4ecd); margin:0 auto 15px; display:flex; align-items:center; justify-content:center; font-size:50px; color:#fff; box-shadow:0 4px 20px rgba(0,0,0,0.2); cursor:pointer; transition:0.3s;" onclick="changeAvatar()">👤</div>
             <div style="font-size:22px; font-weight:bold;" id="profileName">مستخدم</div>
             <div style="color:#888; margin:5px 0 20px;" id="profileStatus">متصل الآن</div>
-
-            <button onclick="editProfile()" style="
-                padding:10px 30px; border:none; border-radius:25px;
-                background:#0084ff; color:#fff; font-size:16px; cursor:pointer;
-                margin-bottom:20px;
-            ">✏️ تعديل الملف</button>
-
+            <button onclick="editProfile()" style="padding:10px 30px; border:none; border-radius:25px; background:#0084ff; color:#fff; font-size:16px; cursor:pointer; margin-bottom:20px;">✏️ تعديل الملف</button>
             <div style="background:#f5f5f5; border-radius:12px; padding:15px; text-align:right; max-width:350px; margin:0 auto;">
                 <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee;">
                     <span>📱 رقم الهاتف</span>
@@ -702,11 +691,7 @@ body {
                     <span id="profileEmail">user@example.com</span>
                 </div>
             </div>
-
-            <button onclick="logout()" style="
-                margin-top:30px; padding:10px 30px; border:none; border-radius:25px;
-                background:#ff4d4d; color:#fff; font-size:16px; cursor:pointer;
-            ">🚪 تسجيل الخروج</button>
+            <button onclick="logout()" style="margin-top:30px; padding:10px 30px; border:none; border-radius:25px; background:#ff4d4d; color:#fff; font-size:16px; cursor:pointer;">🚪 تسجيل الخروج</button>
         </div>
     </div>
 
@@ -1209,7 +1194,12 @@ function closeEditModal() {
     document.getElementById('editModal').style.display = 'none';
     currentEditIndex = null;
 }
-
+function updateStoryUserInfo() {
+    const avatar = document.getElementById('storyUserAvatar');
+    const name = document.getElementById('storyUserName');
+    if (avatar) avatar.textContent = profile.avatar || '👤';
+    if (name) name.textContent = profile.name || 'مستخدم';
+}
 
 function likeStory() { alert("❤️ تم الإعجاب بالقصة!"); }
 function viewStory() { alert("👁️ تم مشاهدة القصة!"); }
