@@ -50,15 +50,16 @@
   </style>
 </head>
 <body>
+<div id="chatBox" style="display:none; width:300px; margin:auto;">
+  <h3>💬 الدردشة</h3>
 
-<div class="box" id="login">
-  <h2>تسجيل الدخول</h2>
-  <input type="email" id="email" placeholder="البريد الإلكتروني">
-  <input type="password" id="password" placeholder="كلمة المرور">
-  <button onclick="login()">دخول</button>
-  <button onclick="register()">إنشاء حساب</button>
+  <div id="messages" style="height:300px; overflow-y:auto; background:#eee; padding:10px; border-radius:10px;"></div>
+
+  <input type="text" id="msg" placeholder="اكتب رسالة..." style="width:80%; padding:10px;">
+  <button onclick="sendMessage()">إرسال</button>
 </div>
 
+<button onclick="openChat()">فتح الدردشة</button>
 <div class="box" id="home">
   <h2>مرحبًا 👋</h2>
   <p id="userInfo"></p>
@@ -66,6 +67,24 @@
 </div>
 
 <script type="module">
+  import { collection, addDoc, onSnapshot, query, orderBy, serverTimestamp } 
+from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+  window.openChat = function(){
+  document.getElementById("chatBox").style.display = "block";
+}
+  window.sendMessage = async function(){
+  let text = document.getElementById("msg").value;
+
+  if(text.trim() === "") return;
+
+  await addDoc(collection(db, "messages"), {
+    text: text,
+    user: auth.currentUser.email,
+    time: serverTimestamp()
+  });
+
+  document.getElementById("msg").value = "";
+}
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
   import {
     getAuth,
@@ -134,18 +153,38 @@ const analytics = getAnalytics(app);
     signOut(auth);
   }
 
-  // حالة المستخدم
-  onAuthStateChanged(auth, (user)=>{
-    if(user){
-      document.getElementById("login").style.display="none";
-      document.getElementById("home").style.display="block";
-      document.getElementById("userInfo").innerText = user.email;
-    }else{
-      document.getElementById("login").style.display="block";
-      document.getElementById("home").style.display="none";
-    }
+import { getFirestore, doc, setDoc, getDoc } 
+from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+// قاعدة البيانات
+const db = getFirestore(app);
+
+// حالة المستخدم
+onAuthStateChanged(auth, (user)=>{ 
+  if(user){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("home").style.display = "block";
+    document.getElementById("userInfo").innerText = user.email;
+  }else{
+    document.getElementById("login").style.display = "block";
+    document.getElementById("home").style.display = "none";
+  }
+});
+  const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot)=>{
+  let messagesDiv = document.getElementById("messages");
+  messagesDiv.innerHTML = "";
+
+  snapshot.forEach((doc)=>{
+    let msg = doc.data();
+    messagesDiv.innerHTML += `
+      <p><b>${msg.user}:</b> ${msg.text}</p>
+    `;
   });
 
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
 </script>
 
 </body>
