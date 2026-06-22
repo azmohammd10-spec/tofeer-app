@@ -213,7 +213,32 @@ onSnapshot(q, (snapshot)=>{
 
     let name = msg.user ? msg.user.split("@")[0] : "user";
 
-   messagesDiv.innerHTML += `
+   const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot)=>{
+  let messagesDiv = document.getElementById("messages");
+  messagesDiv.innerHTML = "";
+
+  snapshot.forEach((doc)=>{
+    let msg = doc.data();
+
+    let isMe = auth.currentUser && msg.user === auth.currentUser.email;
+
+    let name = msg.user ? msg.user.split("@")[0] : "user";
+const q = query(collection(db, "messages"), orderBy("time"));
+
+onSnapshot(q, (snapshot)=>{
+  let messagesDiv = document.getElementById("messages");
+  messagesDiv.innerHTML = "";
+
+  snapshot.forEach((doc)=>{
+    let msg = doc.data();
+
+    let isMe = auth.currentUser && msg.user === auth.currentUser.email;
+
+    let name = msg.user ? msg.user.split("@")[0] : "user";
+
+    messagesDiv.innerHTML += `
 <div style="
   display:flex;
   justify-content:${isMe ? 'flex-end' : 'flex-start'};
@@ -237,6 +262,8 @@ onSnapshot(q, (snapshot)=>{
   </div>
 </div>
 `;
-});
+  });
 
-messagesDiv.scrollTop = messagesDiv.scrollHeight; 
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+});
+    
