@@ -6,6 +6,91 @@
   <title>💬 الدردشة</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
   <style>
+    /* ===== حاوية الصفحات ===== */
+#pages {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.page {
+  display: none;
+  flex: 1;
+  flex-direction: column;
+  overflow-y: auto;
+  background: var(--bg-app);
+  padding-bottom: 70px; /* مساحة للشريط السفلي */
+}
+.page.active {
+  display: flex;
+}
+
+/* ===== شريط التنقل السفلي ===== */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: var(--bg-header);
+  border-top: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+}
+
+.nav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 12px;
+  cursor: pointer;
+  padding: 6px 0;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-btn .nav-icon {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.nav-btn .nav-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.nav-btn.active {
+  color: var(--primary);
+}
+
+.nav-btn.active::after {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 3px;
+  border-radius: 10px;
+  background: var(--primary);
+}
+
+.nav-btn:hover {
+  color: var(--primary);
+}
     * {
       margin: 0;
       padding: 0;
@@ -325,47 +410,49 @@
 </head>
 <body>
 <div id="app">
-
-  <!-- رأس التطبيق -->
-  <div class="app-header">
-    <h2>💬 الدردشات</h2>
-    <button class="add-friend-btn" onclick="addFriend()">➕ صديق</button>
+<!-- ===== حاوية الصفحات ===== -->
+<div id="pages">
+  <!-- صفحة الدردشات (موجودة بالفعل) -->
+  <div id="pageChat" class="page active">
+    <!-- هنا ضع كود الدردشة الذي لديك -->
+    <div class="app-header">...</div>
+    <div id="chatList">...</div>
+    <!-- باقي عناصر الدردشة -->
   </div>
 
-  <!-- قائمة الدردشات -->
-  <div id="chatList"></div>
+  <!-- صفحة القصص (فارغة حالياً) -->
+  <div id="pageStories" class="page">
+    <div style="padding:40px;text-align:center;font-size:24px;color:var(--text-light);">
+      📸 صفحة القصص<br>
+      <span style="font-size:16px;">سيتم إضافتها قريباً</span>
+    </div>
+  </div>
 
-  <!-- نافذة المحادثة -->
-  <div id="chatModal">
-    <div class="modal-header">
-      <button class="back-btn" onclick="closeChat()">←</button>
-      <div class="chat-user-info">
-        <div class="avatar-sm" id="chatAvatar">👤</div>
-        <div>
-          <div class="user-name" id="chatName">محادثة</div>
-          <div class="user-status" id="chatStatus">متصل الآن</div>
-        </div>
-      </div>
+  <!-- صفحة الملف الشخصي (فارغة حالياً) -->
+  <div id="pageProfile" class="page">
+    <div style="padding:40px;text-align:center;font-size:24px;color:var(--text-light);">
+      👤 صفحة الحساب<br>
+      <span style="font-size:16px;">سيتم إضافتها قريباً</span>
     </div>
-    <div id="messages"></div>
-    <div class="input-box">
-      <input id="messageInput" placeholder="اكتب رسالة..." autocomplete="off">
-      <div class="input-actions">
-        <button class="file-btn" onclick="document.getElementById('fileInput').click()">📎</button>
-        <input type="file" id="fileInput" accept="image/*,video/*,audio/*" style="display:none" multiple>
-        <button class="emoji-btn" onclick="toggleEmojiPicker()">😊</button>
-        <button id="sendButton">
-          <svg id="sendIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
-            <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" stroke="white" stroke-width="2"/>
-            <path d="M19 11a7 7 0 0 1-14 0" stroke="white" stroke-width="2"/>
-            <path d="M12 18v3" stroke="white" stroke-width="2"/>
-          </svg>
-        </button>
-      </div>
-    </div>
-    <div id="emojiPicker"></div>
   </div>
 </div>
+
+<!-- ===== شريط التنقل السفلي ===== -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-page="pageChat" onclick="switchPage('pageChat')">
+    <span class="nav-icon">💬</span>
+    <span class="nav-label">دردشة</span>
+  </button>
+  <button class="nav-btn" data-page="pageStories" onclick="switchPage('pageStories')">
+    <span class="nav-icon">👁️</span>
+    <span class="nav-label">قصص</span>
+  </button>
+  <button class="nav-btn" data-page="pageProfile" onclick="switchPage('pageProfile')">
+    <span class="nav-icon">👤</span>
+    <span class="nav-label">حسابي</span>
+  </button>
+</nav>
+
 
 <script>
   (function() {
@@ -881,6 +968,34 @@
 
     console.log('💬 نظام الدردشة جاهز!');
   })();
+  // ===== دوال التنقل بين الصفحات =====
+function switchPage(pageId) {
+  // إخفاء جميع الصفحات
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // إظهار الصفحة المطلوبة
+  const target = document.getElementById(pageId);
+  if (target) target.classList.add('active');
+
+  // تحديث حالة الأزرار
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.page === pageId) {
+      btn.classList.add('active');
+    }
+  });
+}
+
+// (اختياري) جعل الصفحة الافتراضية هي الدردشة
+document.addEventListener('DOMContentLoaded', function() {
+  // إذا كانت صفحة الدردشة هي النشطة افتراضياً، تأكد من تفعيل الزر
+  const activePage = document.querySelector('.page.active');
+  if (activePage) {
+    const id = activePage.id;
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.page === id);
+    });
+  }
+});
 </script>
 </body>
 </html>
