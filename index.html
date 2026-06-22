@@ -6,91 +6,7 @@
   <title>💬 الدردشة</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
   <style>
-    /* ===== حاوية الصفحات ===== */
-#pages {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  position: relative;
-}
-
-.page {
-  display: none;
-  flex: 1;
-  flex-direction: column;
-  overflow-y: auto;
-  background: var(--bg-app);
-  padding-bottom: 70px; /* مساحة للشريط السفلي */
-}
-.page.active {
-  display: flex;
-}
-
-/* ===== شريط التنقل السفلي ===== */
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 65px;
-  background: var(--bg-header);
-  border-top: 1px solid rgba(0,0,0,0.05);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 9999;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-}
-
-.nav-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 2px;
-  background: none;
-  border: none;
-  color: var(--text-secondary);
-  font-size: 12px;
-  cursor: pointer;
-  padding: 6px 0;
-  transition: color 0.3s ease;
-  position: relative;
-}
-
-.nav-btn .nav-icon {
-  font-size: 24px;
-  line-height: 1;
-}
-
-.nav-btn .nav-label {
-  font-size: 11px;
-  font-weight: 500;
-}
-
-.nav-btn.active {
-  color: var(--primary);
-}
-
-.nav-btn.active::after {
-  content: "";
-  position: absolute;
-  top: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 30px;
-  height: 3px;
-  border-radius: 10px;
-  background: var(--primary);
-}
-
-.nav-btn:hover {
-  color: var(--primary);
-}
+    /* ===== الأنماط العامة ===== */
     * {
       margin: 0;
       padding: 0;
@@ -106,9 +22,11 @@
       --bubble-sent: linear-gradient(135deg, #dcf8c6, #b9e8a0);
       --bubble-received: #ffffff;
       --text-primary: #1a1a2e;
+      --text-secondary: #555;
       --text-light: #888;
       --shadow: 0 2px 12px rgba(0,0,0,0.08);
       --radius: 25px;
+      --nav-height: 65px;
     }
     body {
       background: var(--bg-app);
@@ -116,12 +34,28 @@
       height: 100dvh;
       overflow: hidden;
     }
-    #app {
+
+    /* ===== حاوية الصفحات ===== */
+    #pages {
       height: 100dvh;
       display: flex;
       flex-direction: column;
+      overflow: hidden;
+      position: relative;
     }
-    /* رأس التطبيق */
+    .page {
+      display: none;
+      flex: 1;
+      flex-direction: column;
+      overflow-y: auto;
+      background: var(--bg-app);
+      padding-bottom: calc(var(--nav-height) + 10px);
+    }
+    .page.active {
+      display: flex;
+    }
+
+    /* ===== رأس التطبيق (مشترك) ===== */
     .app-header {
       background: var(--bg-header);
       padding: 12px 20px;
@@ -130,6 +64,8 @@
       align-items: center;
       border-bottom: 1px solid rgba(0,0,0,0.05);
       flex-shrink: 0;
+      box-shadow: var(--shadow);
+      z-index: 10;
     }
     .app-header h2 { font-size: 20px; }
     .add-friend-btn {
@@ -140,8 +76,11 @@
       border-radius: 20px;
       font-size: 14px;
       cursor: pointer;
+      transition: 0.2s;
     }
-    /* قائمة الدردشات */
+    .add-friend-btn:hover { transform: scale(1.05); }
+
+    /* ===== قائمة الدردشات ===== */
     #chatList {
       flex: 1;
       overflow-y: auto;
@@ -187,7 +126,7 @@
     }
     .chat-item .time { font-size: 11px; color: var(--text-light); }
 
-    /* نافذة المحادثة */
+    /* ===== نافذة المحادثة ===== */
     #chatModal {
       display: none;
       position: fixed;
@@ -309,7 +248,7 @@
       to { opacity: 1; transform: scale(1); }
     }
 
-    /* شريط الإدخال */
+    /* ===== شريط الإدخال ===== */
     .input-box {
       background: var(--bg-header);
       padding: 10px 16px;
@@ -377,7 +316,7 @@
     }
     .file-btn:hover, .emoji-btn:hover { transform: scale(1.1) !important; }
 
-    /* لوحة الإيموجي */
+    /* ===== لوحة الإيموجي ===== */
     #emojiPicker {
       display: none;
       background: var(--bg-header);
@@ -402,6 +341,73 @@
       transform: scale(1.2);
     }
 
+    /* ===== صفحات القصص والحساب (مؤقت) ===== */
+    .empty-page {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: var(--text-light);
+      font-size: 24px;
+      text-align: center;
+      padding: 40px;
+    }
+    .empty-page span {
+      font-size: 16px;
+      margin-top: 8px;
+    }
+
+    /* ===== شريط التنقل السفلي ===== */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: var(--nav-height);
+      background: var(--bg-header);
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 9999;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    }
+    .nav-btn {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 6px 0;
+      transition: color 0.3s ease;
+      position: relative;
+    }
+    .nav-btn .nav-icon { font-size: 24px; line-height: 1; }
+    .nav-btn .nav-label { font-size: 11px; font-weight: 500; }
+    .nav-btn.active { color: var(--primary); }
+    .nav-btn.active::after {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30px;
+      height: 3px;
+      border-radius: 10px;
+      background: var(--primary);
+    }
+    .nav-btn:hover { color: var(--primary); }
+
+    /* ===== استجابة ===== */
     @media (max-width: 480px) {
       .bubble { font-size: 14px; padding: 8px 12px; }
       #emojiPicker span { font-size: 24px; }
@@ -409,31 +415,76 @@
   </style>
 </head>
 <body>
-<!-- ===== حاوية الصفحات ===== -->
+
+<!-- ========================================================== -->
+<!--  حاوية الصفحات (ثلاث صفحات)                               -->
+<!-- ========================================================== -->
 <div id="pages">
-  <!-- صفحة الدردشات (موجودة بالفعل) -->
+
+  <!-- ===== صفحة الدردشات ===== -->
   <div id="pageChat" class="page active">
-    <!-- هنا ضع كود الدردشة الذي لديك -->
-    <div class="app-header">...</div>
-    <div id="chatList">...</div>
-    <!-- باقي عناصر الدردشة -->
+    <!-- رأس الصفحة -->
+    <div class="app-header">
+      <h2>💬 الدردشات</h2>
+      <button class="add-friend-btn" onclick="addFriend()">➕ صديق</button>
+    </div>
+    <!-- قائمة الدردشات -->
+    <div id="chatList"></div>
   </div>
 
-  <!-- صفحة القصص (فارغة حالياً) -->
+  <!-- ===== صفحة القصص ===== -->
   <div id="pageStories" class="page">
-    <div style="padding:40px;text-align:center;font-size:24px;color:var(--text-light);">
-      📸 صفحة القصص<br>
-      <span style="font-size:16px;">سيتم إضافتها قريباً</span>
+    <div class="app-header">
+      <h2>👁️ القصص</h2>
+    </div>
+    <div class="empty-page">
+      📸 لا توجد قصص حالياً<br>
+      <span>سيتم إضافتها قريباً</span>
     </div>
   </div>
 
-  <!-- صفحة الملف الشخصي (فارغة حالياً) -->
+  <!-- ===== صفحة الملف الشخصي ===== -->
   <div id="pageProfile" class="page">
-    <div style="padding:40px;text-align:center;font-size:24px;color:var(--text-light);">
-      👤 صفحة الحساب<br>
-      <span style="font-size:16px;">سيتم إضافتها قريباً</span>
+    <div class="app-header">
+      <h2>👤 حسابي</h2>
+    </div>
+    <div class="empty-page">
+      👤 الملف الشخصي<br>
+      <span>سيتم إضافته قريباً</span>
     </div>
   </div>
+
+</div>
+
+<!-- ===== نافذة المحادثة (منبثقة فوق كل الصفحات) ===== -->
+<div id="chatModal">
+  <div class="modal-header">
+    <button class="back-btn" onclick="closeChat()">←</button>
+    <div class="chat-user-info">
+      <div class="avatar-sm" id="chatAvatar">👤</div>
+      <div>
+        <div class="user-name" id="chatName">محادثة</div>
+        <div class="user-status" id="chatStatus">متصل الآن</div>
+      </div>
+    </div>
+  </div>
+  <div id="messages"></div>
+  <div class="input-box">
+    <input id="messageInput" placeholder="اكتب رسالة..." autocomplete="off">
+    <div class="input-actions">
+      <button class="file-btn" onclick="document.getElementById('fileInput').click()" aria-label="رفع ملف">📎</button>
+      <input type="file" id="fileInput" accept="image/*,video/*,audio/*" style="display:none" multiple>
+      <button class="emoji-btn" onclick="toggleEmojiPicker()" aria-label="إدراج إيموجي">😊</button>
+      <button id="sendButton">
+        <svg id="sendIcon" viewBox="0 0 24 24" width="22" height="22" fill="none">
+          <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v5a3 3 0 0 0 3 3Z" stroke="white" stroke-width="2"/>
+          <path d="M19 11a7 7 0 0 1-14 0" stroke="white" stroke-width="2"/>
+          <path d="M12 18v3" stroke="white" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div id="emojiPicker"></div>
 </div>
 
 <!-- ===== شريط التنقل السفلي ===== -->
@@ -451,7 +502,6 @@
     <span class="nav-label">حسابي</span>
   </button>
 </nav>
-
 
 <script>
   (function() {
@@ -653,10 +703,6 @@
         textSpan.textContent = m.text || '';
         bubble.appendChild(textSpan);
 
-        if (m.fileId) {
-          // الملفات مخزنة محلياً في localStorage كـ base64 (تبسيطاً)
-          // هنا نعرضها مباشرة من m.media إن وجدت
-        }
         if (m.media) {
           if (m.mediaType === 'image') {
             const img = document.createElement('img');
@@ -730,8 +776,7 @@
             status: 'sent',
             createdAt: Date.now(),
             media: media,
-            mediaType: mediaType,
-            fileId: media ? Utils.generateId() : null
+            mediaType: mediaType
           };
           chats[activeChat].push(msg);
           Storage.saveChats(chats);
@@ -956,45 +1001,29 @@
     window.closeChat = closeChat;
     window.handleSend = handleSend;
     window.toggleEmojiPicker = toggleEmojiPicker;
-    window.renderEmojis = renderEmojis;
 
     // ============================================================
-    //  16. بدء التطبيق
+    //  16. دوال التنقل بين الصفحات
+    // ============================================================
+    window.switchPage = function(pageId) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const target = document.getElementById(pageId);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.page === pageId) {
+          btn.classList.add('active');
+        }
+      });
+    };
+
+    // ============================================================
+    //  17. بدء التطبيق
     // ============================================================
     renderChatList();
-    // اختيار أول محادثة افتراضية (اختياري)
-    // openChat(defaultChats[0]);
-
     console.log('💬 نظام الدردشة جاهز!');
   })();
-  // ===== دوال التنقل بين الصفحات =====
-function switchPage(pageId) {
-  // إخفاء جميع الصفحات
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  // إظهار الصفحة المطلوبة
-  const target = document.getElementById(pageId);
-  if (target) target.classList.add('active');
-
-  // تحديث حالة الأزرار
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.page === pageId) {
-      btn.classList.add('active');
-    }
-  });
-}
-
-// (اختياري) جعل الصفحة الافتراضية هي الدردشة
-document.addEventListener('DOMContentLoaded', function() {
-  // إذا كانت صفحة الدردشة هي النشطة افتراضياً، تأكد من تفعيل الزر
-  const activePage = document.querySelector('.page.active');
-  if (activePage) {
-    const id = activePage.id;
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.dataset.page === id);
-    });
-  }
-});
 </script>
 </body>
 </html>
