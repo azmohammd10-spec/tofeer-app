@@ -187,6 +187,13 @@ window.login = function () {
 
 
 window.logout = function () {
+  // ✅ أضف هذا الجزء الجديد هنا (إلغاء الاستماع للرسائل)
+  if (unsubscribeMessages) {
+    unsubscribeMessages();
+    unsubscribeMessages = null;
+  }
+
+  // ✅ باقي الكود القديم كما هو
   signOut(auth)
     .then(() => {
       alert("تم تسجيل الخروج");
@@ -235,19 +242,14 @@ onAuthStateChanged(auth, (user) => {
     if (userInfo) {
       userInfo.innerText = user.email;
     }
-if (!window.usersLoaded) {
-  window.usersLoaded = true;
 
-  loadUsers().catch((error) => {
-    console.error("Load Users Error:", error);
-  });
-}
-    // منع إعادة تحميل المستخدمين أكثر من مرة (تحسين مهم)
-    if (typeof window.usersLoaded === "undefined") {
+    // تحميل قائمة المستخدمين مرة واحدة فقط
+    if (!window.usersLoaded) {
       window.usersLoaded = true;
-      loadUsers();
+      loadUsers().catch((error) => {
+        console.error("Load Users Error:", error);
+      });
     }
-
   } else {
     loginBox.style.display = "block";
     homeBox.style.display = "none";
@@ -256,8 +258,17 @@ if (!window.usersLoaded) {
       userInfo.innerText = "";
     }
 
-    // إعادة السماح بالتحميل عند تسجيل دخول جديد
+    // إعادة تعيين العلم ليتم التحميل عند الدخول مجدداً
     window.usersLoaded = false;
+    
+    // إخفاء صندوق الدردشة
+    document.getElementById("chatBox").style.display = "none";
+    
+    // إلغاء الاستماع للرسائل إن وجد (اختياري لكن مستحسن)
+    if (unsubscribeMessages) {
+      unsubscribeMessages();
+      unsubscribeMessages = null;
+    }
   }
 });
   
@@ -423,25 +434,7 @@ function listenPrivateMessages(chatId) {
 
     const messagesDiv = document.getElementById("messages");
     messagesDiv.innerHTML = "";
-if (typeof unsubscribeMessages === "function") {
 
-  try {
-    unsubscribeMessages();
-
-  } catch (error) {
-
-    console.error(
-      "Unsubscribe Error:",
-      error
-    );
-
-  } finally {
-
-    unsubscribeMessages = null;
-
-  }
-
-}
     snapshot.forEach((docSnap) => {
 
       const msg = docSnap.data();
@@ -468,27 +461,27 @@ const senderEmail =
     ? msg.user.trim()
     : "";
       messagesDiv.innerHTML += `
-        <div style="
-          display:flex;
-          justify-content:${isMe ? "flex-end" : "flex-start"};
-          margin:8px 0;
-        ">
-          <div style="
-            max-width:75%;
-            padding:10px 12px;
-            border-radius:${isMe ? "18px 18px 4px 18px" : "18px 18px 18px 4px"};
-            background:${isMe ? "linear-gradient(135deg,#4CAF50,#45a049)" : "#e9e9eb"};
-            color:${isMe ? "#fff" : "#000"};
-            font-size:14px;
-          ">
-            <div style="font-size:11px;opacity:.7;margin-bottom:4px;">
-              ${msg.name} • ${time}
-            </div>
+  <div style="
+    display:flex;
+    justify-content:${isMe ? "flex-end" : "flex-start"};
+    margin:8px 0;
+  ">
+    <div style="
+      max-width:75%;
+      padding:10px 12px;
+      border-radius:${isMe ? "18px 18px 4px 18px" : "18px 18px 18px 4px"};
+      background:${isMe ? "linear-gradient(135deg,#4CAF50,#45a049)" : "#e9e9eb"};
+      color:${isMe ? "#fff" : "#000"};
+      font-size:14px;
+    ">
+      <div style="font-size:11px;opacity:.7;margin-bottom:4px;">
+        ${senderName} • ${time}
+      </div>
 
-            <div>${msg.text}</div>
-          </div>
-        </div>
-      `;
+      <div>${messageText}</div>
+    </div>
+  </div>
+`;
     });
 
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
@@ -509,6 +502,17 @@ if (msgInput) {
 
   });
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const msgInput = document.getElementById("msg");
+  if (msgInput) {
+    msgInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        window.sendMessage();
+      }
+    });
+  }
+});  
 </script>
 </body>
 </html>  
