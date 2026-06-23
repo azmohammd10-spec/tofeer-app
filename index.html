@@ -194,19 +194,27 @@ onAuthStateChanged(auth, (user)=>{
   
 async function loadUsers(){
 
-const usersDiv = document.getElementById("usersList");
+  const usersDiv = document.getElementById("usersList");
 
-const snapshot = await getDocs(
-collection(db, "users")
-);
+  const snapshot = await getDocs(
+    collection(db, "users")
+  );
 
-usersDiv.innerHTML = "";
+  usersDiv.innerHTML = "";
 
-snapshot.forEach((userDoc)=>{
+  snapshot.forEach((userDoc)=>{
 
-const userData = userDoc.data();
+    const userData = userDoc.data();
 
-usersDiv.innerHTML += `
+    usersDiv.innerHTML += `
+      <div>
+        ${userData.name}
+      </div>
+    `;
+
+  });
+
+}
   <div style="
     width:90%;
     display:flex;
