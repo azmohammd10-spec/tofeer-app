@@ -128,15 +128,6 @@ let unsubscribeMessages = null;
 
 // ================== FIREBASE ==================
 const firebaseConfig = {
- // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
   apiKey: "AIzaSyCEuOcQIvg-chEXfwHM8JAxFeYGpaOIoP4",
   authDomain: "star-social-bdfb2.firebaseapp.com",
   projectId: "star-social-bdfb2",
@@ -145,7 +136,11 @@ const firebaseConfig = {
   appId: "1:256449419301:web:970b4905d6beb86c4087cc",
   measurementId: "G-JYT3F33K7Y"
 };
+const app = initializeApp(firebaseConfig);
+getAnalytics(app);
 
+const auth = getAuth(app);
+const db = getFirestore(app);
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app); 
