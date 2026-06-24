@@ -205,20 +205,25 @@ async function loadUsers() {
 
   const snap = await getDocs(collection(db, "users"));
 
-  usersDiv.innerHTML = "";
+ snap.forEach(docu => {
 
-  snap.forEach(docu => {
-    const u = docu.data();
-    const name = u.name || "User";
+  // لا تعرض المستخدم الحالي
+  if (docu.id === auth.currentUser.uid) {
+    return;
+  }
 
-    usersDiv.innerHTML += `
-      <div style="margin:10px;padding:10px;background:#fff;border-radius:10px">
-        <b>${name}</b>
-        <button onclick="openPrivateChat('${docu.id}','${name}')">مراسلة</button>
-      </div>
-    `;
-  });
-}
+  const u = docu.data();
+  const name = u.name || "User";
+
+  usersDiv.innerHTML += `
+    <div style="margin:10px;padding:10px;background:#fff;border-radius:10px">
+      <b>${name}</b>
+      <button onclick="openPrivateChat('${docu.id}','${name}')">
+        مراسلة
+      </button>
+    </div>
+  `;
+}); 
 
 // ================== OPEN CHAT ==================
 window.openPrivateChat = function (userId, userName) {
