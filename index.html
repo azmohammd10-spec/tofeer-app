@@ -267,15 +267,18 @@ window.openPrivateChat = function (userId, userName) {
 onAuthStateChanged(auth, (user) => {
 
   const loginBox = document.getElementById("login");
-  const homeBox = document.getElementById("home");
+  const homeBox = document.getElementById("homeScreen"); // ✔ مهم
 
   if (user) {
 
     loginBox.style.display = "none";
     homeBox.style.display = "block";
-    document.getElementById("userInfo").innerText = user.email;
+
+    document.getElementById("userInfoTop").textContent = user.email;
 
     setDoc(doc(db, "users", user.uid), {
+      email: user.email,
+      name: user.email.split("@")[0],
       online: true,
       lastSeen: serverTimestamp()
     }, { merge: true });
