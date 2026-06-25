@@ -261,23 +261,34 @@ window.openPrivateChat = function (userId, userName) {
 
   if (!auth.currentUser) return alert("سجل دخول");
 
-  // إنشاء ID للمحادثة بين المستخدمين
   currentChatId =
     auth.currentUser.uid < userId
       ? auth.currentUser.uid + "_" + userId
       : userId + "_" + auth.currentUser.uid;
 
-  // إظهار الشات وإخفاء الصفحة الرئيسية
+  // إظهار الشات
   document.getElementById("chatBox").style.display = "block";
   document.getElementById("homeScreen").style.display = "none";
 
-  // تنظيف الرسائل القديمة
+  // تنظيف الرسائل
   document.getElementById("messages").innerHTML = "";
   document.getElementById("typing").textContent = "";
 
-  // بدء الاستماع للرسائل
- listenMessages(currentChatId); 
+  // تحديث الهيدر
+  document.getElementById("chatUserName").textContent = userName;
+  document.getElementById("chatAvatar").textContent = userName.charAt(0).toUpperCase();
+
+  // جلب حالة المستخدم من Firestore
+  onSnapshot(doc(db, "users", userId), (snap) => {
+    const data = snap.data();
+
+    document.getElementById("chatUserStatus").textContent =
+      data?.online ? "🟢 متصل" : "⚪ غير متصل";
+  });
+
+  listenMessages(currentChatId);
 };
+
 // ================== AUTH STATE ==================
 onAuthStateChanged(auth, (user) => {
 
