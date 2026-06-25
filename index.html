@@ -261,7 +261,7 @@ window.openPrivateChat = function (userId, userName) {
   document.getElementById("typing").textContent = "";
 
   // بدء الاستماع للرسائل
-  listenMessages();
+ listenMessages(currentChatId); 
 };
 // ================== AUTH STATE ==================
 onAuthStateChanged(auth, (user) => {
