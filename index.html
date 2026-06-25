@@ -230,14 +230,12 @@ window.login = async function () {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert("تم تسجيل الدخول بنجاح");
+    alert("تم تسجيل الدخول");
   } catch (err) {
-    alert("خطأ: " + err.message);
+    alert(err.message);
   }
 };
 
-
-// ================== REGISTER ==================
 window.register = async function () {
 
   const email = document.getElementById("email").value.trim();
@@ -258,24 +256,10 @@ window.register = async function () {
       lastSeen: serverTimestamp()
     });
 
-    alert("تم إنشاء الحساب بنجاح");
+    alert("تم إنشاء الحساب");
   } catch (err) {
-    alert("خطأ: " + err.message);
+    alert(err.message);
   }
-};
-
-window.logout = async function () {
-
-  if (!auth.currentUser) return;
-
-  if (unsubscribeMessages) unsubscribeMessages();
-
-  await setDoc(doc(db, "users", auth.currentUser.uid), {
-    online: false,
-    lastSeen: serverTimestamp()
-  }, { merge: true });
-
-  await signOut(auth);
 };
 
 window.openPrivateChat = function (userId, userName) {
