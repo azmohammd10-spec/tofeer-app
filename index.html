@@ -227,38 +227,51 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 // ================== USERS ==================
-async function loadUsers() {
+function loadUsers() {
 
   const usersDiv = document.getElementById("usersList");
-  usersDiv.innerHTML = "";
 
-  const snap = await getDocs(collection(db, "users"));
+  onSnapshot(collection(db, "users"), (snap) => {
 
-  snap.forEach(docu => {
+    usersDiv.innerHTML = "";
 
-    if (!auth.currentUser || docu.id === auth.currentUser.uid) return;
+    snap.forEach(docu => {
 
-    const u = docu.data();
-    const name = u.name || "User";
-    const status = u.online ? "🟢 متصل" : "⚪ غير متصل";
+      if (!auth.currentUser) return;
+      if (docu.id === auth.currentUser.uid) return;
 
-    usersDiv.innerHTML += `
-      <div style="margin:10px;padding:10px;background:#fff;border-radius:10px">
+      const u = docu.data();
 
-        <div>
-          <b>${name}</b><br>
-          <small>${status}</small>
+      const name = u.name || "User";
+      const status = u.online ? "🟢 متصل" : "⚪ غير متصل";
+
+      usersDiv.innerHTML += `
+        <div style="
+          margin:10px;
+          padding:10px;
+          background:#fff;
+          border-radius:10px;
+          display:flex;
+          justify-content:space-between;
+          align-items:center;
+        ">
+
+          <div>
+            <b>${name}</b><br>
+            <small>${status}</small>
+          </div>
+
+          <button onclick="openPrivateChat('${docu.id}','${name}')">
+            مراسلة
+          </button>
+
         </div>
+      `;
+    });
 
-        <button onclick="openPrivateChat('${docu.id}','${name}')">
-          مراسلة
-        </button>
-
-      </div>
-    `;
   });
-}
-  
+
+}  
 
 // ================== SEND MESSAGE ==================
 window.sendMessage = async function () {
