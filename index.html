@@ -283,31 +283,6 @@ window.sendMessage = async function () {
   if (!currentChatId) return alert("اختر مستخدم");
 
   try {
-    await addDoc(
-      collection(db, "chats", currentChatId, "messages"),
-      {
-        text,
-        user: auth.currentUser.uid,
-        name: auth.currentUser.email.split("@")[0],
-        time: serverTimestamp()
-      }
-    );
-
-    input.value = "";
-    input.focus();
-
-  } catch (e) {
-    alert(e.message);
-  }
-window.sendMessage = async function () {
-
-  const input = document.getElementById("msg");
-  const text = input.value.trim();
-
-  if (!text) return;
-  if (!currentChatId) return alert("اختر مستخدم");
-
-  try {
 
     await addDoc(
       collection(db, "chats", currentChatId, "messages"),
