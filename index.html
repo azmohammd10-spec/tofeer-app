@@ -230,9 +230,9 @@ window.login = async function () {
 
   try {
     await signInWithEmailAndPassword(auth, email, password);
-    alert("تم تسجيل الدخول");
+    alert("تم تسجيل الدخول بنجاح");
   } catch (err) {
-    alert(err.message);
+    alert("خطأ: " + err.message);
   }
 };
 
@@ -256,9 +256,9 @@ window.register = async function () {
       lastSeen: serverTimestamp()
     });
 
-    alert("تم إنشاء الحساب");
+    alert("تم إنشاء الحساب بنجاح");
   } catch (err) {
-    alert(err.message);
+    alert("خطأ: " + err.message);
   }
 };
 
@@ -487,8 +487,7 @@ function listenMessages(chatId) {
   });
 }
 
-  // typing indicator
-  const typingRef = doc(db, "chats", chatId);
+const typingRef = doc(db, "chats", chatId);
 
   onSnapshot(typingRef, (snap) => {
     const data = snap.data();
