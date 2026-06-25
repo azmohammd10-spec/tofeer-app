@@ -296,18 +296,16 @@ function loadUsers() {
 
   const usersList = document.getElementById("usersList");
 
-  if (!auth.currentUser) return;
-
   onSnapshot(collection(db, "users"), (snap) => {
 
     usersList.innerHTML = "";
 
     snap.forEach(docSnap => {
 
-      const data = docSnap.data();
-
-      // لا تعرض نفسك
+      if (!auth.currentUser) return;
       if (docSnap.id === auth.currentUser.uid) return;
+
+      const data = docSnap.data();
 
       const name = data.name || "User";
       const status = data.online ? "🟢 متصل" : "⚪ غير متصل";
@@ -319,30 +317,35 @@ function loadUsers() {
         padding:12px;
         border-radius:12px;
         display:flex;
-        justify-content:space-between;
-        align-items:center;
+        flex-direction:column;
+        gap:5px;
+        cursor:pointer;
       `;
 
       div.innerHTML = `
-        <div>
-          <b>${name}</b><br>
+        <div style="display:flex;justify-content:space-between;">
+          <b>${name}</b>
           <small>${status}</small>
         </div>
+
+        <small style="color:gray">
+          آخر رسالة: ${data.lastMessage || "لا يوجد رسائل بعد"}
+        </small>
 
         <button style="
           background:#4CAF50;
           color:white;
           border:none;
-          padding:8px 12px;
+          padding:8px;
           border-radius:8px;
-          cursor:pointer;
         " onclick="openPrivateChat('${docSnap.id}','${name}')">
-          مراسلة
+          فتح الدردشة
         </button>
       `;
 
       usersList.appendChild(div);
     });
+
   });
 }
 // ================== SEND MESSAGE ==================
