@@ -79,12 +79,13 @@ uploadBtn?.addEventListener("click", async () => {
         captionInput.value = "";
         categoryInput.selectedIndex = 0;
 
-    } catch (error) {
 
-        console.error("UPLOAD ERROR:", error);
-        alert("حدث خطأ أثناء رفع الفيديو");
+       } catch (error) {
 
-    }
+    console.error("UPLOAD ERROR:", error);
+    alert(error.message);
+
+} 
 
     uploadBtn.disabled = false;
     uploadBtn.textContent = "رفع الفيديو";
