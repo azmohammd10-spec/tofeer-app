@@ -1,6 +1,6 @@
-// =========================
-// STAR Firebase
-// =========================
+/// =========================
+/// STAR Firebase
+/// =========================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAuth, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -11,7 +11,10 @@ const firebaseConfig = {
     apiKey: "AIzaSyCEuOcQIvg-chEXfwHM8JAxFeYGpaOIoP4",
     authDomain: "star-social-bdfb2.firebaseapp.com",
     projectId: "star-social-bdfb2",
-    storageBucket: "star-social-bdfb2.firebasestorage.app",
+
+    // 🔥 التصحيح المهم (كان سبب مشكلة 0%)
+    storageBucket: "star-social-bdfb2.appspot.com",
+
     messagingSenderId: "256449419301",
     appId: "1:256449419301:web:970b4905d6beb86c4087cc",
     measurementId: "G-JYT3F33K7Y"
