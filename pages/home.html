@@ -6,6 +6,7 @@
 <title>STAR - For You</title>
 
 <style>
+
 body{
     margin:0;
     background:#000;
@@ -13,6 +14,18 @@ body{
     font-family:Arial;
 }
 
+/* العنوان */
+header{
+    position:fixed;
+    top:10px;
+    width:100%;
+    text-align:center;
+    color:#FFD700;
+    font-size:18px;
+    z-index:10;
+}
+
+/* الفيديوهات */
 #feed{
     height:100vh;
     overflow-y:scroll;
@@ -35,6 +48,7 @@ video{
     object-fit:cover;
 }
 
+/* معلومات الفيديو */
 .overlay{
     position:absolute;
     bottom:20px;
@@ -46,15 +60,26 @@ video{
     border-radius:10px;
 }
 
-header{
+/* زر رفع الفيديو */
+.upload-btn{
     position:fixed;
-    top:10px;
-    width:100%;
-    text-align:center;
-    color:#FFD700;
-    font-size:18px;
-    z-index:10;
+    bottom:20px;
+    left:20px;
+    width:60px;
+    height:60px;
+    background:#FFD700;
+    color:#000;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:bold;
+    text-decoration:none;
+    z-index:9999;
+    box-shadow:0 4px 10px rgba(0,0,0,0.3);
 }
+
 </style>
 </head>
 
@@ -62,6 +87,10 @@ header{
 
 <header>⭐ STAR For You</header>
 
+<!-- زر رفع الفيديو -->
+<a href="upload.html" class="upload-btn">＋</a>
+
+<!-- مكان الفيديوهات -->
 <div id="feed"></div>
 
 <script type="module" src="../js/app.js"></script>
