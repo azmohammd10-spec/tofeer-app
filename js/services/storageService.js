@@ -6,37 +6,62 @@ import { storage } from "../firebase.js";
 
 import {
     ref,
-    uploadBytes,
+    uploadBytesResumable,
     getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
 
-// رفع فيديو إلى Firebase Storage
-export async function uploadVideoFile(file) {
+// =========================
+// رفع فيديو مع متابعة نسبة الرفع
+// =========================
+export function uploadVideoFile(file, onProgress = null) {
 
-    try {
+    return new Promise((resolve, reject) => {
 
-        // اسم فريد للفيديو
+        // إنشاء اسم فريد
         const fileName =
-            Date.now() + "_" + file.name.replace(/\s+/g, "_");
+            `${Date.now()}_${file.name.replace(/\s+/g, "_")}`;
 
-        // المسار داخل Storage
+        // مسار الحفظ
         const storageRef = ref(storage, `videos/${fileName}`);
 
-        // رفع الملف
-        await uploadBytes(storageRef, file);
+        // بدء الرفع
+        const uploadTask = uploadBytesResumable(storageRef, file);
 
-        // الحصول على الرابط
-        const downloadURL = await getDownloadURL(storageRef);
+        uploadTask.on(
 
-        return downloadURL;
+            "state_changed",
 
-    } catch (error) {
+            (snapshot) => {
 
-        console.error("Upload Error:", error);
+                const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
 
-        throw error;
+                // إرسال نسبة الرفع للواجهة
+                if (typeof onProgress === "function") {
+                    onProgress(progress);
+                }
 
-    }
+            },
+
+            (error) => {
+
+                reject(error);
+
+            },
+
+            async () => {
+
+                const downloadURL =
+                    await getDownloadURL(uploadTask.snapshot.ref);
+
+                resolve(downloadURL);
+
+            }
+
+        );
+
+    });
 
 }
