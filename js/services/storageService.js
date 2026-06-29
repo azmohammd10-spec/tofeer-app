@@ -1,54 +1,65 @@
-window.addEventListener("DOMContentLoaded", () => {
+// =========================
+// STAR - Supabase Storage Service
+// =========================
 
-    const videoInput = document.getElementById("videoFile");
-    const captionInput = document.getElementById("caption");
-    const categoryInput = document.getElementById("category");
-    const uploadBtn = document.getElementById("uploadBtn");
+const SUPABASE_URL = "https://nhrwbmbejscdkjlwsbtp.supabase.co";
+const SUPABASE_KEY = "sb_publishable_WgOtBrrTfkMk1HWstBHlqw_HDxlmz_9";
+const BUCKET = "videos";
 
-    if (!uploadBtn) {
-        console.error("uploadBtn not found");
-        return;
-    }
+// رفع فيديو إلى Supabase
+export async function uploadVideoFile(file, onProgress = null) {
 
-    uploadBtn.addEventListener("click", async () => {
+    return new Promise((resolve, reject) => {
 
-        console.log("BUTTON CLICKED");
+        const fileName = `${Date.now()}_${file.name}`;
 
-        const file = videoInput.files?.[0];
+        const xhr = new XMLHttpRequest();
 
-        if (!file) {
-            alert("اختر فيديو أولاً");
-            return;
-        }
+        xhr.open(
+            "POST",
+            `${SUPABASE_URL}/storage/v1/object/${BUCKET}/${fileName}`
+        );
 
-        try {
+        xhr.setRequestHeader("Authorization", `Bearer ${SUPABASE_KEY}`);
+        xhr.setRequestHeader("apikey", SUPABASE_KEY);
 
-            uploadBtn.disabled = true;
-            uploadBtn.textContent = "جاري الرفع...";
+        xhr.upload.onprogress = (event) => {
 
-            const videoURL = await uploadVideoFile(file, (progress) => {
-                console.log("progress:", progress);
-                uploadBtn.textContent = `جاري الرفع ${progress}%`;
-            });
+            if (event.lengthComputable && onProgress) {
 
-            await uploadVideo({
-                url: videoURL,
-                caption: captionInput.value,
-                category: categoryInput.value,
-                views: 0,
-                likes: 0,
-                stage: "TESTING"
-            });
+                const progress = Math.round(
+                    (event.loaded / event.total) * 100
+                );
 
-            alert("تم الرفع بنجاح");
+                onProgress(progress);
+            }
 
-        } catch (err) {
-            console.error("UPLOAD ERROR:", err);
-            alert("فشل الرفع");
-        }
+        };
 
-        uploadBtn.disabled = false;
-        uploadBtn.textContent = "رفع الفيديو";
+        xhr.onload = () => {
+
+            if (xhr.status === 200 || xhr.status === 201) {
+
+                resolve(
+                    `${SUPABASE_URL}/storage/v1/object/public/${BUCKET}/${fileName}`
+                );
+
+            } else {
+
+                reject(new Error(xhr.responseText));
+
+            }
+
+        };
+
+        xhr.onerror = () => {
+
+            reject(new Error("فشل الاتصال بـ Supabase"));
+
+        };
+
+        xhr.send(file);
+
     });
 
-});
+}
