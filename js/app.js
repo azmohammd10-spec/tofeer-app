@@ -2,25 +2,39 @@ import { getVideos } from "./services/videoService.js";
 
 const feed = document.getElementById("feed");
 
-let currentVideoIndex = 0;
 let videos = [];
 
 // تحميل الفيديوهات
 async function loadFeed() {
 
-    videos = await getVideos();
+    try {
 
-    if (!videos || videos.length === 0) {
+        videos = await getVideos();
+
+        console.log("VIDEOS FROM DB:", videos);
+
+        if (!Array.isArray(videos) || videos.length === 0) {
+            feed.innerHTML = `
+                <div style="color:#fff;text-align:center;margin-top:50%">
+                    لا توجد فيديوهات بعد
+                </div>
+            `;
+            return;
+        }
+
+        renderVideos(videos);
+        setupAutoPlay();
+
+    } catch (error) {
+
+        console.error("ERROR loading videos:", error);
+
         feed.innerHTML = `
-            <div style="color:#fff;text-align:center;margin-top:50%">
-                لا توجد فيديوهات بعد
+            <div style="color:red;text-align:center;margin-top:50%">
+                خطأ في تحميل الفيديوهات
             </div>
         `;
-        return;
     }
-
-    renderVideos(videos);
-    setupAutoPlay();
 }
 
 // عرض الفيديوهات
@@ -30,19 +44,22 @@ function renderVideos(videos) {
 
     videos.forEach(video => {
 
+        const videoUrl = video.url || video.videoUrl || video.fileUrl;
+
         const div = document.createElement("div");
         div.className = "video";
 
         div.innerHTML = `
             <video 
-                src="${video.url}" 
+                src="${videoUrl}"
                 muted 
                 loop 
                 playsinline
+                controls
             ></video>
 
             <div class="overlay">
-                ⭐ ${video.caption || ""} <br>
+                ⭐ ${video.caption || "بدون وصف"} <br>
                 👀 ${video.views || 0} مشاهدة <br>
                 🔥 ${video.stage || "TESTING"}
             </div>
@@ -52,7 +69,7 @@ function renderVideos(videos) {
     });
 }
 
-// تشغيل الفيديو عند ظهوره (TikTok effect)
+// تشغيل الفيديو عند الظهور
 function setupAutoPlay() {
 
     const allVideos = document.querySelectorAll("video");
@@ -64,7 +81,7 @@ function setupAutoPlay() {
             const video = entry.target;
 
             if (entry.isIntersecting) {
-                video.play();
+                video.play().catch(() => {});
             } else {
                 video.pause();
             }
