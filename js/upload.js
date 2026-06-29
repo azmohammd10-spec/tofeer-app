@@ -1,7 +1,3 @@
-/// =========================
-/// STAR Upload Manager
-/// =========================
-
 import { uploadVideoFile } from "./services/storageService.js";
 import { uploadVideo } from "./services/videoService.js";
 
@@ -11,19 +7,19 @@ const captionInput = document.getElementById("caption");
 const categoryInput = document.getElementById("category");
 const uploadBtn = document.getElementById("uploadBtn");
 
-// تأكد أن العناصر موجودة
-if (!uploadBtn || !videoInput) {
-    console.error("Upload elements not found in HTML");
+// تحقق من العناصر
+if (!videoInput || !uploadBtn) {
+    console.error("❌ عناصر الصفحة غير موجودة");
 }
 
 // رفع الفيديو
 uploadBtn?.addEventListener("click", async () => {
 
-    console.log("UPLOAD CLICKED");
+    console.log("🚀 CLICK STARTED");
 
     const file = videoInput.files?.[0];
 
-    console.log("FILE:", file);
+    console.log("📂 FILE:", file);
 
     if (!file) {
         alert("اختر فيديو أولاً");
@@ -31,32 +27,33 @@ uploadBtn?.addEventListener("click", async () => {
     }
 
     uploadBtn.disabled = true;
-    uploadBtn.textContent = "جاري الرفع...";
+    uploadBtn.textContent = "جاري الرفع 0%";
 
     try {
 
-        // رفع الفيديو إلى Firebase Storage
+        console.log("⬆️ BEFORE UPLOAD");
+
+        // رفع الفيديو إلى Supabase
         const videoURL = await uploadVideoFile(file, (progress) => {
-
-            console.log("Progress:", progress);
-
+            console.log("📊 PROGRESS:", progress);
             uploadBtn.textContent = `جاري الرفع ${progress}%`;
-
         });
 
-        // حفظ البيانات في Firestore
-        await uploadVideo({
+        console.log("✅ AFTER UPLOAD:", videoURL);
 
+        // حفظ البيانات في Firestore
+        console.log("💾 SAVING TO FIRESTORE...");
+
+        await uploadVideo({
             url: videoURL,
             caption: captionInput.value.trim(),
             category: categoryInput.value,
             createdAt: Date.now(),
 
-            // خوارزمية STAR
             stage: "TESTING",
             viewsTarget: 1500,
-            score: 0,
 
+            score: 0,
             views: 0,
             likes: 0,
             comments: 0,
@@ -69,25 +66,28 @@ uploadBtn?.addEventListener("click", async () => {
             reportRate: 0,
 
             trending: false
-
         });
 
-        alert("✅ تم رفع الفيديو بنجاح");
+        console.log("🎉 SAVED SUCCESS");
 
-        // إعادة ضبط الحقول
+        alert("تم رفع الفيديو بنجاح ✅");
+
+        // reset
         videoInput.value = "";
         captionInput.value = "";
         categoryInput.selectedIndex = 0;
 
+    } catch (error) {
 
-       } catch (error) {
+        console.error("❌ UPLOAD ERROR FULL:", error);
 
-    console.error("UPLOAD ERROR:", error);
-    alert(error.message);
-
-} 
+        alert(
+            error?.message ||
+            error?.responseText ||
+            "فشل رفع الفيديو (راجع Console)"
+        );
+    }
 
     uploadBtn.disabled = false;
     uploadBtn.textContent = "رفع الفيديو";
-
 });
