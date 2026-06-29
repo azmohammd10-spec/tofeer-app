@@ -1,51 +1,54 @@
-import { uploadVideoFile } from "./services/storageService.js";
-import { uploadVideo } from "./services/videoService.js";
+window.addEventListener("DOMContentLoaded", () => {
 
-const videoInput = document.getElementById("videoFile");
-const captionInput = document.getElementById("caption");
-const categoryInput = document.getElementById("category");
-const uploadBtn = document.getElementById("uploadBtn");
+    const videoInput = document.getElementById("videoFile");
+    const captionInput = document.getElementById("caption");
+    const categoryInput = document.getElementById("category");
+    const uploadBtn = document.getElementById("uploadBtn");
 
-uploadBtn.addEventListener("click", async () => {
-
-    const file = videoInput.files?.[0];
-
-    if (!file) {
-        alert("اختر فيديو أولاً");
+    if (!uploadBtn) {
+        console.error("uploadBtn not found");
         return;
     }
 
-    try {
+    uploadBtn.addEventListener("click", async () => {
 
-        uploadBtn.disabled = true;
-        uploadBtn.textContent = "جاري الرفع 0%";
+        console.log("BUTTON CLICKED");
 
-        // 1- رفع الفيديو إلى Supabase
-        const videoURL = await uploadVideoFile(file, (progress) => {
-            uploadBtn.textContent = `جاري الرفع ${progress}%`;
-        });
+        const file = videoInput.files?.[0];
 
-        // 2- حفظ البيانات في Firestore
-        await uploadVideo({
-            url: videoURL,
-            caption: captionInput.value,
-            category: categoryInput.value,
-            views: 0,
-            likes: 0,
-            stage: "TESTING"
-        });
+        if (!file) {
+            alert("اختر فيديو أولاً");
+            return;
+        }
 
-        alert("تم رفع الفيديو بنجاح ✅");
+        try {
 
-        videoInput.value = "";
-        captionInput.value = "";
-        categoryInput.selectedIndex = 0;
+            uploadBtn.disabled = true;
+            uploadBtn.textContent = "جاري الرفع...";
 
-    } catch (error) {
-        console.error(error);
-        alert("فشل رفع الفيديو");
-    }
+            const videoURL = await uploadVideoFile(file, (progress) => {
+                console.log("progress:", progress);
+                uploadBtn.textContent = `جاري الرفع ${progress}%`;
+            });
 
-    uploadBtn.disabled = false;
-    uploadBtn.textContent = "رفع الفيديو";
+            await uploadVideo({
+                url: videoURL,
+                caption: captionInput.value,
+                category: categoryInput.value,
+                views: 0,
+                likes: 0,
+                stage: "TESTING"
+            });
+
+            alert("تم الرفع بنجاح");
+
+        } catch (err) {
+            console.error("UPLOAD ERROR:", err);
+            alert("فشل الرفع");
+        }
+
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "رفع الفيديو";
+    });
+
 });
