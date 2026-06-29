@@ -1,31 +1,51 @@
-import { db } from "../firebase.js";
-import {
-    collection,
-    addDoc,
-    getDocs
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { uploadVideoFile } from "./services/storageService.js";
+import { uploadVideo } from "./services/videoService.js";
 
-// =========================
-// حفظ فيديو في Firestore
-// =========================
-export async function uploadVideo(video) {
+const videoInput = document.getElementById("videoFile");
+const captionInput = document.getElementById("caption");
+const categoryInput = document.getElementById("category");
+const uploadBtn = document.getElementById("uploadBtn");
 
-    return await addDoc(collection(db, "videos"), {
-        ...video,
-        createdAt: Date.now()
-    });
+uploadBtn.addEventListener("click", async () => {
 
-}
+    const file = videoInput.files?.[0];
 
-// =========================
-// جلب الفيديوهات
-// =========================
-export async function getVideos() {
+    if (!file) {
+        alert("اختر فيديو أولاً");
+        return;
+    }
 
-    const snap = await getDocs(collection(db, "videos"));
+    try {
 
-    return snap.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }));
-}
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = "جاري الرفع 0%";
+
+        // 1- رفع الفيديو إلى Supabase
+        const videoURL = await uploadVideoFile(file, (progress) => {
+            uploadBtn.textContent = `جاري الرفع ${progress}%`;
+        });
+
+        // 2- حفظ البيانات في Firestore
+        await uploadVideo({
+            url: videoURL,
+            caption: captionInput.value,
+            category: categoryInput.value,
+            views: 0,
+            likes: 0,
+            stage: "TESTING"
+        });
+
+        alert("تم رفع الفيديو بنجاح ✅");
+
+        videoInput.value = "";
+        captionInput.value = "";
+        categoryInput.selectedIndex = 0;
+
+    } catch (error) {
+        console.error(error);
+        alert("فشل رفع الفيديو");
+    }
+
+    uploadBtn.disabled = false;
+    uploadBtn.textContent = "رفع الفيديو";
+});
