@@ -13,7 +13,8 @@ import {
     getDoc,
     query,
     orderBy,
-    limit
+    limit,
+    increment
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 
@@ -101,5 +102,27 @@ export async function updateVideo(videoId, data) {
     const ref = doc(db, "videos", videoId);
 
     await updateDoc(ref, data);
+
+}
+
+
+// =========================
+// زيادة عدد المشاهدات
+// =========================
+export async function incrementViews(videoId) {
+
+    try {
+
+        const ref = doc(db, "videos", videoId);
+
+        await updateDoc(ref, {
+            views: increment(1)
+        });
+
+    } catch (error) {
+
+        console.error("Increment Views Error:", error);
+
+    }
 
 }
