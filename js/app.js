@@ -80,10 +80,10 @@ function createVideoElement(video) {
                 <small>${video.comments_count || 0}</small>
             </div>
 
-            <div class="action">
-                <div class="circle">🔖</div>
-                <small>حفظ</small>
-            </div>
+            <div class="action save-btn" onclick="toggleSave(this)">
+    <div class="circle">🔖</div>
+    <small>حفظ</small>
+</div>
 
             <div class="action">
                 <div class="circle">↗️</div>
