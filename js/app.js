@@ -6,6 +6,7 @@ import {
 const feed = document.getElementById("feed");
 
 let videos = [];
+let observer = null;
 
 // =========================
 // تحميل الفيديوهات
@@ -50,11 +51,11 @@ function createVideoElement(video) {
 
     div.innerHTML = `
         <video
-            src="${videoUrl}"
+            src="${videoUrl || ''}"
             muted
             loop
             playsinline
-            data-id="${video.id}"
+            data-id="${video.id || ''}"
         ></video>
 
         <div class="overlay">
@@ -111,18 +112,25 @@ function renderVideos(videos) {
 // =========================
 function setupAutoPlay() {
 
+    // إيقاف observer القديم (مهم جداً)
+    if (observer) {
+        observer.disconnect();
+    }
+
     const counted = new Set();
     const videosEl = document.querySelectorAll("video");
 
-    const observer = new IntersectionObserver((entries) => {
+    observer = new IntersectionObserver((entries) => {
 
         entries.forEach(entry => {
             const video = entry.target;
             const id = video.dataset.id;
 
+            if (!id) return;
+
             if (entry.isIntersecting) {
 
-                // 🔥 أوقف باقي الفيديوهات (مثل TikTok)
+                // إيقاف باقي الفيديوهات
                 document.querySelectorAll("video").forEach(v => {
                     if (v !== video) v.pause();
                 });
@@ -155,3 +163,8 @@ function setupAutoPlay() {
 
     videosEl.forEach(video => observer.observe(video));
 }
+
+// =========================
+// تشغيل أولي
+// =========================
+loadFeed();
