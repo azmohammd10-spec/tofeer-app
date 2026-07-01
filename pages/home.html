@@ -139,34 +139,48 @@ video{
 /* زر رفع الفيديو */
 .upload-btn{
     position: fixed;
-
     left: 50%;
     transform: translateX(-50%);
-
     bottom: 20px;
 
-    width: 65px;
-    height: 65px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 
-    background:#FFD700;
-    color:#000;
+    background: linear-gradient(145deg, #FFD700, #ffcc00);
 
-    border-radius:50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    text-decoration: none;
 
-    font-size:32px;
-    font-weight:bold;
+    box-shadow: 
+        0 8px 20px rgba(0,0,0,0.4),
+        inset 0 2px 6px rgba(255,255,255,0.4);
 
-    text-decoration:none;
+    z-index: 9999;
 
-    z-index:9999;
-
-    box-shadow:0 6px 15px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
 }
 
+/* علامة + */
+.upload-btn .plus{
+    font-size: 34px;
+    font-weight: bold;
+    color: #000;
+    transition: 0.2s;
+}
+
+/* عند الضغط */
+.upload-btn:active{
+    transform: translateX(-50%) scale(0.92);
+}
+
+/* تأثير hover خفيف */
+.upload-btn:hover{
+    filter: brightness(1.1);
+}
 </style>
 </head>
 
@@ -175,7 +189,9 @@ video{
 <header>⭐ STAR For You</header>
 
 <!-- زر رفع الفيديو -->
-<a href="upload.html" class="upload-btn">＋</a>
+<a href="upload.html" class="upload-btn">
+    <span class="plus">＋</span>
+</a>
 
 <!-- مكان الفيديوهات -->
 <div id="feed"></div>
