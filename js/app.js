@@ -180,6 +180,33 @@ window.toggleSave = function(el) {
         icon.textContent = "★";
     }
 };
+document.querySelector(".tiktok-plus-btn").addEventListener("click", function () {
+
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "video/*";
+
+    input.onchange = async function () {
+        const file = input.files[0];
+        if (!file) return;
+
+        console.log("Video selected:", file);
+
+        // 🔥 هنا تربط نظام الرفع عندك
+        try {
+            await uploadVideo(file); // إذا عندك دالة رفع
+            console.log("Upload done");
+            
+            // إعادة تحميل الفيديوهات بعد الرفع
+            loadFeed();
+
+        } catch (err) {
+            console.error("Upload error:", err);
+        }
+    };
+
+    input.click();
+});
 // =========================
 // تشغيل أولي
 // =========================
