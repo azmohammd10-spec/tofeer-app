@@ -137,180 +137,66 @@ video{
 }
 
 /* زر رفع الفيديو */
-.upload-btn {
+.tiktok-plus-btn {
+    /* التموضع */
     position: fixed;
+    bottom: 30px;
     left: 50%;
-    bottom: 20px;
-    width: 72px;
-    height: 72px;
-
-    /* تصميم الخلفية والحدود (لتطابق الصورة بدقة) */
+    transform: translateX(-50%);
+    
+    /* الحجم والشكل */
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    
+    /* الألوان والحدود */
     background: #111;
-    border: 4px solid transparent; /* سماكة الحد لجعل التدرج مرئياً بوضوح */
-    border-radius: 18px; /* زوايا ناعمة ومستديرة */
-
-    /* خدعة لجعل التدرج يظهر على الحواف فقط مع الحفاظ على الزوايا */
-    background-image: linear-gradient(#111, #111), linear-gradient(90deg, #fe2c55, #25f4ee);
+    border: 3px solid transparent;
+    background-image: linear-gradient(#111, #111), 
+                      linear-gradient(90deg, #fe2c55 0%, #25f4ee 100%);
     background-origin: border-box;
     background-clip: padding-box, border-box;
-
-    /* الخصائص الأخرى لتوزيع العناصر */
+    
+    /* الإعدادات التفاعلية */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    z-index: 99999;
-    transform: translateX(-50%);
-    transition: 0.3s ease; /* انتقال أكثر سلاسة للحركة */
-
-    /* الظل الاحترافي */
-    box-shadow:
-        0 8px 20px rgba(0,0,0,0.5),
-        0 0 15px rgba(254, 44, 85, 0.3),
-        0 0 15px rgba(37, 244, 238, 0.3);
+    z-index: 9999;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* ظل خفيف وناعم */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* تأثير عند مرور الفأرة (Hover) لجعل الزر "يعمل" */
-.upload-btn:hover {
-    transform: translateX(-50%) translateY(-5px); /* يرتفع قليلاً عند التحويم */
-    box-shadow:
-        0 12px 30px rgba(0,0,0,0.6), /* ظل أعمق وأكثر انتشاراً */
-        0 0 20px rgba(254, 44, 85, 0.5),
-        0 0 20px rgba(37, 244, 238, 0.5);
-}
-
-/* تأثير عند الضغط (Active) */
-.upload-btn:active {
-    transform: translateX(-50%) scale(0.92);
-}
-
-/* علامة + */
-.upload-btn .plus {
-    font-size: 34px;
-    font-weight: bold;
+/* علامة الـ + */
+.plus-icon {
+    font-size: 32px;
+    font-family: sans-serif;
     color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    font-weight: 600;
+    pointer-events: none;
 }
 
-/* تأثير نبض خفيف */
-.upload-btn::before {
+/* تأثير الضغط (Active) */
+.tiktok-plus-btn:active {
+    transform: translateX(-50%) scale(0.90);
+    box-shadow: 0 0 20px rgba(254, 44, 85, 0.4), 
+                0 0 20px rgba(37, 244, 238, 0.4);
+}
+
+/* تأثير نبضي اختياري للجمالية */
+.tiktok-plus-btn::after {
     content: "";
     position: absolute;
-    inset: 0;
+    inset: -2px;
     border-radius: 18px;
-    background: linear-gradient(45deg, #fe2c55, #25f4ee); /* تطابق تدرج الألوان */
-    opacity: 0.25;
-    filter: blur(10px);
+    background: linear-gradient(90deg, #fe2c55, #25f4ee);
     z-index: -1;
-    animation: pulse 2s infinite;
+    filter: blur(8px);
+    opacity: 0.6;
 }
 
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.25; }
-    50% { transform: scale(1.2); opacity: 0.1; }
-    100% { transform: scale(1); opacity: 0.25; }
-}
-
-
-/* عند الضغط */
-.upload-btn:active{
-    transform: translateX(-50%) scale(0.92);
-    box-shadow:
-        0 6px 15px rgba(0,0,0,0.4),
-        0 0 20px rgba(255,43,214,0.6),
-        0 0 20px rgba(0,229,255,0.6);
-}
-
-/* علامة + */
-.upload-btn .plus{
-    font-size: 34px;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-}
-
-/* تأثير نبض خفيف */
-.upload-btn::before{
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: 18px;
-    background: linear-gradient(45deg, #ff2bd6, #00e5ff);
-    opacity: 0.25;
-    filter: blur(10px);
-    z-index: -1;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(1); opacity: 0.25; }
-    50% { transform: scale(1.2); opacity: 0.1; }
-    100% { transform: scale(1); opacity: 0.25; }
-}
-/* عند الضغط */
-.upload-btn:active{
-    transform: translateX(-50%) scale(0.9);
-    box-shadow:
-        0 6px 15px rgba(0,0,0,0.35),
-        0 0 25px rgba(255,0,80,0.5);
-}
-
-/* علامة + */
-.upload-btn .plus{
-    font-size: 36px;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 0 2px 6px rgba(0,0,0,0.4);
-}
-
-/* تأثير نبض خفيف */
-.upload-btn::before{
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    background: inherit;
-    z-index: -1;
-    animation: pulse 1.8s infinite;
-    opacity: 0.5;
-}
-
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.5;
-    }
-    70% {
-        transform: scale(1.4);
-        opacity: 0;
-    }
-    100% {
-        opacity: 0;
-    }
-}
-
-/* ضغط الزر */
-.upload-btn:active{
-    transform: translateX(-50%) scale(0.92);
-}
-/* علامة + */
-.upload-btn .plus{
-    font-size: 34px;
-    font-weight: bold;
-    color: #000;
-    transition: 0.2s;
-}
-
-/* عند الضغط */
-.upload-btn:active{
-    transform: translateX(-50%) scale(0.92);
-}
-
-/* تأثير hover خفيف */
-.upload-btn:hover{
-    filter: brightness(1.1);
-}
 </style>
 </head>
 
@@ -319,8 +205,8 @@ video{
 <header>⭐ STAR For You</header>
 
 <!-- زر رفع الفيديو -->
-<button class="upload-btn">
-    <span class="plus">+</span>
+<button class="tiktok-plus-btn">
+    <span class="plus-icon">+</span>
 </button>
 
 
