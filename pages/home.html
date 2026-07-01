@@ -167,6 +167,9 @@ video{
     
     /* ظل خفيف وناعم */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+
+    /* مهم لحل مشاكل النقر */
+    pointer-events: auto;
 }
 
 /* علامة الـ + */
@@ -178,14 +181,14 @@ video{
     pointer-events: none;
 }
 
-/* تأثير الضغط (Active) */
+/* تأثير الضغط */
 .tiktok-plus-btn:active {
     transform: translateX(-50%) scale(0.90);
     box-shadow: 0 0 20px rgba(254, 44, 85, 0.4), 
                 0 0 20px rgba(37, 244, 238, 0.4);
 }
 
-/* تأثير نبضي اختياري للجمالية */
+/* التأثير الخارجي (Glow) */
 .tiktok-plus-btn::after {
     content: "";
     position: absolute;
@@ -195,8 +198,10 @@ video{
     z-index: -1;
     filter: blur(8px);
     opacity: 0.6;
-}
 
+    /* 🔥 أهم سطر لمنع تعطيل النقر */
+    pointer-events: none;
+}
 </style>
 </head>
 
