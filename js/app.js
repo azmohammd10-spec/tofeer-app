@@ -81,7 +81,9 @@ function createVideoElement(video) {
             </div>
 
             <div class="action save-btn" onclick="toggleSave(this)">
-    <div class="circle">🔽</div>
+    <div class="circle">
+        <span class="save-icon">✦</span>
+    </div>
     <small>حفظ</small>
 </div>
 
@@ -168,9 +170,15 @@ function setupAutoPlay() {
     videosEl.forEach(video => observer.observe(video));
 }
 window.toggleSave = function(el) {
-    if (!el) return;
+    const icon = el.querySelector(".save-icon");
 
     el.classList.toggle("saved");
+
+    if (el.classList.contains("saved")) {
+        icon.textContent = "★";
+    } else {
+        icon.textContent = "✦";
+    }
 };
 // =========================
 // تشغيل أولي
