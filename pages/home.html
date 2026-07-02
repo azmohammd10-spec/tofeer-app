@@ -137,70 +137,52 @@ video{
 }
 
 /* زر رفع الفيديو */
-.tiktok-plus-btn {
-    /* التموضع */
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    
-    /* الحجم والشكل */
-    width: 68px;
-    height: 68px;
-    border-radius: 18px;
-    
-    /* الألوان والحدود */
-    background: #111;
-    border: 3px solid transparent;
-    background-image: linear-gradient(#111, #111), 
-                      linear-gradient(90deg, #fe2c55 0%, #25f4ee 100%);
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    
-    /* الإعدادات التفاعلية */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    z-index: 9999;
-    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    
-    /* ظل خفيف وناعم */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-
-    /* مهم لحل مشاكل النقر */
-    pointer-events: auto;
+/* زر الرفع */
+.upload-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  background: #ff4fd8; /* وردي */
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
-/* علامة الـ + */
-.plus-icon {
-    font-size: 32px;
-    font-family: sans-serif;
-    color: #fff;
-    font-weight: 600;
-    pointer-events: none;
+/* تبويبات جانبية */
+.side-tabs {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-/* تأثير الضغط */
-.tiktok-plus-btn:active {
-    transform: translateX(-50%) scale(0.90);
-    box-shadow: 0 0 20px rgba(254, 44, 85, 0.4), 
-                0 0 20px rgba(37, 244, 238, 0.4);
+/* شكل التبويب */
+.tab {
+  padding: 12px 18px;
+  color: white;
+  font-weight: bold;
+  border-radius: 0 12px 12px 0;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* التأثير الخارجي (Glow) */
-.tiktok-plus-btn::after {
-    content: "";
-    position: absolute;
-    inset: -2px;
-    border-radius: 18px;
-    background: linear-gradient(90deg, #fe2c55, #25f4ee);
-    z-index: -1;
-    filter: blur(8px);
-    opacity: 0.6;
+/* ألوان التبويبات */
+.tab.blue { background: #1e90ff; }
+.tab.green { background: #2ecc71; }
+.tab.pink { background: #ff4fd8; }
 
-    /* 🔥 أهم سطر لمنع تعطيل النقر */
-    pointer-events: none;
+/* تأثير عند المرور */
+.tab:hover {
+  transform: translateX(5px);
 }
 </style>
 </head>
@@ -209,10 +191,15 @@ video{
 
 <header>⭐ STAR For You</header>
 
-<!-- زر رفع الفيديو -->
-<button class="tiktok-plus-btn">
-    <span class="plus-icon">+</span>
-</button>
+<!-- زر الرفع -->
+<button class="upload-btn">+</button>
+
+<!-- تبويبات جانبية -->
+<div class="side-tabs">
+  <div class="tab blue">أزرق</div>
+  <div class="tab green">أخضر</div>
+  <div class="tab pink">زهري</div>
+</div>
 
 
 <!-- مكان الفيديوهات -->
