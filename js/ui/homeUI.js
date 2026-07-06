@@ -110,6 +110,20 @@ function setupSearch() {
     });
 
 }
+// =========================
+// زر إنشاء تصميم
+// =========================
 
+const createBtn = document.getElementById("createBtn");
+
+if (createBtn) {
+
+    createBtn.addEventListener("click", () => {
+
+        window.location.href = "pages/editor.html";
+
+    });
+
+}
 // تشغيل الصفحة
 initHome();
