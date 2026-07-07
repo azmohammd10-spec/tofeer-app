@@ -133,13 +133,13 @@ let startY = 0;
 
 img.addEventListener("mousedown",(e)=>{
 
+    e.preventDefault();
+
     dragging = true;
 
-    const rect = img.getBoundingClientRect();
+    startX = e.clientX - img.offsetLeft;
 
-    startX = e.clientX - rect.left;
-
-    startY = e.clientY - rect.top;
+    startY = e.clientY - img.offsetTop;
 
 });
 
@@ -165,7 +165,7 @@ document.addEventListener("mousemove",(e)=>{
 
 
 document.addEventListener("mouseup",()=>{
-
+e.preventDefault();
     if(dragging){
 
         dragging = false;
