@@ -169,7 +169,6 @@ document.addEventListener("mouseup", () => {
 // =========================
 // تحديد العنصر
 // =========================
-
 function selectElement(element) {
 
     const panel = document.getElementById("propertiesPanel");
@@ -179,17 +178,86 @@ function selectElement(element) {
 
     panel.innerHTML = `
 
-        <h4>النص</h4>
+        <h4>خصائص النص</h4>
 
-        <p>${element.content}</p>
 
-        <p>الحجم: ${element.fontSize}px</p>
+        <label>
+            النص
+        </label>
 
-        <p>اللون: ${element.color}</p>
+        <input 
+            id="textContentInput"
+            value="${element.content}"
+        >
+
+
+        <label>
+            حجم الخط
+        </label>
+
+        <input 
+            id="fontSizeInput"
+            type="number"
+            value="${element.fontSize}"
+        >
+
+
+        <label>
+            اللون
+        </label>
+
+        <input 
+            id="colorInput"
+            type="color"
+            value="${element.color}"
+        >
 
     `;
 
+
+    // تغيير النص
+
+    document
+    .getElementById("textContentInput")
+    .addEventListener("input", (e)=>{
+
+        element.content = e.target.value;
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
+
+    // تغيير الحجم
+
+    document
+    .getElementById("fontSizeInput")
+    .addEventListener("input",(e)=>{
+
+        element.fontSize = Number(e.target.value);
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
+
+    // تغيير اللون
+
+    document
+    .getElementById("colorInput")
+    .addEventListener("input",(e)=>{
+
+        element.color = e.target.value;
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
 }
+
 // =========================
 // Text Tool
 // =========================
