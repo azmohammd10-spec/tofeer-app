@@ -53,7 +53,43 @@ export function getCurrentDesign() {
     return currentDesign;
 
 }
+// =========================
+// إضافة عنصر إلى التصميم
+// =========================
+export function addElement(element) {
 
+    if (!currentDesign) return;
+
+    currentDesign.elements.push(element);
+
+    localStorage.setItem(
+        "currentDesign",
+        JSON.stringify(currentDesign)
+    );
+
+}
+
+// =========================
+// تحديث التصميم
+// =========================
+export function updateDesign(data) {
+
+    if (!currentDesign) return;
+
+    currentDesign = {
+
+        ...currentDesign,
+
+        ...data
+
+    };
+
+    localStorage.setItem(
+        "currentDesign",
+        JSON.stringify(currentDesign)
+    );
+
+}
 // حذف التصميم الحالي
 export function clearCurrentDesign() {
 
