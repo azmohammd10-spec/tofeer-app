@@ -9,7 +9,22 @@ import {
 } from "../modules/design/designService.js";
 // عناصر الصفحة (سنربطها لاحقًا في editor.html)
 let canvas = null;
+// تشغيل المحرر تلقائياً بعد تحميل الصفحة
+window.addEventListener("DOMContentLoaded", () => {
 
+    const canvasElement = document.getElementById("designCanvas");
+
+    if (canvasElement) {
+
+        initEditor(canvasElement);
+
+    } else {
+
+        console.error("❌ designCanvas not found");
+
+    }
+
+});
 // =========================
 // تهيئة المحرر
 // =========================
