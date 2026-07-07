@@ -5,9 +5,10 @@
 import {
     getCurrentDesign,
     updateDesign,
-    addElement
+    addElement,
+    sendToBack,
+    bringToFront
 } from "../modules/design/designService.js";
-import {
     createRectangle,
     createCircle
 } from "./tools/shapeTool.js";
@@ -301,8 +302,35 @@ function selectElement(element) {
 // =========================
 
 if(element.type === "image"){
+    document
+.getElementById("backLayer")
+.addEventListener("click",()=>{
+
+    sendToBack(element.id);
+
+    renderCanvas(getCurrentDesign());
+
+});
+
+
+document
+.getElementById("frontLayer")
+.addEventListener("click",()=>{
+
+    bringToFront(element.id);
+
+    renderCanvas(getCurrentDesign());
+
+});
 
     panel.innerHTML = `
+    <button id="backLayer">
+⬇️ إرسال للخلف
+</button>
+
+<button id="frontLayer">
+⬆️ إحضار للأمام
+</button>
 
         <h4>خصائص الصورة</h4>
 
