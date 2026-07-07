@@ -301,28 +301,6 @@ function selectElement(element) {
 // خصائص الصورة
 // =========================
 
-if(element.type === "image"){
-    document
-.getElementById("backLayer")
-.addEventListener("click",()=>{
-
-    sendToBack(element.id);
-
-    renderCanvas(getCurrentDesign());
-
-});
-
-
-document
-.getElementById("frontLayer")
-.addEventListener("click",()=>{
-
-    bringToFront(element.id);
-
-    renderCanvas(getCurrentDesign());
-
-});
-
     panel.innerHTML = `
     <button id="backLayer">
 ⬇️ إرسال للخلف
@@ -368,7 +346,26 @@ document
         renderCanvas(getCurrentDesign());
 
     });
+document
+.getElementById("backLayer")
+.addEventListener("click",()=>{
 
+    sendToBack(element.id);
+
+    renderCanvas(getCurrentDesign());
+
+});
+
+
+document
+.getElementById("frontLayer")
+.addEventListener("click",()=>{
+
+    bringToFront(element.id);
+
+    renderCanvas(getCurrentDesign());
+
+});
 
     document
     .getElementById("imageHeight")
