@@ -61,11 +61,16 @@ function renderCanvas(design) {
 
     canvas.style.width = design.width + "px";
     canvas.style.height = design.height + "px";
-
     canvas.style.position = "relative";
     canvas.style.background = "#fff";
     canvas.style.margin = "0 auto";
 
+    // إعادة رسم جميع العناصر
+    if (design.elements && design.elements.length) {
+        design.elements.forEach(element => {
+            renderElement(element);
+        });
+    }
 }
 
 // =========================
@@ -130,12 +135,13 @@ img.addEventListener("mousedown",(e)=>{
 
     dragging = true;
 
-    startX = e.offsetX;
+    const rect = img.getBoundingClientRect();
 
-    startY = e.offsetY;
+    startX = e.clientX - rect.left;
+
+    startY = e.clientY - rect.top;
 
 });
-
 
 document.addEventListener("mousemove",(e)=>{
 
