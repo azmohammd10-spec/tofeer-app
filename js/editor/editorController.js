@@ -156,7 +156,23 @@ document.addEventListener("mouseup", () => {
 
 });
     el.innerText = element.content;
+// رسم الأشكال
 
+if(element.type === "shape"){
+
+    el.style.width = element.width + "px";
+
+    el.style.height = element.height + "px";
+
+    el.style.background = element.background;
+
+    if(element.shapeType === "circle"){
+
+        el.style.borderRadius = "50%";
+
+    }
+
+}
 
     // تحديد العنصر
     el.addEventListener("click", () => {
