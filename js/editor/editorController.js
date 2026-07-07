@@ -274,9 +274,6 @@ if(element.type === "shape"){
 // =========================
 // تحديد العنصر
 // =========================
-// =========================
-// تحديد العنصر
-// =========================
 function selectElement(element) {
 
     const panel = document.getElementById("propertiesPanel");
@@ -490,151 +487,40 @@ function selectElement(element) {
 
 }
 
+document
+.getElementById("imageHeight")
+.addEventListener("input",(e)=>{
+
+    element.height = Number(e.target.value);
+
+    renderCanvas(getCurrentDesign());
+
+});
 
 
-    // =========================
-    // خصائص النص
-    // =========================
-    if (element.type === "text") {
+document
+.getElementById("backLayer")
+.addEventListener("click",()=>{
 
-        panel.innerHTML = `
+    sendToBack(element.id);
 
-            <h4>خصائص النص</h4>
+    renderCanvas(getCurrentDesign());
 
-
-            <label>
-                النص
-            </label>
-
-            <input 
-                id="textContentInput"
-                value="${element.content}"
-            >
+});
 
 
-            <label>
-                حجم الخط
-            </label>
+document
+.getElementById("frontLayer")
+.addEventListener("click",()=>{
 
-            <input 
-                id="fontSizeInput"
-                type="number"
-                value="${element.fontSize}"
-            >
+    bringToFront(element.id);
 
+    renderCanvas(getCurrentDesign());
 
-            <label>
-                اللون
-            </label>
-
-            <input 
-                id="colorInput"
-                type="color"
-                value="${element.color}"
-            >
-
-        `;
+});
 
 
-        document
-        .getElementById("textContentInput")
-        .addEventListener("input",(e)=>{
-
-            element.content = e.target.value;
-
-            renderCanvas(getCurrentDesign());
-
-        });
-
-
-        document
-        .getElementById("fontSizeInput")
-        .addEventListener("input",(e)=>{
-
-            element.fontSize = Number(e.target.value);
-
-            renderCanvas(getCurrentDesign());
-
-        });
-
-
-        document
-        .getElementById("colorInput")
-        .addEventListener("input",(e)=>{
-
-            element.color = e.target.value;
-
-            renderCanvas(getCurrentDesign());
-
-        });
-
-    }
-
-}
-
-
-    document
-    .getElementById("shapeWidth")
-    .addEventListener("input",(e)=>{
-
-        element.width = Number(e.target.value);
-
-        renderCanvas(getCurrentDesign());
-
-    });
-
-
-    document
-    .getElementById("shapeHeight")
-    .addEventListener("input",(e)=>{
-
-        element.height = Number(e.target.value);
-
-        renderCanvas(getCurrentDesign());
-
-    });
-
-}
-    // تغيير النص
-
-    document
-    .getElementById("textContentInput")
-    .addEventListener("input", (e)=>{
-
-        element.content = e.target.value;
-
-        renderCanvas(getCurrentDesign());
-
-    });
-
-
-
-    // تغيير الحجم
-
-    document
-    .getElementById("fontSizeInput")
-    .addEventListener("input",(e)=>{
-
-        element.fontSize = Number(e.target.value);
-
-        renderCanvas(getCurrentDesign());
-
-    });
-
-
-
-    // تغيير اللون
-
-    document
-    .getElementById("colorInput")
-    .addEventListener("input",(e)=>{
-
-        element.color = e.target.value;
-
-        renderCanvas(getCurrentDesign());
-
-    });
-
+return;
 
 }
 
