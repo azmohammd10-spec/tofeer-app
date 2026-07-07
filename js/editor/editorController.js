@@ -96,7 +96,61 @@ function renderElement(element) {
     el.style.color = element.color;
 
     el.style.cursor = "pointer";
+// =========================
+// سحب العنصر
+// =========================
 
+let isDragging = false;
+
+let offsetX = 0;
+
+let offsetY = 0;
+
+
+el.addEventListener("mousedown", (e) => {
+
+    isDragging = true;
+
+    offsetX = e.offsetX;
+
+    offsetY = e.offsetY;
+
+});
+
+
+document.addEventListener("mousemove", (e) => {
+
+    if (!isDragging) return;
+
+
+    const rect = canvas.getBoundingClientRect();
+
+
+    element.x = e.clientX - rect.left - offsetX;
+
+    element.y = e.clientY - rect.top - offsetY;
+
+
+    el.style.left = element.x + "px";
+
+    el.style.top = element.y + "px";
+
+});
+
+
+document.addEventListener("mouseup", () => {
+
+    if (isDragging) {
+
+        isDragging = false;
+
+        updateDesign({
+            elements: getCurrentDesign().elements
+        });
+
+    }
+
+});
     el.innerText = element.content;
 
 
