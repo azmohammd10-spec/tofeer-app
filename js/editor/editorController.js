@@ -290,7 +290,63 @@ function selectElement(element) {
     const panel = document.getElementById("propertiesPanel");
 
     if (!panel) return;
+// =========================
+// خصائص الصورة
+// =========================
 
+if(element.type === "image"){
+
+    panel.innerHTML = `
+
+        <h4>خصائص الصورة</h4>
+
+
+        <label>
+            العرض
+        </label>
+
+        <input
+            id="imageWidth"
+            type="number"
+            value="${element.width}"
+        >
+
+
+        <label>
+            الارتفاع
+        </label>
+
+        <input
+            id="imageHeight"
+            type="number"
+            value="${element.height}"
+        >
+
+    `;
+
+
+    document
+    .getElementById("imageWidth")
+    .addEventListener("input",(e)=>{
+
+        element.width = Number(e.target.value);
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
+    document
+    .getElementById("imageHeight")
+    .addEventListener("input",(e)=>{
+
+        element.height = Number(e.target.value);
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+}
 
     panel.innerHTML = `
 
