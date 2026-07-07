@@ -234,7 +234,85 @@ function selectElement(element) {
 
     `;
 
+// =========================
+// خصائص الشكل
+// =========================
 
+if(element.type === "shape"){
+
+    panel.innerHTML = `
+
+        <h4>خصائص الشكل</h4>
+
+
+        <label>
+            اللون
+        </label>
+
+        <input
+            id="shapeColor"
+            type="color"
+            value="${element.background}"
+        >
+
+
+        <label>
+            العرض
+        </label>
+
+        <input
+            id="shapeWidth"
+            type="number"
+            value="${element.width}"
+        >
+
+
+        <label>
+            الارتفاع
+        </label>
+
+        <input
+            id="shapeHeight"
+            type="number"
+            value="${element.height}"
+        >
+
+    `;
+
+
+    document
+    .getElementById("shapeColor")
+    .addEventListener("input",(e)=>{
+
+        element.background = e.target.value;
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
+    document
+    .getElementById("shapeWidth")
+    .addEventListener("input",(e)=>{
+
+        element.width = Number(e.target.value);
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+
+    document
+    .getElementById("shapeHeight")
+    .addEventListener("input",(e)=>{
+
+        element.height = Number(e.target.value);
+
+        renderCanvas(getCurrentDesign());
+
+    });
+
+}
     // تغيير النص
 
     document
