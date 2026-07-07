@@ -133,20 +133,52 @@ let startX = 0;
 
 let startY = 0;
 
+img.addEventListener("mousedown", startDrag);
+img.addEventListener("touchstart", startDrag);
 
-img.addEventListener("mousedown",(e)=>{
+
+function startDrag(e){
 
     e.preventDefault();
 
     dragging = true;
 
-    startX = e.clientX - img.offsetLeft;
+    const point = e.touches ? e.touches[0] : e;
 
-    startY = e.clientY - img.offsetTop;
+    startX = point.clientX - img.offsetLeft;
+    startY = point.clientY - img.offsetTop;
 
-});
+}
 
-document.addEventListener("mouseup",()=>{
+document.addEventListener("mousemove", moveDrag);
+document.addEventListener("touchmove", moveDrag);
+
+
+function moveDrag(e){
+
+    if(!dragging) return;
+
+    const point = e.touches ? e.touches[0] : e;
+
+    const rect = canvas.getBoundingClientRect();
+
+    element.x = point.clientX - rect.left - startX;
+
+    element.y = point.clientY - rect.top - startY;
+
+
+    img.style.left = element.x + "px";
+
+    img.style.top = element.y + "px";
+
+}
+
+
+document.addEventListener("mouseup", endDrag);
+document.addEventListener("touchend", endDrag);
+
+
+function endDrag(){
 
     if(dragging){
 
@@ -160,7 +192,7 @@ document.addEventListener("mouseup",()=>{
 
     }
 
-});
+}
 
 
 
