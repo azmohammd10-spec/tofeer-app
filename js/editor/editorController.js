@@ -279,181 +279,179 @@ function selectElement(element) {
     const panel = document.getElementById("propertiesPanel");
 
     if (!panel) return;
-// =========================
-// خصائص الصورة
-// =========================
-
-    panel.innerHTML = `
-    <button id="backLayer">
-⬇️ إرسال للخلف
-</button>
-
-<button id="frontLayer">
-⬆️ إحضار للأمام
-</button>
-
-        <h4>خصائص الصورة</h4>
 
 
-        <label>
-            العرض
-        </label>
+    // =========================
+    // خصائص الصورة
+    // =========================
+    if (element.type === "image") {
 
-        <input
-            id="imageWidth"
-            type="number"
-            value="${element.width}"
-        >
+        panel.innerHTML = `
 
+            <h4>خصائص الصورة</h4>
 
-        <label>
-            الارتفاع
-        </label>
+            <button id="backLayer">
+                ⬇️ إرسال للخلف
+            </button>
 
-        <input
-            id="imageHeight"
-            type="number"
-            value="${element.height}"
-        >
-
-    `;
+            <button id="frontLayer">
+                ⬆️ إحضار للأمام
+            </button>
 
 
-    document
-    .getElementById("imageWidth")
-    .addEventListener("input",(e)=>{
+            <label>
+                العرض
+            </label>
 
-        element.width = Number(e.target.value);
-
-        renderCanvas(getCurrentDesign());
-
-    });
-document
-.getElementById("backLayer")
-.addEventListener("click",()=>{
-
-    sendToBack(element.id);
-
-    renderCanvas(getCurrentDesign());
-
-});
+            <input
+                id="imageWidth"
+                type="number"
+                value="${element.width}"
+            >
 
 
-document
-.getElementById("frontLayer")
-.addEventListener("click",()=>{
+            <label>
+                الارتفاع
+            </label>
 
-    bringToFront(element.id);
+            <input
+                id="imageHeight"
+                type="number"
+                value="${element.height}"
+            >
 
-    renderCanvas(getCurrentDesign());
+        `;
 
-});
 
-    document
-    .getElementById("imageHeight")
-    .addEventListener("input",(e)=>{
+        document
+        .getElementById("imageWidth")
+        .addEventListener("input",(e)=>{
 
-        element.height = Number(e.target.value);
+            element.width = Number(e.target.value);
 
-        renderCanvas(getCurrentDesign());
+            renderCanvas(getCurrentDesign());
 
-    });
+        });
+
+
+        document
+        .getElementById("imageHeight")
+        .addEventListener("input",(e)=>{
+
+            element.height = Number(e.target.value);
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+
+        document
+        .getElementById("backLayer")
+        .addEventListener("click",()=>{
+
+            sendToBack(element.id);
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+
+        document
+        .getElementById("frontLayer")
+        .addEventListener("click",()=>{
+
+            bringToFront(element.id);
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+
+        return;
+
+    }
+
+
+
+    // =========================
+    // خصائص النص
+    // =========================
+    if (element.type === "text") {
+
+        panel.innerHTML = `
+
+            <h4>خصائص النص</h4>
+
+
+            <label>
+                النص
+            </label>
+
+            <input 
+                id="textContentInput"
+                value="${element.content}"
+            >
+
+
+            <label>
+                حجم الخط
+            </label>
+
+            <input 
+                id="fontSizeInput"
+                type="number"
+                value="${element.fontSize}"
+            >
+
+
+            <label>
+                اللون
+            </label>
+
+            <input 
+                id="colorInput"
+                type="color"
+                value="${element.color}"
+            >
+
+        `;
+
+
+        document
+        .getElementById("textContentInput")
+        .addEventListener("input",(e)=>{
+
+            element.content = e.target.value;
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+
+        document
+        .getElementById("fontSizeInput")
+        .addEventListener("input",(e)=>{
+
+            element.fontSize = Number(e.target.value);
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+
+        document
+        .getElementById("colorInput")
+        .addEventListener("input",(e)=>{
+
+            element.color = e.target.value;
+
+            renderCanvas(getCurrentDesign());
+
+        });
+
+    }
 
 }
-
-    panel.innerHTML = `
-
-        <h4>خصائص النص</h4>
-
-
-        <label>
-            النص
-        </label>
-
-        <input 
-            id="textContentInput"
-            value="${element.content}"
-        >
-
-
-        <label>
-            حجم الخط
-        </label>
-
-        <input 
-            id="fontSizeInput"
-            type="number"
-            value="${element.fontSize}"
-        >
-
-
-        <label>
-            اللون
-        </label>
-
-        <input 
-            id="colorInput"
-            type="color"
-            value="${element.color}"
-        >
-
-    `;
-
-// =========================
-// خصائص الشكل
-// =========================
-
-if(element.type === "shape"){
-
-    panel.innerHTML = `
-
-        <h4>خصائص الشكل</h4>
-
-
-        <label>
-            اللون
-        </label>
-
-        <input
-            id="shapeColor"
-            type="color"
-            value="${element.background}"
-        >
-
-
-        <label>
-            العرض
-        </label>
-
-        <input
-            id="shapeWidth"
-            type="number"
-            value="${element.width}"
-        >
-
-
-        <label>
-            الارتفاع
-        </label>
-
-        <input
-            id="shapeHeight"
-            type="number"
-            value="${element.height}"
-        >
-
-    `;
-
-
-    document
-    .getElementById("shapeColor")
-    .addEventListener("input",(e)=>{
-
-        element.background = e.target.value;
-
-        renderCanvas(getCurrentDesign());
-
-    });
 
 
     document
