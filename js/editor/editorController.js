@@ -114,7 +114,66 @@ if(element.type === "image"){
     img.style.objectFit = "cover";
 
     img.style.cursor = "pointer";
+    
+// =========================
+// سحب الصورة
+// =========================
 
+let dragging = false;
+
+let startX = 0;
+
+let startY = 0;
+
+
+img.addEventListener("mousedown",(e)=>{
+
+    dragging = true;
+
+    startX = e.offsetX;
+
+    startY = e.offsetY;
+
+});
+
+
+document.addEventListener("mousemove",(e)=>{
+
+    if(!dragging) return;
+
+
+    const rect = canvas.getBoundingClientRect();
+
+
+    element.x = e.clientX - rect.left - startX;
+
+    element.y = e.clientY - rect.top - startY;
+
+
+    img.style.left = element.x + "px";
+
+    img.style.top = element.y + "px";
+
+
+});
+
+
+document.addEventListener("mouseup",()=>{
+
+    if(dragging){
+
+        dragging = false;
+
+
+        updateDesign({
+
+            elements:getCurrentDesign().elements
+
+        });
+
+    }
+
+});
 
     img.addEventListener("click",()=>{
 
