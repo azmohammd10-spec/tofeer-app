@@ -487,42 +487,7 @@ function selectElement(element) {
 
 }
 
-document
-.getElementById("imageHeight")
-.addEventListener("input",(e)=>{
 
-    element.height = Number(e.target.value);
-
-    renderCanvas(getCurrentDesign());
-
-});
-
-
-document
-.getElementById("backLayer")
-.addEventListener("click",()=>{
-
-    sendToBack(element.id);
-
-    renderCanvas(getCurrentDesign());
-
-});
-
-
-document
-.getElementById("frontLayer")
-.addEventListener("click",()=>{
-
-    bringToFront(element.id);
-
-    renderCanvas(getCurrentDesign());
-
-});
-
-
-return;
-
-}
 
 // =========================
 // Text Tool
