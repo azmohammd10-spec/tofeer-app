@@ -1,5 +1,5 @@
-// js/editor/editorController.js
-import { getCurrentDesign, createDesign, updateDesign, deleteElement, clearCurrentDesign } from "../modules/design/designService.js";
+   // js/editor/editorController.js
+import { getCurrentDesign, updateDesign, deleteElement } from "../modules/design/designService.js";
 import { renderCanvas } from "./renderer.js";
 import { showProperties } from "./propertiesPanel.js";
 import { createText } from "../modules/tools/textTool.js";
@@ -11,88 +11,131 @@ let canvasElement, panelElement, selectedElement = null;
 export function initEditor(canvasId, panelId) {
     canvasElement = document.getElementById(canvasId);
     panelElement = document.getElementById(panelId);
-    if (!canvasElement || !panelElement) return;
+    
+    if (!canvasElement || !panelElement) {
+        console.error("❌ لم يتم العثور على canvas أو panel");
+        return;
+    }
 
+    // ✅ التحقق من وجود تصميم، وإنشاء واحد افتراضي إذا لم يوجد
     let design = getCurrentDesign();
     if (!design) {
-        design = createDesign({
+        console.log("🆕 إنشاء تصميم افتراضي");
+        const defaultDesign = {
             id: "default",
             name: "تصميم جديد",
             width: 800,
             height: 600,
-            category: "general"
-        });
+            category: "general",
+            elements: [],
+            createdAt: Date.now()
+        };
+        localStorage.setItem("currentDesign", JSON.stringify(defaultDesign));
+        // إعادة تحميل التصميم
+        design = getCurrentDesign();
     }
 
+    console.log("✅ التصميم الحالي:", design);
     renderCanvas(canvasElement);
 
-    document.addEventListener("elementSelected", e => {
+    // الاستماع لحدث اختيار عنصر
+    document.addEventListener("elementSelected", (e) => {
         selectedElement = e.detail;
         showProperties(selectedElement, panelElement);
     });
 
-    canvasElement.addEventListener("click", e => {
+    // إلغاء التحديد عند النقر على canvas الفارغ
+    canvasElement.addEventListener("click", (e) => {
         if (e.target === canvasElement) {
             selectedElement = null;
-            panelElement.innerHTML = "<p>اختر عنصراً لعرض خصائصه</p>";
+            panelElement.innerHTML = "<p>✨ اختر عنصراً لعرض خصائصه</p>";
         }
     });
 
     bindButtons();
+    console.log("✅ المحرر جاهز!");
 }
 
 function bindButtons() {
-    document.getElementById("textTool")?.addEventListener("click", () => {
-        const el = createText("نص جديد");
-        renderCanvas(canvasElement);
-        selectedElement = el;
-        showProperties(el, panelElement);
-    });
-
-    document.getElementById("rectTool")?.addEventListener("click", () => {
-        const el = createRectangle({ x: 150, y: 150 });
-        renderCanvas(canvasElement);
-        selectedElement = el;
-        showProperties(el, panelElement);
-    });
-
-    document.getElementById("circleTool")?.addEventListener("click", () => {
-        const el = createCircle({ x: 200, y: 200 });
-        renderCanvas(canvasElement);
-        selectedElement = el;
-        showProperties(el, panelElement);
-    });
-
-    document.getElementById("imageTool")?.addEventListener("click", () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.onchange = (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = (ev) => {
-                    const el = createImage(ev.target.result, { x: 100, y: 100, width: 300, height: 200 });
-                    renderCanvas(canvasElement);
-                    selectedElement = el;
-                    showProperties(el, panelElement);
-                };
-                reader.readAsDataURL(file);
-            }
-        };
-        input.click();
-    });
-
-    document.getElementById("deleteElementBtn")?.addEventListener("click", () => {
-        if (selectedElement) {
-            deleteElement(selectedElement.id);
-            selectedElement = null;
+    // زر النص
+    const textBtn = document.getElementById("textTool");
+    if (textBtn) {
+        textBtn.addEventListener("click", () => {
+            const el = createText("نص جديد");
             renderCanvas(canvasElement);
-            panelElement.innerHTML = "<p>تم حذف العنصر</p>";
-        } else alert("اختر عنصراً أولاً");
-    });
+            selectedElement = el;
+            showProperties(el, panelElement);
+        });
+    }
+
+    // زر المستطيل
+    const rectBtn = document.getElementById("rectTool");
+    if (rectBtn) {
+        rectBtn.addEventListener("click", () => {
+            const el = createRectangle({ x: 150, y: 150 });
+            renderCanvas(canvasElement);
+            selectedElement = el;
+            showProperties(el, panelElement);
+        });
+    }
+
+    // زر الدائرة
+    const circleBtn = document.getElementById("circleTool");
+    if (circleBtn) {
+        circleBtn.addEventListener("click", () => {
+            const el = createCircle({ x: 200, y: 200 });
+            renderCanvas(canvasElement);
+            selectedElement = el;
+            showProperties(el, panelElement);
+        });
+    }
+
+    // زر الصورة
+    const imageBtn = document.getElementById("imageTool");
+    if (imageBtn) {
+        imageBtn.addEventListener("click", () => {
+            const input = document.createElement("input");
+            input.type = "file";
+            input.accept = "image/*";
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        const el = createImage(ev.target.result, { 
+                            x: 100, 
+                            y: 100, 
+                            width: 300, 
+                            height: 200 
+                        });
+                        renderCanvas(canvasElement);
+                        selectedElement = el;
+                        showProperties(el, panelElement);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            };
+            input.click();
+        });
+    }
+
+    // زر الحذف
+    const deleteBtn = document.getElementById("deleteElementBtn");
+    if (deleteBtn) {
+        deleteBtn.addEventListener("click", () => {
+            if (selectedElement) {
+                deleteElement(selectedElement.id);
+                selectedElement = null;
+                renderCanvas(canvasElement);
+                panelElement.innerHTML = "<p>🗑️ تم حذف العنصر</p>";
+            } else {
+                alert("⚠️ اختر عنصراً أولاً");
+            }
+        });
+    }
 }
 
+// بدء التشغيل التلقائي
 window.addEventListener("DOMContentLoaded", () => {
     initEditor("designCanvas", "propertiesPanel");
-});
+});         
