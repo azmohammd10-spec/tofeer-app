@@ -19,21 +19,24 @@ export function initEditor(canvasId, panelId) {
 
     // ✅ التحقق من وجود تصميم، وإنشاء واحد افتراضي إذا لم يوجد
     let design = getCurrentDesign();
-    if (!design) {
-        console.log("🆕 إنشاء تصميم افتراضي");
-        const defaultDesign = {
-            id: "default",
-            name: "تصميم جديد",
-            width: 800,
-            height: 600,
-            category: "general",
-            elements: [],
-            createdAt: Date.now()
-        };
-        localStorage.setItem("currentDesign", JSON.stringify(defaultDesign));
-        // إعادة تحميل التصميم
-        design = getCurrentDesign();
-    }
+if (!design) {
+    // إنشاء تصميم افتراضي
+    design = {
+        id: "default",
+        name: "تصميم جديد",
+        width: 800,
+        height: 600,
+        category: "general",
+        elements: [],
+        createdAt: Date.now()
+    };
+    // حفظ في localStorage مباشرة
+    localStorage.setItem("currentDesign", JSON.stringify(design));
+    // تحديث currentDesign في الخدمة
+    import("../modules/design/designService.js").then(module => {
+        // هذا سيتم تلقائياً عند استدعاء getCurrentDesign مرة أخرى
+    });
+}
 
     console.log("✅ التصميم الحالي:", design);
     renderCanvas(canvasElement);
