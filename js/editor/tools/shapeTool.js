@@ -1,58 +1,38 @@
-// =========================
-// Shape Tool
-// =========================
+// js/modules/tools/shapeTool.js
+import { addElement } from "../design/designService.js";
 
-import { addElement } from "../../modules/design/designService.js";
-
-// إضافة مربع
-export function createRectangle() {
-
+export function createRectangle(options = {}) {
     const element = {
         id: crypto.randomUUID(),
         type: "shape",
         shapeType: "rectangle",
-        x: 100,
-        y: 100,
-        width: 150,
-        height: 150,
-        background: "#3b82f6",
-        borderRadius: 0
+        x: options.x || 100,
+        y: options.y || 100,
+        width: options.width || 150,
+        height: options.height || 100,
+        background: options.background || "#4CAF50",
+        borderRadius: 0,
+        borderWidth: 0,
+        borderColor: "#000"
     };
-
     addElement(element);
-
     return element;
-
 }
 
-// إضافة دائرة
-export function createCircle() {
-
+export function createCircle(options = {}) {
     const element = {
         id: crypto.randomUUID(),
         type: "shape",
         shapeType: "circle",
-        x: 120,
-        y: 120,
-        width: 150,
-        height: 150,
-        background: "#ef4444",
-        borderRadius: 999
+        x: options.x || 200,
+        y: options.y || 200,
+        width: options.width || 120,
+        height: options.height || 120,
+        background: options.background || "#FF5722",
+        borderRadius: "50%",
+        borderWidth: 0,
+        borderColor: "#000"
     };
-
     addElement(element);
-
     return element;
-
-}
-
-// تغيير اللون
-export function setShapeColor(element, color) {
-    element.background = color;
-}
-
-// تغيير الحجم
-export function resizeShape(element, width, height) {
-    element.width = width;
-    element.height = height;
 }
