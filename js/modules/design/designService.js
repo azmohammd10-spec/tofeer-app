@@ -1,100 +1,29 @@
 // =========================
-// Design Service
+// دوال إضافية - أضفها في نهاية الملف
 // =========================
 
-let currentDesign = null;
-
-// إنشاء تصميم جديد
-export function createDesign(type) {
-
-    currentDesign = {
-
-        id: crypto.randomUUID(),
-
-        type: type.id,
-
-        name: type.name,
-
-        width: type.width,
-
-        height: type.height,
-
-        category: type.category,
-
-        elements: [],
-
-        createdAt: Date.now()
-
-    };
-
-    // حفظ التصميم مؤقتًا
-    localStorage.setItem(
-        "currentDesign",
-        JSON.stringify(currentDesign)
-    );
-
-    return currentDesign;
-
-}
-
-// جلب التصميم الحالي
-export function getCurrentDesign() {
-
-    if (currentDesign) return currentDesign;
-
-    const saved = localStorage.getItem("currentDesign");
-
-    if (saved) {
-
-        currentDesign = JSON.parse(saved);
-
+export function updateElement(id, newData) {
+    if (!currentDesign) return;
+    const index = currentDesign.elements.findIndex(el => el.id === id);
+    if (index !== -1) {
+        currentDesign.elements[index] = { ...currentDesign.elements[index], ...newData };
+        localStorage.setItem("currentDesign", JSON.stringify(currentDesign));
     }
-
-    return currentDesign;
-
 }
-// =========================
-// إضافة عنصر إلى التصميم
-// =========================
-export function addElement(element) {
 
+export function deleteElement(id) {
     if (!currentDesign) return;
-
-    currentDesign.elements.push(element);
-
-    localStorage.setItem(
-        "currentDesign",
-        JSON.stringify(currentDesign)
-    );
-
+    currentDesign.elements = currentDesign.elements.filter(el => el.id !== id);
+    localStorage.setItem("currentDesign", JSON.stringify(currentDesign));
 }
 
-// =========================
-// تحديث التصميم
-// =========================
-export function updateDesign(data) {
+export function getElementById(id) {
+    if (!currentDesign) return null;
+    return currentDesign.elements.find(el => el.id === id) || null;
+}
 
+export function clearElements() {
     if (!currentDesign) return;
-
-    currentDesign = {
-
-        ...currentDesign,
-
-        ...data
-
-    };
-
-    localStorage.setItem(
-        "currentDesign",
-        JSON.stringify(currentDesign)
-    );
-
-}
-// حذف التصميم الحالي
-export function clearCurrentDesign() {
-
-    currentDesign = null;
-
-    localStorage.removeItem("currentDesign");
-
+    currentDesign.elements = [];
+    localStorage.setItem("currentDesign", JSON.stringify(currentDesign));
 }
