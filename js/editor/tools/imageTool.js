@@ -1,42 +1,17 @@
-// =========================
-// Image Tool
-// =========================
+// js/modules/tools/imageTool.js
+import { addElement } from "../design/designService.js";
 
-import { addElement } from "../../modules/design/designService.js";
-
-// إضافة صورة إلى التصميم
-export function createImage(url) {
-
+export function createImage(src, options = {}) {
     const element = {
         id: crypto.randomUUID(),
         type: "image",
-        src: url,
-        x: 100,
-        y: 100,
-        width: 200,
-        height: 200,
-        rotation: 0
+        src: src,
+        x: options.x || 50,
+        y: options.y || 50,
+        width: options.width || 200,
+        height: options.height || 200,
+        objectFit: options.objectFit || "cover"
     };
-
     addElement(element);
-
     return element;
-
-}
-
-// تغيير حجم الصورة
-export function resizeImage(element, width, height) {
-    element.width = width;
-    element.height = height;
-}
-
-// تحريك الصورة
-export function moveImage(element, x, y) {
-    element.x = x;
-    element.y = y;
-}
-
-// تدوير الصورة
-export function rotateImage(element, angle) {
-    element.rotation = angle;
 }
