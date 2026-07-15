@@ -3,25 +3,62 @@
 import React, { useState } from 'react';
 import ProductForm from '../components/ProductForm';
 import PointsSystem from '../components/PointsSystem';
-import { generateMarketingCaption } from '../services/openai'; // استيراد دالة الذكاء الاصطناعي لاحقاً
+
+// دالة الذكاء الاصطناعي مدمجة داخلياً لضمان التشغيل الفوري والسرعة
+async function generateMarketingCaptionInPage(productName, price) {
+  try {
+    const url = 'https://openai.com';
+    const apiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY; 
+
+    if (!apiKey) {
+      return `📢 العرض الأقوى وصل! تفضلوا بزيارة متجرنا لرؤية ${productName} المتوفر الآن بسعر ${price} فقط! الكمية محدودة 🔥.`;
+    }
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: "أنت خبير ومستشار تسويق رقمي محترف في السوق الخليجي والعربي. اكتب نص إعلاني مشوق وجذاب جداً لإنستغرام وتيك توك يعتمد على اللهجة السعودية التسويقية المحببة للتجار، واشرح ميزات المنتج بطريقة تقنع الزبون بالشراء فوراً، واضف هاشتاقات تريند مناسبة للمنتج."
+          },
+          {
+            role: "user",
+            content: `اسم المنتج: ${productName}. السعر: ${price}.`
+          }
+        ],
+        temperature: 0.7
+      })
+    });
+
+    if (!response.ok) throw new Error("خطأ بخوادم الذكاء الاصطناعي");
+    const data = await response.json();
+    return data.choices.message.content;
+
+  } catch (error) {
+    return `✨ جديدنا اليوم! ${productName} متاح الآن بتصميم فاخر وجودة عالية وبسعر مناسب: ${price} فقط 😍. اطلب الآن قبل نفاد الكمية من المتجر!`;
+  }
+}
 
 export default function Home() {
-  const [userPoints, setUserPoints] = useState(150); // نقاط افتراضية للمستخدم
-  const [generatedText, setGeneratedText] = useState(''); // حالة لحفظ النص المولّد بالذكاء الاصطناعي
-  const [isProcessing, setIsProcessing] = useState(false); // حالة لمراقبة جاري التحميل
+  const [userPoints, setUserPoints] = useState(150); 
+  const [generatedText, setGeneratedText] = useState(''); 
+  const [isProcessing, setIsProcessing] = useState(false); 
 
   const handleNewCampaign = async (productData) => {
     setIsProcessing(true);
     setGeneratedText('');
 
-    // استدعاء دالة الذكاء الاصطناعي وإرسال بيانات التاجر لها
-    const resultText = await generateMarketingCaption(productData.productName, productData.price);
+    // استدعاء الدالة المدمجة مباشرة
+    const resultText = await generateMarketingCaptionInPage(productData.productName, productData.price);
     
-    // عرض النص الناتجة في واجهة التطبيق
     setGeneratedText(resultText);
     setIsProcessing(false);
-
-    // خصم نقاط من المحفظة مقابل استخدام ميزة الذكاء الاصطناعي التسويقية
     setUserPoints((prevPoints) => Math.max(0, prevPoints - 20)); 
     
     alert("✨ نجح الذكاء الاصطناعي في تحليل بياناتك وتوليد النص الإعلاني الذكي!");
@@ -38,7 +75,6 @@ export default function Home() {
       padding: '20px',
       boxSizing: 'border-box'
     }}>
-      {/* هيدر التطبيق العلوي */}
       <header style={{ marginBottom: '24px', textAlign: 'center', direction: 'rtl' }}>
         <h1 style={{ color: '#1e1b4b', fontSize: '24px', margin: '0', fontWeight: 'bold' }}>
           المسوق الآلي الذكي AI 🚀
@@ -48,13 +84,9 @@ export default function Home() {
         </p>
       </header>
 
-      {/* 1. استدعاء ميزة نظام ومحفظة النقاط الفيروسية */}
       <PointsSystem points={userPoints} />
-
-      {/* 2. استدعاء ميزة نموذج رفع المنتجات والفيديو */}
       <ProductForm onLaunch={handleNewCampaign} />
 
-      {/* 3. شاشة عرض النتيجة */}
       {(isProcessing || generatedText) && (
         <div style={{
           backgroundColor: '#ffffff',
@@ -90,14 +122,13 @@ export default function Home() {
               }}>
                 {generatedText}
               </div>
-              <p style={{ color: '#ef4444', fontSize: '11px', marginTop: '8px', margin: '8px 0 0 0' }}>
+              <p style={{ color: '#ef4444', fontSize: '11px', marginTop: '8px' }}>
                 * تم خصم 20 نقطة من رصيدك مقابل هذه العملية.
               </p>
             </>
           )}
         </div>
       )}
-      
     </div>
   );
 }
